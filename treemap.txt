@@ -1,0 +1,58 @@
+.
+├── apps
+│   ├── doc-gen-api
+│   ├── feedback-processor
+│   └── techcat-studio
+│       ├── eslint.config.mjs
+│       ├── next-env.d.ts
+│       ├── next.config.ts
+│       ├── package-lock.json
+│       ├── package.json
+│       ├── postcss.config.mjs
+│       ├── public
+│       │   ├── file.svg
+│       │   ├── globe.svg
+│       │   ├── next.svg
+│       │   ├── vercel.svg
+│       │   └── window.svg
+│       ├── README.md
+│       ├── src
+│       │   ├── app
+│       │   │   ├── dashboard
+│       │   │   │   └── page.tsx
+│       │   │   ├── documents
+│       │   │   │   └── page.tsx
+│       │   │   ├── favicon.ico
+│       │   │   ├── feedback
+│       │   │   │   └── page.tsx
+│       │   │   ├── generate
+│       │   │   │   └── page.tsx
+│       │   │   ├── globals.css
+│       │   │   ├── layout.tsx
+│       │   │   ├── page.tsx
+│       │   │   ├── projects
+│       │   │   │   ├── new
+│       │   │   │   │   └── page.tsx
+│       │   │   │   └── page.tsx
+│       │   │   └── settings
+│       │   │       └── page.tsx
+│       │   ├── components
+│       │   │   ├── common
+│       │   │   ├── docs
+│       │   │   ├── projects
+│       │   │   └── ui
+│       │   ├── context
+│       │   ├── hooks
+│       │   ├── lib
+│       │   ├── services
+│       │   ├── styles
+│       │   └── types
+│       └── tsconfig.json
+├── context-arch.md
+├── packages
+│   ├── ui
+│   └── utils
+├── README.md
+└── treemap.txt
+
+29 directories, 27 files

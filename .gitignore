@@ -1,0 +1,46 @@
+# Dependencies
+# These are installed via package managers, so we don't need to track them.
+/node_modules
+.pnp
+.pnp.js
+
+# Next.js build artifacts
+# These folders are generated when you build your project.
+/.next/
+/out/
+
+# Next.js cache
+/.swc/
+
+# Production build
+/build
+
+# Miscellaneous
+.DS_Store
+*.pem
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment variables
+# These files often contain sensitive information and should never be committed.
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env
+
+# Vercel directory
+.vercel
+
+# Turborepo cache
+.turbo
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Auto-generated TypeScript declaration file for Next.js
+next-env.d.ts
