@@ -78,3 +78,11 @@
 **Date:** 2025-06-23
 **Summary:** Created /generate page shell with heading, description, and placeholder message.
 **Output Files:** [`apps/techcat-studio/src/app/generate/page.tsx`]
+
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-010
+**Date:** 2025-06-23
+**Summary:** Added project selector dropdown to the generate page and created a new ProjectSelector component.
+**Output Files:** [`apps/techcat-studio/src/app/generate/page.tsx`, `apps/techcat-studio/src/components/projects/ProjectSelector.tsx`]
