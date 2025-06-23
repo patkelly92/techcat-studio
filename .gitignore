@@ -44,3 +44,5 @@ pnpm-debug.log*
 
 # Auto-generated TypeScript declaration file for Next.js
 next-env.d.ts
+# Python
+__pycache__/
