@@ -9,7 +9,7 @@ const NewProjectForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setMessage(null);
@@ -17,12 +17,28 @@ const NewProjectForm = () => {
       setError("Project Name is required");
       return;
     }
-    const data = { name, description, techStack };
-    console.log("New Project Data:", data);
-    setMessage("Project created!");
-    setName("");
-    setDescription("");
-    setTechStack("");
+
+    try {
+      const res = await fetch("/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, description, techStack }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Failed to create project");
+        return;
+      }
+
+      setMessage("Project created!");
+      setName("");
+      setDescription("");
+      setTechStack("");
+    } catch {
+      setError("Failed to create project");
+    }
   };
 
   return (
@@ -76,4 +92,3 @@ const NewProjectForm = () => {
 };
 
 export default NewProjectForm;
-
