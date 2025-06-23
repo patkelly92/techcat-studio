@@ -7,7 +7,6 @@ interface ProjectItem {
   name: string;
 }
 
-
 async function getProjects(): Promise<ProjectItem[]> {
   const dir = path.join(process.cwd(), "data", "projects");
   try {
@@ -29,6 +28,7 @@ async function getProjects(): Promise<ProjectItem[]> {
 
 export default async function Page() {
   const projects = await getProjects();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
   return (
     <div className="space-y-4">
@@ -36,7 +36,7 @@ export default async function Page() {
       <p className="text-gray-600 dark:text-gray-400">
         Generate project documentation and other assets using Codex agents.
       </p>
-      <GenerateSection projects={projects} />
+      <GenerateSection projects={projects} apiUrl={apiUrl} />
     </div>
   );
 }

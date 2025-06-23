@@ -126,3 +126,12 @@
 **Output Files:** [`apps/api/main.py`, `apps/api/routes/generate.py`, `apps/api/models/payload.py`, `apps/api/services/llm_orchestrator.py`, `apps/api/config.py`, `.gitignore`]
 
 ---
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-014
+**Date:** 2025-06-23
+**Summary:** Connected the generate form to the FastAPI backend via `NEXT_PUBLIC_API_URL` and added error handling. Form now posts project metadata to `/api/generate` and logs the response.
+**Output Files:** [`apps/techcat-studio/src/app/generate/page.tsx`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`, `apps/techcat-studio/src/components/generate/ProjectMetadataForm.tsx`]
+
+---
