@@ -5,3 +5,10 @@
 **Summary:** Implemented global layout shell with responsive sidebar and header components.
 **Output Files:** [`apps/techcat-studio/src/app/layout.tsx`, `apps/techcat-studio/src/components/common/LayoutShell.tsx`, `apps/techcat-studio/src/components/common/Sidebar.tsx`, `apps/techcat-studio/src/components/common/Header.tsx`]
 
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-002
+**Date:** 2025-06-23
+**Summary:** Scaffolded placeholder pages for dashboard, documents, generate, projects, new project, feedback, and settings routes.
+**Output Files:** [`apps/techcat-studio/src/app/dashboard/page.tsx`, `apps/techcat-studio/src/app/documents/page.tsx`, `apps/techcat-studio/src/app/generate/page.tsx`, `apps/techcat-studio/src/app/projects/page.tsx`, `apps/techcat-studio/src/app/projects/new/page.tsx`, `apps/techcat-studio/src/app/feedback/page.tsx`, `apps/techcat-studio/src/app/settings/page.tsx`]
