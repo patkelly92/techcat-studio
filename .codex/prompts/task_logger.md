@@ -22,4 +22,7 @@ Each entry must follow this template:
 **Date:** YYYY-MM-DD  
 **Summary:** <1–2 sentence description of what was accomplished>  
 **Output Files:** [<relative/path/to/file1>, <relative/path/to/file2>]
+
+---
+
 ```
