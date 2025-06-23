@@ -1,12 +1,12 @@
 import path from "path";
 import { promises as fs } from "fs";
-import ProjectSelector from "@/components/projects/ProjectSelector";
-import ProjectMetadataForm from "@/components/generate/ProjectMetadataForm";
+import GenerateSection from "@/components/generate/GenerateSection";
 
 interface ProjectItem {
   slug: string;
   name: string;
 }
+
 
 async function getProjects(): Promise<ProjectItem[]> {
   const dir = path.join(process.cwd(), "data", "projects");
@@ -36,8 +36,7 @@ export default async function Page() {
       <p className="text-gray-600 dark:text-gray-400">
         Generate project documentation and other assets using Codex agents.
       </p>
-      <ProjectSelector projects={projects} />
-      <ProjectMetadataForm />
+      <GenerateSection projects={projects} />
     </div>
   );
 }

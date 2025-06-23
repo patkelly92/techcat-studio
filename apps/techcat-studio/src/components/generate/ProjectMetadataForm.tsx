@@ -1,19 +1,28 @@
 "use client";
 
-import { useState } from "react";
+export interface ProjectMetadata {
+  overview: string;
+  intendedUsers: string;
+  techStack: string;
+  successCriteria: string;
+}
 
-const ProjectMetadataForm = () => {
-  const [overview, setOverview] = useState("");
-  const [intendedUsers, setIntendedUsers] = useState("");
-  const [techStack, setTechStack] = useState("");
-  const [successCriteria, setSuccessCriteria] = useState("");
+interface ProjectMetadataFormProps {
+  value: ProjectMetadata;
+  onChange: (value: ProjectMetadata) => void;
+}
 
-  const metadata = {
-    overview,
-    intendedUsers,
-    techStack,
-    successCriteria,
-  };
+const ProjectMetadataForm = ({ value, onChange }: ProjectMetadataFormProps) => {
+  const { overview, intendedUsers, techStack, successCriteria } = value;
+
+  const handleChange = (
+    field: keyof ProjectMetadata,
+  ) =>
+    (
+      e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    ) => {
+      onChange({ ...value, [field]: e.target.value });
+    };
 
   return (
     <div className="flex flex-col gap-4">
@@ -25,7 +34,7 @@ const ProjectMetadataForm = () => {
           id="overview"
           className="rounded-md border px-3 py-2"
           value={overview}
-          onChange={(e) => setOverview(e.target.value)}
+          onChange={handleChange("overview")}
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -36,7 +45,7 @@ const ProjectMetadataForm = () => {
           id="intendedUsers"
           className="rounded-md border px-3 py-2"
           value={intendedUsers}
-          onChange={(e) => setIntendedUsers(e.target.value)}
+          onChange={handleChange("intendedUsers")}
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -48,7 +57,7 @@ const ProjectMetadataForm = () => {
           type="text"
           className="rounded-md border px-3 py-2"
           value={techStack}
-          onChange={(e) => setTechStack(e.target.value)}
+          onChange={handleChange("techStack")}
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -59,11 +68,11 @@ const ProjectMetadataForm = () => {
           id="successCriteria"
           className="rounded-md border px-3 py-2"
           value={successCriteria}
-          onChange={(e) => setSuccessCriteria(e.target.value)}
+          onChange={handleChange("successCriteria")}
         />
       </div>
       <pre className="rounded-md bg-gray-100 p-3 text-sm dark:bg-zinc-800">
-        {JSON.stringify(metadata, null, 2)}
+        {JSON.stringify(value, null, 2)}
       </pre>
     </div>
   );
