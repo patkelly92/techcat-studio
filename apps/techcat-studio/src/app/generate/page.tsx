@@ -1,6 +1,7 @@
 import path from "path";
 import { promises as fs } from "fs";
 import ProjectSelector from "@/components/projects/ProjectSelector";
+import ProjectMetadataForm from "@/components/generate/ProjectMetadataForm";
 
 interface ProjectItem {
   slug: string;
@@ -36,9 +37,7 @@ export default async function Page() {
         Generate project documentation and other assets using Codex agents.
       </p>
       <ProjectSelector projects={projects} />
-      <div className="rounded-md border border-dashed p-6 text-center text-gray-500 dark:text-gray-400">
-        Features coming soon...
-      </div>
+      <ProjectMetadataForm />
     </div>
   );
 }
