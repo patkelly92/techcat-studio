@@ -21,3 +21,11 @@
 **Date:** 2025-06-23
 **Summary:** Added NewProjectForm component to handle project creation form with validation and integrated it into the new project page.
 **Output Files:** [`apps/techcat-studio/src/components/projects/NewProjectForm.tsx`, `apps/techcat-studio/src/app/projects/new/page.tsx`]
+
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-004
+**Date:** 2025-06-23
+**Summary:** Added API route and helper to save project metadata JSON and updated form to submit via POST.
+**Output Files:** [`apps/techcat-studio/src/app/api/projects/route.ts`, `apps/techcat-studio/src/components/projects/NewProjectForm.tsx`, `apps/techcat-studio/src/lib/saveProjectMetadata.ts`]
