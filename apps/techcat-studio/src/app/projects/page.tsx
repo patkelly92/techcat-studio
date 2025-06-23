@@ -30,6 +30,7 @@ async function getProjects(): Promise<ProjectItem[]> {
 
 export default async function Page() {
   const projects = await getProjects();
+  const isEmpty = projects.length === 0;
 
   return (
     <div className="space-y-4">
@@ -39,12 +40,12 @@ export default async function Page() {
           Create New Project
         </CTAButton>
       </div>
-      {projects.length === 0 ? (
+      {isEmpty ? (
         <div className="flex flex-col items-center justify-center gap-4 py-10">
-          <p className="text-gray-600 dark:text-gray-400">
-            No projects yet. Get started by creating one.
+          <p className="text-gray-600 dark:text-gray-400 text-center">
+            No projects found. Create your first project to get started.
           </p>
-          <CTAButton href="/projects/new">Create New Project</CTAButton>
+          <CTAButton href="/projects/new">Create Project</CTAButton>
         </div>
       ) : (
         <ProjectList projects={projects} />
