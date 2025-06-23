@@ -18,6 +18,7 @@ Each entry must follow this template:
 ### Task Completed
 
 **Agent:** <agent_name>  
+**Task Id:** <task id>
 **Date:** YYYY-MM-DD  
 **Summary:** <1–2 sentence description of what was accomplished>  
 **Output Files:** [<relative/path/to/file1>, <relative/path/to/file2>]
