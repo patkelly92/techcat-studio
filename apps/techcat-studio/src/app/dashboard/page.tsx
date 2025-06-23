@@ -1,3 +1,3 @@
 export default function Page() {
-  return <div>Dashboard page Coming soon...</div>;
+  return <h1 className="text-2xl font-bold">📊 Dashboard Page</h1>;
 }
