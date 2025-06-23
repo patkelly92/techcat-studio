@@ -21,6 +21,10 @@
 
 {{MARKDOWN LISTS AND SUBLISTS OF TASKS REQUIRED TO PERFORM GOAL}}
 
+- Once the primary task is complete and tested (if necessary):
+  - “Pass control to the `task_logger` agent. Its job is to append a summary of the task to `.codex/TASK-LOG.md`.”
+  - Refer to `.codex/prompts/task_logger.md` for post task-completion logging.
+
 ---
 
 ## 🔍 Technical Notes
@@ -46,9 +50,3 @@
 {{MARKDOWN LIST OF TASK SUCCESS CRITERIA}}
 
 ---
-
-## ✅ Post Task Completion Steps (Handoff to task_logger)
-**DO NOT FORGET**
-1. Once the form renders, submits, and logs data as expected:
-  - “Pass control to the `task_logger` agent. Its job is to append a summary of the task to `.codex/TASK-LOG.md`.”
-  - Refer to `.codex/prompts/task_logger.md` for post task-completion logging.
