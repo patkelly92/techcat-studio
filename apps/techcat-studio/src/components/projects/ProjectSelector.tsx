@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 interface ProjectOption {
   slug: string;
   name: string;
@@ -9,10 +7,11 @@ interface ProjectOption {
 
 interface ProjectSelectorProps {
   projects: ProjectOption[];
+  value: string;
+  onChange: (slug: string) => void;
 }
 
-const ProjectSelector = ({ projects }: ProjectSelectorProps) => {
-  const [selected, setSelected] = useState<string>("");
+const ProjectSelector = ({ projects, value, onChange }: ProjectSelectorProps) => {
 
   if (projects.length === 0) {
     return (
@@ -30,8 +29,8 @@ const ProjectSelector = ({ projects }: ProjectSelectorProps) => {
       <select
         id="project"
         className="rounded-md border px-3 py-2"
-        value={selected}
-        onChange={(e) => setSelected(e.target.value)}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       >
         <option value="">Select a project...</option>
         {projects.map((p) => (
@@ -40,9 +39,9 @@ const ProjectSelector = ({ projects }: ProjectSelectorProps) => {
           </option>
         ))}
       </select>
-      {selected && (
+      {value && (
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          Selected project: {selected}
+          Selected project: {value}
         </p>
       )}
     </div>
