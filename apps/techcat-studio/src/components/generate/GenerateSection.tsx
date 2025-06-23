@@ -9,7 +9,12 @@ interface ProjectItem {
   name: string;
 }
 
-const GenerateSection = ({ projects }: { projects: ProjectItem[] }) => {
+interface GenerateSectionProps {
+  projects: ProjectItem[];
+  apiUrl: string;
+}
+
+const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
   const [projectSlug, setProjectSlug] = useState<string>("");
   const [metadata, setMetadata] = useState<ProjectMetadata>({
     overview: "",
@@ -25,7 +30,9 @@ const GenerateSection = ({ projects }: { projects: ProjectItem[] }) => {
     metadata.techStack.trim() &&
     metadata.successCriteria.trim();
 
-  const handleGenerate = () => {
+  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+
+  const handleGenerate = async () => {
     const payload = {
       projectSlug,
       overview: metadata.overview.trim(),
@@ -37,7 +44,23 @@ const GenerateSection = ({ projects }: { projects: ProjectItem[] }) => {
       successCriteria: metadata.successCriteria.trim(),
     };
 
-    console.log(payload);
+    try {
+      setStatus("loading");
+      const response = await fetch(`${apiUrl}/api/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+      const data = await response.json();
+      console.log(data);
+      setStatus("idle");
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
+    }
   };
 
   return (
@@ -52,10 +75,17 @@ const GenerateSection = ({ projects }: { projects: ProjectItem[] }) => {
         type="button"
         className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
         onClick={handleGenerate}
-        disabled={!isValid}
+        disabled={!isValid || status === "loading"}
       >
-        Generate Infrastructure Files
+        {status === "loading"
+          ? "Generating..."
+          : "Generate Infrastructure Files"}
       </button>
+      {status === "error" && (
+        <p className="text-sm text-red-600" role="alert">
+          Failed to generate files. Please try again.
+        </p>
+      )}
     </div>
   );
 };

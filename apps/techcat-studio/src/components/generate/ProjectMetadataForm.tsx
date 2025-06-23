@@ -15,12 +15,9 @@ interface ProjectMetadataFormProps {
 const ProjectMetadataForm = ({ value, onChange }: ProjectMetadataFormProps) => {
   const { overview, intendedUsers, techStack, successCriteria } = value;
 
-  const handleChange = (
-    field: keyof ProjectMetadata,
-  ) =>
-    (
-      e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    ) => {
+  const handleChange =
+    (field: keyof ProjectMetadata) =>
+    (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
       onChange({ ...value, [field]: e.target.value });
     };
 
@@ -52,10 +49,10 @@ const ProjectMetadataForm = ({ value, onChange }: ProjectMetadataFormProps) => {
         <label htmlFor="techStack" className="font-medium">
           Tech Stack
         </label>
-        <input
+        <textarea
           id="techStack"
-          type="text"
           className="rounded-md border px-3 py-2"
+          placeholder="e.g. Next.js, FastAPI, PostgreSQL"
           value={techStack}
           onChange={handleChange("techStack")}
         />
