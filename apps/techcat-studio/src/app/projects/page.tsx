@@ -1,6 +1,7 @@
 import path from "path";
 import { promises as fs } from "fs";
 import ProjectList from "@/components/projects/ProjectList";
+import CTAButton from "@/components/ui/CTAButton";
 import type { ProjectMetadata } from "@/lib/saveProjectMetadata";
 
 interface ProjectItem {
@@ -32,8 +33,22 @@ export default async function Page() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">📁 Projects</h1>
-      <ProjectList projects={projects} />
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-2xl font-bold">📁 Projects</h1>
+        <CTAButton href="/projects/new" className="w-full sm:w-auto">
+          Create New Project
+        </CTAButton>
+      </div>
+      {projects.length === 0 ? (
+        <div className="flex flex-col items-center justify-center gap-4 py-10">
+          <p className="text-gray-600 dark:text-gray-400">
+            No projects yet. Get started by creating one.
+          </p>
+          <CTAButton href="/projects/new">Create New Project</CTAButton>
+        </div>
+      ) : (
+        <ProjectList projects={projects} />
+      )}
     </div>
   );
 }
