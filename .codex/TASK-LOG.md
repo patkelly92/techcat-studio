@@ -37,3 +37,13 @@
 **Output Files:** [`apps/techcat-studio/src/app/api/projects/route.ts`, `apps/techcat-studio/src/components/projects/NewProjectForm.tsx`, `apps/techcat-studio/src/lib/saveProjectMetadata.ts`]
 
 ---
+
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-005
+**Date:** 2025-06-23
+**Summary:** Listed saved project metadata on the projects page using a new ProjectList component and added sample project JSON files.
+**Output Files:** [`apps/techcat-studio/src/app/projects/page.tsx`, `apps/techcat-studio/src/components/projects/ProjectList.tsx`, `apps/techcat-studio/data/projects/agent-hub.json`, `apps/techcat-studio/data/projects/demo-app.json`]
+
+---
