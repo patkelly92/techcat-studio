@@ -19,8 +19,8 @@ interface GenerateSectionProps {
 const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
   const [projectSlug, setProjectSlug] = useState<string>("");
   const [metadata, setMetadata] = useState<ProjectMetadata>({
-    overview: "",
-    intendedUsers: "",
+    productOverview: "",
+    targetUsers: "",
     techStack: "",
     successCriteria: "",
   });
@@ -28,8 +28,8 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
 
   const isValid =
     projectSlug &&
-    metadata.overview.trim() &&
-    metadata.intendedUsers.trim() &&
+    metadata.productOverview.trim() &&
+    metadata.targetUsers.trim() &&
     metadata.techStack.trim() &&
     metadata.successCriteria.trim();
 
@@ -38,8 +38,8 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
   const handleGenerate = async () => {
     const payload = {
       projectSlug,
-      overview: metadata.overview.trim(),
-      intendedUsers: metadata.intendedUsers.trim(),
+      productOverview: metadata.productOverview.trim(),
+      targetUsers: metadata.targetUsers.trim(),
       techStack: metadata.techStack
         .split(/[,\n]/)
         .map((s) => s.trim())

@@ -172,3 +172,21 @@
 **Output Files:** [`apps/techcat-studio/src/components/generate/MarkdownPreview.tsx`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`]
 
 ---
+### Task Completed
+
+**Agent:** doc_writer
+**Task Id:** task-019
+**Date:** 2025-06-24
+**Summary:** Enhanced PRD template with additional instructions and improved LLM prompt logic.
+**Output Files:** [`.codex/templates/prd-template.md`, `apps/api/services/llm_orchestrator.py`]
+
+---
+### Task Completed
+
+**Agent:** doc_writer
+**Task Id:** task-019
+**Date:** 2025-06-24
+**Summary:** Removed alias mapping and renamed overview/intendedUsers fields to productOverview and targetUsers across the API and frontend.
+**Output Files:** [`apps/api/services/llm_orchestrator.py`, `apps/api/models/payload.py`, `apps/techcat-studio/src/components/generate/ProjectMetadataForm.tsx`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`]
+
+---
