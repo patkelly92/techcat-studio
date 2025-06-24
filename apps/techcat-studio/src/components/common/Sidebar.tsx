@@ -11,6 +11,7 @@ interface SidebarProps {
 }
 
 const navItems = [
+  { name: 'Dashboard', href: '/dashboard' },
   { name: 'Projects', href: '/projects' },
   { name: 'Generate', href: '/generate' },
   { name: 'Documents', href: '/documents' },
