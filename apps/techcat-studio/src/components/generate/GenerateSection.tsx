@@ -4,7 +4,7 @@ import { useState } from "react";
 import ProjectSelector from "@/components/projects/ProjectSelector";
 import ProjectMetadataForm, { ProjectMetadata } from "./ProjectMetadataForm";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
-import ReactMarkdown from "react-markdown";
+import MarkdownPreview from "./MarkdownPreview";
 
 interface ProjectItem {
   slug: string;
@@ -93,11 +93,7 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
           Failed to generate files. Please try again.
         </p>
       )}
-      {markdownOutput && (
-        <section className="prose max-w-none dark:prose-invert">
-          <ReactMarkdown>{markdownOutput}</ReactMarkdown>
-        </section>
-      )}
+      {markdownOutput && <MarkdownPreview content={markdownOutput} />}
     </div>
   );
 };
