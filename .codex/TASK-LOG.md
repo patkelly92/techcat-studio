@@ -163,3 +163,12 @@
 **Output Files:** [`apps/techcat-studio/src/components/generate/ProjectMetadataForm.tsx`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`]
 
 ---
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-018
+**Date:** 2025-06-24
+**Summary:** Added download functionality for generated PRD with a Download button in MarkdownPreview component and integrated it into the generate page.
+**Output Files:** [`apps/techcat-studio/src/components/generate/MarkdownPreview.tsx`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`]
+
+---
