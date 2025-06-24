@@ -228,3 +228,12 @@
 **Output Files:** [`apps/techcat-studio/src/components/generate/GenerateSection.tsx`, `apps/techcat-studio/src/app/api/documents/route.ts`, `apps/techcat-studio/src/lib/saveProjectDocument.ts`, `apps/techcat-studio/data/documents/demo-app/PRD.md`]
 
 ---
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-025
+**Date:** 2025-06-24
+**Summary:** Implemented Documents page with project selector and markdown viewer, allowing preview, copy, and download of project files.
+**Output Files:** [`apps/techcat-studio/src/app/documents/page.tsx`, `apps/techcat-studio/src/components/documents/DocumentCard.tsx`, `apps/techcat-studio/data/documents/agent-hub/PRD.md`]
+
+---
