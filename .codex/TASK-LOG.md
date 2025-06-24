@@ -200,3 +200,12 @@
 **Output Files:** [`apps/api/services/llm_orchestrator.py`]
 
 ---
+### Task Completed
+
+**Agent:** prompt_strategist
+**Task Id:** task-022
+**Date:** 2025-06-24
+**Summary:** Improved PRD prompt instructions for stronger inference and added warning line before user input.
+**Output Files:** [`apps/api/services/llm_orchestrator.py`]
+
+---
