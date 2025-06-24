@@ -3,7 +3,7 @@
 ## Project Name
 TechCat Studio (`techcat-studio`)
 
-## Overview
+## Product Overview
 TechCat Studio is an AI-native developer workspace designed to streamline and automate the early and ongoing phases of building software powered by AI agents. It enables developers to define project structure, generate and manage `.codex/` infrastructure files (PRD, TASKS, AGENTS, etc.), and convert user feedback into actionable work.
 
 The tool helps solo builders, indie hackers, and AI-native developers bring structure to project chaos — acting as a launchpad and living system of record for AI-assisted development.
