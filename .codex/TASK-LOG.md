@@ -209,3 +209,13 @@
 **Output Files:** [`apps/api/services/llm_orchestrator.py`]
 
 ---
+### Task Completed
+
+**Agent:** prompt_strategist
+**Task Id:** task-023
+**Date:** 2025-06-24
+**Summary:** Updated PRD prompt construction to leverage rich instructional template and streamlined user input handling.
+**Output Files:** [`apps/api/services/llm_orchestrator.py`]
+
+---
+

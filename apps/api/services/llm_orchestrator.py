@@ -21,7 +21,9 @@ async def generate_docs(payload: GenerationPayload):
         while not (project_root / ".codex").exists():
             if project_root == project_root.parent:
                 # If we've reached the filesystem root and haven't found it, raise an error.
-                raise FileNotFoundError("Could not find the '.codex' directory in any parent path.")
+                raise FileNotFoundError(
+                    "Could not find the '.codex' directory in any parent path."
+                )
             project_root = project_root.parent
 
         template_path = project_root / ".codex" / "templates" / "prd-template.md"
@@ -33,11 +35,9 @@ async def generate_docs(payload: GenerationPayload):
 
     # Build prompt blocks
     system_instructions = (
-        "You are a product strategist. Your job is to translate minimal or incomplete "
-        "project input into a complete and professional product requirements document. "
-        "Fill every {{}} placeholder in the template. If the user omits a field, "
-        "infer reasonable details or propose suggestions. Return only the final "
-        "markdown document exactly following the template's formatting."
+        "You are a product strategist. Your job is to translate sparse or vague user input "
+        "into a comprehensive product requirements document. Infer missing information. "
+        "Be confident and strategic."
     )
 
     # Format user input as key: value pairs
@@ -48,16 +48,14 @@ async def generate_docs(payload: GenerationPayload):
         user_lines.append(f"{key}: {value}")
     user_block = "\n".join(user_lines)
 
-    template_section = "### Template\n" + template_text
     user_section = (
-        "The following input may be incomplete or vague. Use it as inspiration, "
-        "and expand upon it to complete all sections of the template.\n" 
-        "### User Input\n" + user_block
+        "The following user input may be minimal. Use it as inspiration to complete the PRD.\n"
+        + user_block
     )
 
     messages = [
         {"role": "system", "content": system_instructions},
-        {"role": "user", "content": template_section},
+        {"role": "user", "content": template_text},
         {"role": "user", "content": user_section},
     ]
 
