@@ -10,6 +10,7 @@ interface ProjectItem {
 interface DocumentItem {
   title: string;
   content: string;
+  lastModified: string;
 }
 
 async function getProjects(): Promise<ProjectItem[]> {
@@ -39,8 +40,16 @@ async function getDocuments(slug: string): Promise<DocumentItem[]> {
       files
         .filter((f) => f.endsWith(".md"))
         .map(async (file) => {
-          const content = await fs.readFile(path.join(dir, file), "utf-8");
-          return { title: file, content };
+          const filePath = path.join(dir, file);
+          const [content, stat] = await Promise.all([
+            fs.readFile(filePath, "utf-8"),
+            fs.stat(filePath),
+          ]);
+          return {
+            title: file,
+            content,
+            lastModified: stat.mtime.toISOString(),
+          };
         }),
     );
     return docs;
