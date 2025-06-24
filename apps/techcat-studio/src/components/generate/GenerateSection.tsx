@@ -4,7 +4,7 @@ import { useState } from "react";
 import ProjectSelector from "@/components/projects/ProjectSelector";
 import ProjectMetadataForm, { ProjectMetadata } from "./ProjectMetadataForm";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
-import MarkdownPreview from "./MarkdownPreview";
+import ReactMarkdown from "react-markdown";
 
 interface ProjectItem {
   slug: string;
@@ -24,7 +24,7 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
     techStack: "",
     successCriteria: "",
   });
-  const [markdown, setMarkdown] = useState<string>("");
+  const [markdownOutput, setMarkdownOutput] = useState<string>("");
 
   const isValid =
     projectSlug &&
@@ -59,13 +59,13 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
       }
       const data = await response.json();
       if (data["PRD.md"]) {
-        setMarkdown(data["PRD.md"] as string);
+        setMarkdownOutput(data["PRD.md"] as string);
       }
       setStatus("idle");
     } catch (err) {
       console.error(err);
       setStatus("error");
-      setMarkdown("");
+      setMarkdownOutput("");
     }
   };
 
@@ -93,7 +93,11 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
           Failed to generate files. Please try again.
         </p>
       )}
-      {markdown && <MarkdownPreview content={markdown} />}
+      {markdownOutput && (
+        <section className="prose max-w-none dark:prose-invert">
+          <ReactMarkdown>{markdownOutput}</ReactMarkdown>
+        </section>
+      )}
     </div>
   );
 };
