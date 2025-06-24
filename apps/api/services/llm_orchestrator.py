@@ -33,7 +33,8 @@ async def generate_docs(payload: GenerationPayload):
 
     # Build prompt blocks
     system_instructions = (
-        "You are a Product Strategist tasked with writing a professional PRD. "
+        "You are a product strategist. Your job is to translate minimal or incomplete "
+        "project input into a complete and professional product requirements document. "
         "Fill every {{}} placeholder in the template. If the user omits a field, "
         "infer reasonable details or propose suggestions. Return only the final "
         "markdown document exactly following the template's formatting."
@@ -48,7 +49,11 @@ async def generate_docs(payload: GenerationPayload):
     user_block = "\n".join(user_lines)
 
     template_section = "### Template\n" + template_text
-    user_section = "### User Input\n" + user_block
+    user_section = (
+        "The following input may be incomplete or vague. Use it as inspiration, "
+        "and expand upon it to complete all sections of the template.\n" 
+        "### User Input\n" + user_block
+    )
 
     messages = [
         {"role": "system", "content": system_instructions},
