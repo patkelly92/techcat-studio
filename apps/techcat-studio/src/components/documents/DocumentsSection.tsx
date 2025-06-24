@@ -12,6 +12,7 @@ interface ProjectItem {
 interface DocumentItem {
   title: string;
   content: string;
+  lastModified: string;
 }
 
 interface DocumentsSectionProps {
@@ -53,6 +54,7 @@ const DocumentsSection = ({
                 key={doc.title}
                 title={doc.title}
                 content={doc.content}
+                lastModified={doc.lastModified}
               />
             ))}
           </div>

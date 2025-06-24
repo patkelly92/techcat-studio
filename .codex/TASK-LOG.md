@@ -237,3 +237,11 @@
 **Output Files:** [`apps/techcat-studio/src/app/documents/page.tsx`, `apps/techcat-studio/src/components/documents/DocumentCard.tsx`, `apps/techcat-studio/data/documents/agent-hub/PRD.md`]
 
 ---
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-026
+**Date:** 2025-06-24
+**Summary:** Enhanced markdown rendering for documents by adding remark-gfm and syntax highlighting, displaying last modified metadata, and improving preview styling.
+**Output Files:** [`apps/techcat-studio/src/app/documents/page.tsx`, `apps/techcat-studio/src/components/documents/DocumentCard.tsx`, `apps/techcat-studio/src/components/documents/DocumentsSection.tsx`, `apps/techcat-studio/package.json`, `apps/techcat-studio/package-lock.json`]
+

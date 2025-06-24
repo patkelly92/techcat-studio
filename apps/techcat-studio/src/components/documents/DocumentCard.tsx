@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 
 interface DocumentCardProps {
   title: string;
   content: string;
+  lastModified?: string;
 }
 
-const DocumentCard = ({ title, content }: DocumentCardProps) => {
+const DocumentCard = ({ title, content, lastModified }: DocumentCardProps) => {
   const [show, setShow] = useState(false);
 
   const copyToClipboard = async () => {
@@ -31,7 +34,14 @@ const DocumentCard = ({ title, content }: DocumentCardProps) => {
 
   return (
     <div className="space-y-2 rounded-md border p-4">
-      <h2 className="text-lg font-medium">{title}</h2>
+      <div className="flex items-baseline justify-between gap-2">
+        <h2 className="text-lg font-medium">{title}</h2>
+        {lastModified && (
+          <span className="text-xs text-gray-500">
+            {new Date(lastModified).toLocaleString()}
+          </span>
+        )}
+      </div>
       <div className="flex gap-2">
         <button
           type="button"
@@ -56,8 +66,13 @@ const DocumentCard = ({ title, content }: DocumentCardProps) => {
         </button>
       </div>
       {show && (
-        <div className="prose max-w-none border-t pt-4 dark:prose-invert">
-          <ReactMarkdown>{content}</ReactMarkdown>
+        <div className="prose max-w-none border-t pt-4 dark:prose-invert max-h-96 overflow-y-auto">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeHighlight]}
+          >
+            {content}
+          </ReactMarkdown>
         </div>
       )}
     </div>
