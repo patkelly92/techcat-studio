@@ -190,3 +190,13 @@
 **Output Files:** [`apps/api/services/llm_orchestrator.py`, `apps/api/models/payload.py`, `apps/techcat-studio/src/components/generate/ProjectMetadataForm.tsx`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`]
 
 ---
+
+### Task Completed
+
+**Agent:** prompt_strategist
+**Task Id:** task-021
+**Date:** 2025-06-24
+**Summary:** Refactored PRD prompt generation to use system, template, and user input blocks with guidance for inferring missing information.
+**Output Files:** [`apps/api/services/llm_orchestrator.py`]
+
+---

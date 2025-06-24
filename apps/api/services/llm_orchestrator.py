@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
-import re
-from typing import Any, Dict
+
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
 
@@ -9,19 +8,6 @@ from apps.api.models.payload import GenerationPayload
 
 # Load environment variables from apps/api/.env if present
 load_dotenv()
-
-
-def _inject_template(template: str, data: Dict[str, Any]) -> str:
-    """Replace known placeholders in the template with provided data."""
-
-    for key, value in data.items():
-        placeholder = f"{{{{{key}}}}}"
-        if isinstance(value, list):
-            value = ", ".join(value)
-        template = template.replace(placeholder, str(value))
-    # Replace any leftover placeholders with TBD markers for OpenAI to infer
-    template = re.sub(r"\{\{[^}]+\}\}", "TBD", template)
-    return template
 
 
 async def generate_docs(payload: GenerationPayload):
@@ -45,24 +31,37 @@ async def generate_docs(payload: GenerationPayload):
     except Exception as exc:
         return {"error": f"Failed to load template: {exc}"}
 
-    injected = _inject_template(template_text, payload.model_dump())
-
-    instruction = (
-        "You are a product strategist generating a comprehensive PRD. "
-        "Use the markdown template below as a guide. If any field is missing, "
-        "make a reasonable assumption, suggest improvements when appropriate, "
-        "and infer a suitable tech stack based on the project goals and users. "
-        "Return only the completed markdown document."
+    # Build prompt blocks
+    system_instructions = (
+        "You are a Product Strategist tasked with writing a professional PRD. "
+        "Fill every {{}} placeholder in the template. If the user omits a field, "
+        "infer reasonable details or propose suggestions. Return only the final "
+        "markdown document exactly following the template's formatting."
     )
 
-    prompt = instruction + "\n\n" + injected
+    # Format user input as key: value pairs
+    user_lines = []
+    for key, value in payload.model_dump().items():
+        if isinstance(value, list):
+            value = ", ".join(value)
+        user_lines.append(f"{key}: {value}")
+    user_block = "\n".join(user_lines)
+
+    template_section = "### Template\n" + template_text
+    user_section = "### User Input\n" + user_block
+
+    messages = [
+        {"role": "system", "content": system_instructions},
+        {"role": "user", "content": template_section},
+        {"role": "user", "content": user_section},
+    ]
 
     client = AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
     try:
         response = await client.chat.completions.create(
             model="gpt-4o",
-            messages=[{"role": "user", "content": prompt}],
+            messages=messages,
             temperature=0.2,
         )
         content = response.choices[0].message.content
