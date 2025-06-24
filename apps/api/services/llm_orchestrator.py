@@ -2,14 +2,13 @@ from pathlib import Path
 import os
 import re
 from typing import Any, Dict
-
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
 
 from apps.api.models.payload import GenerationPayload
 
 # Load environment variables from apps/api/.env if present
-load_dotenv(Path(__file__).resolve().parent / ".env")
+load_dotenv()
 
 
 def _inject_template(template: str, data: Dict[str, Any]) -> str:
@@ -26,15 +25,22 @@ def _inject_template(template: str, data: Dict[str, Any]) -> str:
 
 async def generate_docs(payload: GenerationPayload):
     """Generate a PRD.md string using OpenAI and a markdown template."""
-    template_path = (
-        Path(__file__).resolve().parent.parent.parent
-        / ".codex"
-        / "templates"
-        / "prd-template.md"
-    )
-
+    # This approach is more robust. It finds the project root by looking for a
+    # known directory ('.codex') instead of relying on a fixed directory structure.
+    # It starts from the current file and walks up the directory tree.
     try:
+        project_root = Path(__file__).resolve()
+        # Keep going up one level until we find a directory that contains '.codex'
+        while not (project_root / ".codex").exists():
+            if project_root == project_root.parent:
+                # If we've reached the filesystem root and haven't found it, raise an error.
+                raise FileNotFoundError("Could not find the '.codex' directory in any parent path.")
+            project_root = project_root.parent
+
+        template_path = project_root / ".codex" / "templates" / "prd-template.md"
         template_text = template_path.read_text()
+    except FileNotFoundError as exc:
+        return {"error": str(exc)}
     except Exception as exc:
         return {"error": f"Failed to load template: {exc}"}
 
