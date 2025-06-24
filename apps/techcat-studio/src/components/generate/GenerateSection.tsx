@@ -4,7 +4,6 @@ import { useState } from "react";
 import ProjectSelector from "@/components/projects/ProjectSelector";
 import ProjectMetadataForm, { ProjectMetadata } from "./ProjectMetadataForm";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
-import MarkdownPreview from "./MarkdownPreview";
 
 interface ProjectItem {
   slug: string;
@@ -24,7 +23,7 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
     techStack: "",
     successCriteria: "",
   });
-  const [markdownOutput, setMarkdownOutput] = useState<string>("");
+  const [success, setSuccess] = useState(false);
 
   const isValid =
     projectSlug &&
@@ -33,7 +32,9 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
     metadata.techStack.trim() &&
     metadata.successCriteria.trim();
 
-  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "error" | "success"
+  >("idle");
 
   const handleGenerate = async () => {
     const payload = {
@@ -59,13 +60,21 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
       }
       const data = await response.json();
       if (data["PRD.md"]) {
-        setMarkdownOutput(data["PRD.md"] as string);
+        const saveResp = await fetch("/api/documents", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slug: projectSlug, content: data["PRD.md"] }),
+        });
+        if (!saveResp.ok) {
+          throw new Error("Failed to save PRD");
+        }
+        setSuccess(true);
       }
-      setStatus("idle");
+      setStatus("success");
     } catch (err) {
       console.error(err);
       setStatus("error");
-      setMarkdownOutput("");
+      setSuccess(false);
     }
   };
 
@@ -93,7 +102,11 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
           Failed to generate files. Please try again.
         </p>
       )}
-      {markdownOutput && <MarkdownPreview content={markdownOutput} />}
+      {status === "success" && success && (
+        <p className="text-sm text-green-600" role="status">
+          ✅ PRD.md has been generated and saved for this project.
+        </p>
+      )}
     </div>
   );
 };
