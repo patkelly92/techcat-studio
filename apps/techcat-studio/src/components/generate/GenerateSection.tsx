@@ -3,6 +3,8 @@
 import { useState } from "react";
 import ProjectSelector from "@/components/projects/ProjectSelector";
 import ProjectMetadataForm, { ProjectMetadata } from "./ProjectMetadataForm";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
+import MarkdownPreview from "./MarkdownPreview";
 
 interface ProjectItem {
   slug: string;
@@ -22,6 +24,7 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
     techStack: "",
     successCriteria: "",
   });
+  const [markdown, setMarkdown] = useState<string>("");
 
   const isValid =
     projectSlug &&
@@ -55,11 +58,14 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
         throw new Error("Request failed");
       }
       const data = await response.json();
-      console.log(data);
+      if (data["PRD.md"]) {
+        setMarkdown(data["PRD.md"] as string);
+      }
       setStatus("idle");
     } catch (err) {
       console.error(err);
       setStatus("error");
+      setMarkdown("");
     }
   };
 
@@ -81,11 +87,13 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
           ? "Generating..."
           : "Generate Infrastructure Files"}
       </button>
+      {status === "loading" && <LoadingIndicator />}
       {status === "error" && (
         <p className="text-sm text-red-600" role="alert">
           Failed to generate files. Please try again.
         </p>
       )}
+      {markdown && <MarkdownPreview content={markdown} />}
     </div>
   );
 };

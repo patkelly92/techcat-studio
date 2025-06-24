@@ -144,3 +144,12 @@
 **Output Files:** [`apps/api/services/llm_orchestrator.py`, `apps/api/routes/generate.py`, `.codex/templates/prd-template.md`]
 
 ---
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-016
+**Date:** 2025-06-24
+**Summary:** Added markdown preview for generated PRD on the /generate page using a new MarkdownPreview component and react-markdown. Updated form logic to display preview and show a loading indicator.
+**Output Files:** [`apps/techcat-studio/package.json`, `apps/techcat-studio/package-lock.json`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`, `apps/techcat-studio/src/components/generate/MarkdownPreview.tsx`]
+
+---
