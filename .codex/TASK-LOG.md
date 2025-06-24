@@ -135,3 +135,12 @@
 **Output Files:** [`apps/techcat-studio/src/app/generate/page.tsx`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`, `apps/techcat-studio/src/components/generate/ProjectMetadataForm.tsx`]
 
 ---
+### Task Completed
+
+**Agent:** backend_specialist
+**Task Id:** task-015
+**Date:** 2025-06-24
+**Summary:** Implemented PRD generation via OpenAI API with template injection and updated generate route. Added PRD template.
+**Output Files:** [`apps/api/services/llm_orchestrator.py`, `apps/api/routes/generate.py`, `.codex/templates/prd-template.md`]
+
+---
