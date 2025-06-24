@@ -11,10 +11,9 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { name: 'Dashboard', href: '/dashboard' },
-  { name: 'Documents', href: '/documents' },
-  { name: 'Generate', href: '/generate' },
   { name: 'Projects', href: '/projects' },
+  { name: 'Generate', href: '/generate' },
+  { name: 'Documents', href: '/documents' },
   { name: 'Feedback', href: '/feedback' },
   { name: 'Settings', href: '/settings' },
 ];
@@ -44,7 +43,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         >
           <FiX className="h-6 w-6" />
         </button>
-        <nav className="mt-8 flex flex-col gap-1 px-4">
+        <nav className="mt-8 flex flex-col gap-2 px-4">
           {navItems.map((item) => {
             const active =
               pathname === item.href || pathname.startsWith(`${item.href}/`);
