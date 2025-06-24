@@ -1,5 +1,10 @@
 from functools import lru_cache
 from pydantic import BaseSettings
+import os
+from dotenv import load_dotenv
+
+load_dotenv() 
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 class Settings(BaseSettings):
     openai_api_key: str | None = None
