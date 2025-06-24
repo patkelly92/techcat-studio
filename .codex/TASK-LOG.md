@@ -153,3 +153,13 @@
 **Output Files:** [`apps/techcat-studio/package.json`, `apps/techcat-studio/package-lock.json`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`, `apps/techcat-studio/src/components/generate/MarkdownPreview.tsx`]
 
 ---
+
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-017
+**Date:** 2025-06-24
+**Summary:** Fixed markdown preview bug on the /generate page by storing PRD.md output in state and rendering it using react-markdown. Removed debug JSON block and unused component.
+**Output Files:** [`apps/techcat-studio/src/components/generate/ProjectMetadataForm.tsx`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`]
+
+---

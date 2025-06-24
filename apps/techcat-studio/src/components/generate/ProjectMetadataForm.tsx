@@ -68,9 +68,6 @@ const ProjectMetadataForm = ({ value, onChange }: ProjectMetadataFormProps) => {
           onChange={handleChange("successCriteria")}
         />
       </div>
-      <pre className="rounded-md bg-gray-100 p-3 text-sm dark:bg-zinc-800">
-        {JSON.stringify(value, null, 2)}
-      </pre>
     </div>
   );
 };
