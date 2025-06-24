@@ -3,7 +3,7 @@ from typing import List
 
 class GenerationPayload(BaseModel):
     projectSlug: str
-    overview: str
-    intendedUsers: str
+    productOverview: str
+    targetUsers: str
     techStack: List[str]
     successCriteria: str

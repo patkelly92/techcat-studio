@@ -13,6 +13,7 @@ load_dotenv()
 
 def _inject_template(template: str, data: Dict[str, Any]) -> str:
     """Replace known placeholders in the template with provided data."""
+
     for key, value in data.items():
         placeholder = f"{{{{{key}}}}}"
         if isinstance(value, list):
@@ -46,11 +47,15 @@ async def generate_docs(payload: GenerationPayload):
 
     injected = _inject_template(template_text, payload.model_dump())
 
-    prompt = (
-        "Fill in the following PRD markdown template. "
-        "Expand on any 'TBD' markers with reasonable detail. "
-        "Return only the completed markdown document.\n\n" + injected
+    instruction = (
+        "You are a product strategist generating a comprehensive PRD. "
+        "Use the markdown template below as a guide. If any field is missing, "
+        "make a reasonable assumption, suggest improvements when appropriate, "
+        "and infer a suitable tech stack based on the project goals and users. "
+        "Return only the completed markdown document."
     )
+
+    prompt = instruction + "\n\n" + injected
 
     client = AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 

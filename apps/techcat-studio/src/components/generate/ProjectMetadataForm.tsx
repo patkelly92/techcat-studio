@@ -1,8 +1,8 @@
 "use client";
 
 export interface ProjectMetadata {
-  overview: string;
-  intendedUsers: string;
+  productOverview: string;
+  targetUsers: string;
   techStack: string;
   successCriteria: string;
 }
@@ -13,7 +13,7 @@ interface ProjectMetadataFormProps {
 }
 
 const ProjectMetadataForm = ({ value, onChange }: ProjectMetadataFormProps) => {
-  const { overview, intendedUsers, techStack, successCriteria } = value;
+  const { productOverview, targetUsers, techStack, successCriteria } = value;
 
   const handleChange =
     (field: keyof ProjectMetadata) =>
@@ -24,25 +24,25 @@ const ProjectMetadataForm = ({ value, onChange }: ProjectMetadataFormProps) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <label htmlFor="overview" className="font-medium">
-          Project Overview
+        <label htmlFor="productOverview" className="font-medium">
+          Product Overview
         </label>
         <textarea
-          id="overview"
+          id="productOverview"
           className="rounded-md border px-3 py-2"
-          value={overview}
-          onChange={handleChange("overview")}
+          value={productOverview}
+          onChange={handleChange("productOverview")}
         />
       </div>
       <div className="flex flex-col gap-1">
-        <label htmlFor="intendedUsers" className="font-medium">
-          Intended Users
+        <label htmlFor="targetUsers" className="font-medium">
+          Target Users
         </label>
         <textarea
-          id="intendedUsers"
+          id="targetUsers"
           className="rounded-md border px-3 py-2"
-          value={intendedUsers}
-          onChange={handleChange("intendedUsers")}
+          value={targetUsers}
+          onChange={handleChange("targetUsers")}
         />
       </div>
       <div className="flex flex-col gap-1">
