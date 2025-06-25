@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import ReactMarkdown from "react-markdown";
+import { memo, useCallback, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
+
+const Markdown = dynamic(() => import("react-markdown"), { ssr: false });
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 
@@ -12,7 +15,7 @@ interface DocumentCardProps {
   lastModified?: string;
 }
 
-const DocumentCard = ({
+const DocumentCardComponent = ({
   slug,
   title,
   content,
@@ -25,15 +28,24 @@ const DocumentCard = ({
   const [message, setMessage] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-  const copyToClipboard = async () => {
+  const markdownPreview = useMemo(
+    () => (
+      <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+        {currentContent}
+      </Markdown>
+    ),
+    [currentContent],
+  );
+
+  const copyToClipboard = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(currentContent);
     } catch (err) {
       console.error("Failed to copy", err);
     }
-  };
+  }, [currentContent]);
 
-  const downloadFile = () => {
+  const downloadFile = useCallback(() => {
     const blob = new Blob([currentContent], { type: "text/markdown" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -41,21 +53,21 @@ const DocumentCard = ({
     link.download = title;
     link.click();
     URL.revokeObjectURL(url);
-  };
+  }, [currentContent, title]);
 
-  const handleEdit = () => {
+  const handleEdit = useCallback(() => {
     setDraft(currentContent);
     setEditing(true);
     setShow(false);
-  };
+  }, [currentContent]);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setDraft(currentContent);
     setEditing(false);
     setShow(true);
-  };
+  }, [currentContent]);
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     try {
       setSaving(true);
       setMessage(null);
@@ -78,7 +90,7 @@ const DocumentCard = ({
     } finally {
       setSaving(false);
     }
-  };
+  }, [slug, title, draft]);
 
   return (
     <div className="space-y-2 rounded-md border p-4">
@@ -149,22 +161,20 @@ const DocumentCard = ({
             >
               Cancel
             </button>
+            {saving && <LoadingIndicator />}
           </div>
         </div>
       ) : (
         show && (
           <div className="prose max-w-none border-t pt-4 dark:prose-invert max-h-96 overflow-y-auto">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeHighlight]}
-            >
-              {currentContent}
-            </ReactMarkdown>
+            {markdownPreview}
           </div>
         )
       )}
     </div>
   );
 };
+
+const DocumentCard = memo(DocumentCardComponent);
 
 export default DocumentCard;

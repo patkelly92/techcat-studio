@@ -1,5 +1,6 @@
 "use client";
 
+import { memo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import ProjectSelector from "@/components/projects/ProjectSelector";
 import DocumentCard from "./DocumentCard";
@@ -21,17 +22,20 @@ interface DocumentsSectionProps {
   documents: DocumentItem[];
 }
 
-const DocumentsSection = ({
+const DocumentsSectionComponent = ({
   projects,
   slug,
   documents,
 }: DocumentsSectionProps) => {
   const router = useRouter();
 
-  const handleChange = (value: string) => {
-    const query = value ? `?slug=${encodeURIComponent(value)}` : "";
-    router.push(`/documents${query}`);
-  };
+  const handleChange = useCallback(
+    (value: string) => {
+      const query = value ? `?slug=${encodeURIComponent(value)}` : "";
+      router.push(`/documents${query}`);
+    },
+    [router],
+  );
 
   const isEmpty = slug ? documents.length === 0 : true;
 
@@ -51,7 +55,7 @@ const DocumentsSection = ({
           <div className="grid gap-4">
             {documents.map((doc) => (
               <DocumentCard
-                key={doc.title}
+                key={`${slug}-${doc.title}`}
                 slug={slug!}
                 title={doc.title}
                 content={doc.content}
@@ -68,5 +72,7 @@ const DocumentsSection = ({
     </div>
   );
 };
+
+const DocumentsSection = memo(DocumentsSectionComponent);
 
 export default DocumentsSection;

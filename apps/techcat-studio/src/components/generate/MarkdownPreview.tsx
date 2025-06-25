@@ -1,6 +1,9 @@
 "use client";
 
-import ReactMarkdown from "react-markdown";
+import { memo, useCallback, useMemo } from "react";
+import dynamic from "next/dynamic";
+
+const Markdown = dynamic(() => import("react-markdown"), { ssr: false });
 
 interface MarkdownPreviewProps {
   content: string;
@@ -16,23 +19,32 @@ const downloadMarkdown = (content: string, filename: string = "PRD.md") => {
   URL.revokeObjectURL(url);
 };
 
-const MarkdownPreview = ({ content }: MarkdownPreviewProps) => {
+const MarkdownPreviewComponent = ({ content }: MarkdownPreviewProps) => {
+  const rendered = useMemo(
+    () => <Markdown>{content}</Markdown>,
+    [content],
+  );
+  const handleDownload = useCallback(
+    () => downloadMarkdown(content),
+    [content],
+  );
+
   if (!content) return null;
 
   return (
     <div className="space-y-4">
-      <section className="prose max-w-none dark:prose-invert">
-        <ReactMarkdown>{content}</ReactMarkdown>
-      </section>
+      <section className="prose max-w-none dark:prose-invert">{rendered}</section>
       <button
         type="button"
         className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-        onClick={() => downloadMarkdown(content)}
+        onClick={handleDownload}
       >
         Download as .md file
       </button>
     </div>
   );
 };
+
+const MarkdownPreview = memo(MarkdownPreviewComponent);
 
 export default MarkdownPreview;
