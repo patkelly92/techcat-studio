@@ -254,3 +254,12 @@
 **Output Files:** [`apps/techcat-studio/src/components/documents/DocumentCard.tsx`, `apps/techcat-studio/src/components/documents/DocumentsSection.tsx`, `apps/techcat-studio/src/app/api/documents/route.ts`, `apps/techcat-studio/src/lib/saveProjectDocument.ts`]
 
 ---
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-029
+**Date:** 2025-06-25
+**Summary:** Refactored PRD generation inputs with conversational prompts using a new GenerateForm component and updated API payload handling.
+**Output Files:** [`apps/api/models/payload.py`, `apps/techcat-studio/src/components/generate/GenerateForm.tsx`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`]
+
+---
