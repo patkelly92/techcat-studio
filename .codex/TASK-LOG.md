@@ -280,3 +280,12 @@
 **Date:** 2025-06-25
 **Summary:** Added POST route to generate and save ARCHITECTURE.md using OpenAI with project PRD as input, registered new router and updated orchestrator for reusable logic.
 **Output Files:** [`apps/api/routes/generate_architecture.py`, `apps/api/main.py`, `apps/api/services/llm_orchestrator.py`]
+### Task Completed
+
+**Agent:** backend_refactorer
+**Task Id:** task-033
+**Date:** 2025-06-25
+**Summary:** Refactored FastAPI backend to remove duplicate architecture router, added constants module, consolidated LLM orchestration helpers, and improved payload validation.
+**Output Files:** [`apps/api/main.py`, `apps/api/routes/generate.py`, `apps/api/services/llm_orchestrator.py`, `apps/api/models/payload.py`, `apps/api/constants.py`]
+
+---
