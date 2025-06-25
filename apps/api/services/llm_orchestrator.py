@@ -9,27 +9,39 @@ from apps.api.models.payload import GenerationPayload
 # Load environment variables from apps/api/.env if present
 load_dotenv()
 
+# Default settings for OpenAI calls
+_DEFAULT_MODEL = "gpt-4o"
+_DEFAULT_TEMPERATURE = 0.2
+# Relative path to the templates directory from the project root
+_TEMPLATES_DIR = Path(".codex/templates")
+
+
+def _find_project_root() -> Path:
+    """Return repository root containing `.codex`."""
+    root = Path(__file__).resolve()
+    while not (root / ".codex").exists():
+        if root == root.parent:
+            raise FileNotFoundError("Could not locate '.codex' directory")
+        root = root.parent
+    return root
+
+
+def _load_template(name: str) -> str:
+    """Load a markdown template from the `.codex/templates` directory."""
+    project_root = _find_project_root()
+    template_path = project_root / _TEMPLATES_DIR / name
+    return template_path.read_text()
+
+
+def _openai_client() -> AsyncOpenAI:
+    """Return an AsyncOpenAI client using env configuration."""
+    return AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
 
 async def generate_docs(payload: GenerationPayload):
     """Generate a PRD.md string using OpenAI and a markdown template."""
-    # This approach is more robust. It finds the project root by looking for a
-    # known directory ('.codex') instead of relying on a fixed directory structure.
-    # It starts from the current file and walks up the directory tree.
     try:
-        project_root = Path(__file__).resolve()
-        # Keep going up one level until we find a directory that contains '.codex'
-        while not (project_root / ".codex").exists():
-            if project_root == project_root.parent:
-                # If we've reached the filesystem root and haven't found it, raise an error.
-                raise FileNotFoundError(
-                    "Could not find the '.codex' directory in any parent path."
-                )
-            project_root = project_root.parent
-
-        template_path = project_root / ".codex" / "templates" / "prd-template.md"
-        template_text = template_path.read_text()
-    except FileNotFoundError as exc:
-        return {"error": str(exc)}
+        template_text = _load_template("prd-template.md")
     except Exception as exc:
         return {"error": f"Failed to load template: {exc}"}
 
@@ -59,13 +71,13 @@ async def generate_docs(payload: GenerationPayload):
         {"role": "user", "content": user_section},
     ]
 
-    client = AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    client = _openai_client()
 
     try:
         response = await client.chat.completions.create(
-            model="gpt-4o",
+            model=_DEFAULT_MODEL,
             messages=messages,
-            temperature=0.2,
+            temperature=_DEFAULT_TEMPERATURE,
         )
         content = response.choices[0].message.content
         return {"PRD.md": content}
@@ -76,17 +88,8 @@ async def generate_docs(payload: GenerationPayload):
 async def generate_architecture_content(project_slug: str) -> str | None:
     """Return ARCHITECTURE.md content for the given project slug."""
     try:
-        project_root = Path(__file__).resolve()
-        while not (project_root / ".codex").exists():
-            if project_root == project_root.parent:
-                raise FileNotFoundError(
-                    "Could not find the '.codex' directory in any parent path."
-                )
-            project_root = project_root.parent
-
-        template_path = project_root / ".codex" / "templates" / "architecture-template.md"
-        template_text = template_path.read_text()
-
+        template_text = _load_template("architecture-template.md")
+        project_root = _find_project_root()
         prd_path = (
             project_root
             / "apps"
@@ -109,12 +112,12 @@ async def generate_architecture_content(project_slug: str) -> str | None:
         {"role": "user", "content": prd_text},
     ]
 
-    client = AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    client = _openai_client()
     try:
         response = await client.chat.completions.create(
-            model="gpt-4o",
+            model=_DEFAULT_MODEL,
             messages=messages,
-            temperature=0.2,
+            temperature=_DEFAULT_TEMPERATURE,
         )
         return response.choices[0].message.content
     except Exception:  # pragma: no cover
