@@ -9,8 +9,14 @@ interface GenerateArchitectureButtonProps {
   onSuccess: () => void;
 }
 
-const GenerateArchitectureButton = ({ slug, apiUrl, onSuccess }: GenerateArchitectureButtonProps) => {
-  const [status, setStatus] = useState<"idle" | "loading" | "error" | "success">("idle");
+const GenerateArchitectureButton = ({
+  slug,
+  apiUrl,
+  onSuccess,
+}: GenerateArchitectureButtonProps) => {
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "error" | "success"
+  >("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
@@ -33,6 +39,21 @@ const GenerateArchitectureButton = ({ slug, apiUrl, onSuccess }: GenerateArchite
       const data = await resp.json();
       if (!resp.ok) {
         throw new Error(data?.detail || data?.error || "Request failed");
+      }
+      if (!data["ARCHITECTURE.md"]) {
+        throw new Error("No file returned");
+      }
+      const saveResp = await fetch("/api/documents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          slug,
+          name: "ARCHITECTURE.md",
+          content: data["ARCHITECTURE.md"],
+        }),
+      });
+      if (!saveResp.ok) {
+        throw new Error("Failed to save file");
       }
       setStatus("success");
       onSuccess();
@@ -72,4 +93,3 @@ const GenerateArchitectureButton = ({ slug, apiUrl, onSuccess }: GenerateArchite
 };
 
 export default GenerateArchitectureButton;
-

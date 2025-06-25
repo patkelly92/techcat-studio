@@ -1,10 +1,13 @@
 from pathlib import Path
 import os
+import logging
 
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
 
 from apps.api.models.payload import GenerationPayload
+
+logger = logging.getLogger(__name__)
 
 # Load environment variables from apps/api/.env if present
 load_dotenv()
@@ -80,8 +83,10 @@ async def generate_docs(payload: GenerationPayload):
             temperature=_DEFAULT_TEMPERATURE,
         )
         content = response.choices[0].message.content
+        logger.info("OpenAI PRD generation success for %s", payload.projectSlug)
         return {"PRD.md": content}
     except Exception as exc:
+        logger.error("OpenAI PRD generation failed: %s", exc)
         return {"error": str(exc)}
 
 
@@ -101,6 +106,7 @@ async def generate_architecture_content(project_slug: str) -> str | None:
         )
         prd_text = prd_path.read_text()
     except Exception as exc:  # pragma: no cover
+        logger.error("Failed loading PRD or template for %s: %s", project_slug, exc)
         return None
 
     system_instructions = (
@@ -119,14 +125,19 @@ async def generate_architecture_content(project_slug: str) -> str | None:
             messages=messages,
             temperature=_DEFAULT_TEMPERATURE,
         )
+        logger.info("OpenAI architecture generation success for %s", project_slug)
         return response.choices[0].message.content
-    except Exception:  # pragma: no cover
+    except Exception as exc:  # pragma: no cover
+        logger.error("OpenAI architecture generation failed for %s: %s", project_slug, exc)
         return None
 
 
 async def generate_architecture(project_slug: str):
     """Backward-compatible wrapper returning a mapping."""
+    logger.info("Requesting architecture generation for %s", project_slug)
     content = await generate_architecture_content(project_slug)
     if content is None:
+        logger.error("Architecture generation failed for %s", project_slug)
         return {"error": "Failed to generate architecture"}
+    logger.info("Architecture generation complete for %s", project_slug)
     return {"ARCHITECTURE.md": content}
