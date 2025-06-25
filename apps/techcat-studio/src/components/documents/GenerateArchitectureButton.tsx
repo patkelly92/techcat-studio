@@ -11,6 +11,7 @@ interface GenerateArchitectureButtonProps {
 
 const GenerateArchitectureButton = ({ slug, apiUrl, onSuccess }: GenerateArchitectureButtonProps) => {
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "success">("idle");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -23,18 +24,21 @@ const GenerateArchitectureButton = ({ slug, apiUrl, onSuccess }: GenerateArchite
   const handleClick = async () => {
     try {
       setStatus("loading");
-      const resp = await fetch(`${apiUrl}/generate/architecture`, {
+      setErrorMsg(null);
+      const resp = await fetch(`${apiUrl}/api/generate/architecture`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ project: slug }),
       });
+      const data = await resp.json();
       if (!resp.ok) {
-        throw new Error("Request failed");
+        throw new Error(data?.detail || data?.error || "Request failed");
       }
       setStatus("success");
       onSuccess();
     } catch (err) {
       console.error(err);
+      setErrorMsg((err as Error).message);
       setStatus("error");
     }
   };
@@ -52,7 +56,7 @@ const GenerateArchitectureButton = ({ slug, apiUrl, onSuccess }: GenerateArchite
       {status === "loading" && <LoadingIndicator />}
       {status === "error" && (
         <p className="text-sm text-red-600" role="alert">
-          Failed to generate ARCHITECTURE.md.
+          {errorMsg || "Failed to generate ARCHITECTURE.md."}
         </p>
       )}
       {status === "success" && (

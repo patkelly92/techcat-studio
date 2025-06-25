@@ -280,3 +280,10 @@
 **Date:** 2025-06-25
 **Summary:** Added POST route to generate and save ARCHITECTURE.md using OpenAI with project PRD as input, registered new router and updated orchestrator for reusable logic.
 **Output Files:** [`apps/api/routes/generate_architecture.py`, `apps/api/main.py`, `apps/api/services/llm_orchestrator.py`]
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-032
+**Date:** 2025-06-25
+**Summary:** Fixed Documents page slug handling by moving query parsing to a client wrapper, added GET API for documents, and corrected architecture generation buttons to hit `/api/generate/architecture` with improved error feedback.
+**Output Files:** [`apps/techcat-studio/src/app/documents/page.tsx`, `apps/techcat-studio/src/app/documents/DocumentsWrapper.tsx`, `apps/techcat-studio/src/app/api/documents/route.ts`, `apps/techcat-studio/src/components/documents/GenerateArchitectureButton.tsx`, `apps/techcat-studio/src/components/documents/GenerateArchitectureCard.tsx`]
