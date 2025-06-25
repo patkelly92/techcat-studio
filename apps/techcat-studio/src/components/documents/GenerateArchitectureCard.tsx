@@ -23,19 +23,21 @@ const GenerateArchitectureCard = ({
   const [status, setStatus] = useState<
     "idle" | "loading" | "error" | "success"
   >("idle");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleGenerate = async () => {
     try {
       setStatus("loading");
-      const resp = await fetch(`${apiUrl}/generate/architecture`, {
+      setErrorMsg(null);
+      const resp = await fetch(`${apiUrl}/api/generate/architecture`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ projectSlug: slug }),
+        body: JSON.stringify({ project: slug }),
       });
-      if (!resp.ok) {
-        throw new Error("Request failed");
-      }
       const data = await resp.json();
+      if (!resp.ok) {
+        throw new Error(data?.detail || data?.error || "Request failed");
+      }
       if (!data["ARCHITECTURE.md"]) {
         throw new Error("No file returned");
       }
@@ -59,6 +61,7 @@ const GenerateArchitectureCard = ({
       setStatus("success");
     } catch (err) {
       console.error(err);
+      setErrorMsg((err as Error).message);
       setStatus("error");
     }
   };
@@ -80,7 +83,7 @@ const GenerateArchitectureCard = ({
       {status === "loading" && <LoadingIndicator />}
       {status === "error" && (
         <p className="text-sm text-red-600" role="alert">
-          Failed to generate ARCHITECTURE.md.
+          {errorMsg || "Failed to generate ARCHITECTURE.md."}
         </p>
       )}
       {status === "success" && (
