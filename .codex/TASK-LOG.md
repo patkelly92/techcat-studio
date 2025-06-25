@@ -310,3 +310,12 @@
 **Output Files:** [`apps/api/routes/generate.py`, `apps/api/services/llm_orchestrator.py`, `apps/techcat-studio/src/components/documents/GenerateArchitectureButton.tsx`]
 
 ---
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-035
+**Date:** 2025-06-25
+**Summary:** Fixed documents filtering bug by aborting stale fetches and wrapping the documents page in a Suspense boundary to allow useSearchParams. Now project selection reliably loads correct documents.
+**Output Files:** [`apps/techcat-studio/src/app/documents/DocumentsWrapper.tsx`, `apps/techcat-studio/src/app/documents/page.tsx`]
+
+---

@@ -26,24 +26,31 @@ const DocumentsWrapper = ({ projects, apiUrl }: DocumentsWrapperProps) => {
   const [documents, setDocuments] = useState<DocumentItem[]>([])
 
   useEffect(() => {
+    const controller = new AbortController()
     const fetchDocs = async () => {
       if (!slug) {
         setDocuments([])
         return
       }
+      setDocuments([])
       try {
-        const resp = await fetch(`/api/documents?slug=${encodeURIComponent(slug)}`)
+        const resp = await fetch(`/api/documents?slug=${encodeURIComponent(slug)}`, { signal: controller.signal })
         if (!resp.ok) {
           throw new Error('Failed to load documents')
         }
         const data = await resp.json()
-        setDocuments(data.documents || [])
+        if (!controller.signal.aborted) {
+          setDocuments(data.documents || [])
+        }
       } catch (err) {
-        console.error(err)
-        setDocuments([])
+        if (!controller.signal.aborted) {
+          console.error(err)
+          setDocuments([])
+        }
       }
     }
     fetchDocs()
+    return () => controller.abort()
   }, [slug])
 
   return (

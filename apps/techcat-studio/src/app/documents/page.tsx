@@ -1,6 +1,7 @@
 import path from "path";
 import { promises as fs } from "fs";
 import DocumentsWrapper from "./DocumentsWrapper";
+import { Suspense } from "react";
 
 interface ProjectItem {
   slug: string;
@@ -33,7 +34,9 @@ export default async function Page() {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">📄 Documents</h1>
-      <DocumentsWrapper projects={projects} apiUrl={apiUrl} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <DocumentsWrapper projects={projects} apiUrl={apiUrl} />
+      </Suspense>
     </div>
   );
 }
