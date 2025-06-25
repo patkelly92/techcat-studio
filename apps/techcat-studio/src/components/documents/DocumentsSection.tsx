@@ -1,10 +1,10 @@
 "use client";
 
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import ProjectSelector from "@/components/projects/ProjectSelector";
 import DocumentCard from "./DocumentCard";
-import GenerateArchitectureCard from "./GenerateArchitectureCard";
+import GenerateArchitectureButton from "./GenerateArchitectureButton";
 
 interface ProjectItem {
   slug: string;
@@ -31,7 +31,7 @@ const DocumentsSectionComponent = ({
   apiUrl,
 }: DocumentsSectionProps) => {
   const router = useRouter();
-  const [docs, setDocs] = useState<DocumentItem[]>(documents);
+  const docs = documents;
 
   const handleChange = useCallback(
     (value: string) => {
@@ -43,7 +43,6 @@ const DocumentsSectionComponent = ({
 
   const isEmpty = slug ? docs.length === 0 : true;
   const hasPrd = docs.some((d) => d.title === "PRD.md");
-  const addDoc = (doc: DocumentItem) => setDocs((prev) => [...prev, doc]);
 
   return (
     <div className="space-y-4">
@@ -69,10 +68,10 @@ const DocumentsSectionComponent = ({
               />
             ))}
             {hasPrd && (
-              <GenerateArchitectureCard
+              <GenerateArchitectureButton
                 slug={slug!}
                 apiUrl={apiUrl}
-                onGenerated={addDoc}
+                onSuccess={() => router.refresh()}
               />
             )}
           </div>
