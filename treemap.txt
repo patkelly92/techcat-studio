@@ -1,8 +1,39 @@
 .
 ├── apps
+│   ├── api
+│   │   ├── __pycache__
+│   │   │   └── main.cpython-313.pyc
+│   │   ├── config.py
+│   │   ├── main.py
+│   │   ├── models
+│   │   │   ├── __pycache__
+│   │   │   │   └── payload.cpython-313.pyc
+│   │   │   └── payload.py
+│   │   ├── routes
+│   │   │   ├── __pycache__
+│   │   │   │   ├── generate_architecture.cpython-313.pyc
+│   │   │   │   └── generate.cpython-313.pyc
+│   │   │   ├── generate_architecture.py
+│   │   │   └── generate.py
+│   │   └── services
+│   │       ├── __pycache__
+│   │       │   └── llm_orchestrator.cpython-313.pyc
+│   │       └── llm_orchestrator.py
 │   ├── doc-gen-api
 │   ├── feedback-processor
 │   └── techcat-studio
+│       ├── data
+│       │   ├── documents
+│       │   │   ├── agent-hub
+│       │   │   │   └── PRD.md
+│       │   │   ├── demo-app
+│       │   │   │   └── PRD.md
+│       │   │   └── techcat-studio
+│       │   │       └── PRD.md
+│       │   └── projects
+│       │       ├── agent-hub.json
+│       │       ├── demo-app.json
+│       │       └── techcat-studio.json
 │       ├── eslint.config.mjs
 │       ├── next-env.d.ts
 │       ├── next.config.ts
@@ -18,6 +49,11 @@
 │       ├── README.md
 │       ├── src
 │       │   ├── app
+│       │   │   ├── api
+│       │   │   │   ├── documents
+│       │   │   │   │   └── route.ts
+│       │   │   │   └── projects
+│       │   │   │       └── route.ts
 │       │   │   ├── dashboard
 │       │   │   │   └── page.tsx
 │       │   │   ├── documents
@@ -25,12 +61,15 @@
 │       │   │   ├── favicon.ico
 │       │   │   ├── feedback
 │       │   │   │   └── page.tsx
-│       │   │   ├── generate
-│       │   │   │   └── page.tsx
 │       │   │   ├── globals.css
+│       │   │   ├── kickoff
+│       │   │   │   └── page.tsx
 │       │   │   ├── layout.tsx
 │       │   │   ├── page.tsx
 │       │   │   ├── projects
+│       │   │   │   ├── [slug]
+│       │   │   │   │   └── page.tsx
+│       │   │   │   ├── loading.tsx
 │       │   │   │   ├── new
 │       │   │   │   │   └── page.tsx
 │       │   │   │   └── page.tsx
@@ -38,21 +77,41 @@
 │       │   │       └── page.tsx
 │       │   ├── components
 │       │   │   ├── common
+│       │   │   │   ├── Header.tsx
+│       │   │   │   ├── LayoutShell.tsx
+│       │   │   │   └── Sidebar.tsx
 │       │   │   ├── docs
+│       │   │   ├── documents
+│       │   │   │   ├── DocumentCard.tsx
+│       │   │   │   ├── DocumentsSection.tsx
+│       │   │   │   └── GenerateArchitectureCard.tsx
+│       │   │   ├── kickoff
+│       │   │   │   ├── KickoffForm.tsx
+│       │   │   │   ├── KickoffSection.tsx
+│       │   │   │   ├── MarkdownPreview.tsx
+│       │   │   │   └── ProjectMetadataForm.tsx
 │       │   │   ├── projects
+│       │   │   │   ├── NewProjectForm.tsx
+│       │   │   │   ├── ProjectDetail.tsx
+│       │   │   │   ├── ProjectList.tsx
+│       │   │   │   └── ProjectSelector.tsx
 │       │   │   └── ui
+│       │   │       ├── CTAButton.tsx
+│       │   │       └── LoadingIndicator.tsx
 │       │   ├── context
 │       │   ├── hooks
 │       │   ├── lib
+│       │   │   ├── saveProjectDocument.ts
+│       │   │   └── saveProjectMetadata.ts
 │       │   ├── services
 │       │   ├── styles
 │       │   └── types
 │       └── tsconfig.json
-├── context-arch.md
+├── example-input.md
 ├── packages
 │   ├── ui
 │   └── utils
 ├── README.md
 └── treemap.txt
 
-29 directories, 27 files
+49 directories, 66 files
