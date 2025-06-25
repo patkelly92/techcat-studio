@@ -301,3 +301,12 @@
 ---
 
 
+### Task Completed
+
+**Agent:** backend_specialist
+**Task Id:** task-034
+**Date:** 2025-06-25
+**Summary:** Added detailed logging for architecture generation endpoints and updated frontend button logic to save ARCHITECTURE.md after generating. This ensures files are written correctly.
+**Output Files:** [`apps/api/routes/generate.py`, `apps/api/services/llm_orchestrator.py`, `apps/techcat-studio/src/components/documents/GenerateArchitectureButton.tsx`]
+
+---
