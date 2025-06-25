@@ -73,8 +73,8 @@ async def generate_docs(payload: GenerationPayload):
         return {"error": str(exc)}
 
 
-async def generate_architecture(project_slug: str):
-    """Generate an ARCHITECTURE.md string using the project's PRD."""
+async def generate_architecture_content(project_slug: str) -> str | None:
+    """Return ARCHITECTURE.md content for the given project slug."""
     try:
         project_root = Path(__file__).resolve()
         while not (project_root / ".codex").exists():
@@ -98,7 +98,7 @@ async def generate_architecture(project_slug: str):
         )
         prd_text = prd_path.read_text()
     except Exception as exc:  # pragma: no cover
-        return {"error": f"Failed to load files: {exc}"}
+        return None
 
     system_instructions = (
         "You are a software architect. Use the provided PRD to craft a detailed architecture document."
@@ -116,7 +116,14 @@ async def generate_architecture(project_slug: str):
             messages=messages,
             temperature=0.2,
         )
-        content = response.choices[0].message.content
-        return {"ARCHITECTURE.md": content}
-    except Exception as exc:  # pragma: no cover
-        return {"error": str(exc)}
+        return response.choices[0].message.content
+    except Exception:  # pragma: no cover
+        return None
+
+
+async def generate_architecture(project_slug: str):
+    """Backward-compatible wrapper returning a mapping."""
+    content = await generate_architecture_content(project_slug)
+    if content is None:
+        return {"error": "Failed to generate architecture"}
+    return {"ARCHITECTURE.md": content}
