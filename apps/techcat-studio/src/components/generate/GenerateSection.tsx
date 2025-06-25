@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ProjectSelector from "@/components/projects/ProjectSelector";
-import ProjectMetadataForm, { ProjectMetadata } from "./ProjectMetadataForm";
+import GenerateForm, { GenerateFormData } from "./GenerateForm";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 interface ProjectItem {
@@ -17,20 +17,20 @@ interface GenerateSectionProps {
 
 const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
   const [projectSlug, setProjectSlug] = useState<string>("");
-  const [metadata, setMetadata] = useState<ProjectMetadata>({
+  const [formData, setFormData] = useState<GenerateFormData>({
     productOverview: "",
     targetUsers: "",
+    userPainPoints: "",
+    coreFeatures: "",
     techStack: "",
-    successCriteria: "",
+    constraints: "",
+    stretchGoals: "",
+    tone: "",
   });
   const [success, setSuccess] = useState(false);
 
   const isValid =
-    projectSlug &&
-    metadata.productOverview.trim() &&
-    metadata.targetUsers.trim() &&
-    metadata.techStack.trim() &&
-    metadata.successCriteria.trim();
+    projectSlug && formData.productOverview.trim() && formData.techStack.trim();
 
   const [status, setStatus] = useState<
     "idle" | "loading" | "error" | "success"
@@ -39,13 +39,17 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
   const handleGenerate = async () => {
     const payload = {
       projectSlug,
-      productOverview: metadata.productOverview.trim(),
-      targetUsers: metadata.targetUsers.trim(),
-      techStack: metadata.techStack
+      productOverview: formData.productOverview.trim(),
+      targetUsers: formData.targetUsers.trim(),
+      userPainPoints: formData.userPainPoints.trim(),
+      coreFeatures: formData.coreFeatures.trim(),
+      techStack: formData.techStack
         .split(/[,\n]/)
         .map((s) => s.trim())
         .filter(Boolean),
-      successCriteria: metadata.successCriteria.trim(),
+      constraints: formData.constraints.trim(),
+      stretchGoals: formData.stretchGoals.trim(),
+      tone: formData.tone.trim(),
     };
 
     try {
@@ -85,7 +89,7 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
         value={projectSlug}
         onChange={setProjectSlug}
       />
-      <ProjectMetadataForm value={metadata} onChange={setMetadata} />
+      <GenerateForm value={formData} onChange={setFormData} />
       <button
         type="button"
         className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
