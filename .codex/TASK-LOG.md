@@ -245,3 +245,12 @@
 **Summary:** Enhanced markdown rendering for documents by adding remark-gfm and syntax highlighting, displaying last modified metadata, and improving preview styling.
 **Output Files:** [`apps/techcat-studio/src/app/documents/page.tsx`, `apps/techcat-studio/src/components/documents/DocumentCard.tsx`, `apps/techcat-studio/src/components/documents/DocumentsSection.tsx`, `apps/techcat-studio/package.json`, `apps/techcat-studio/package-lock.json`]
 
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-027
+**Date:** 2025-06-24
+**Summary:** Added inline editing capability for markdown documents with save and cancel handling. Updated API to save arbitrary files.
+**Output Files:** [`apps/techcat-studio/src/components/documents/DocumentCard.tsx`, `apps/techcat-studio/src/components/documents/DocumentsSection.tsx`, `apps/techcat-studio/src/app/api/documents/route.ts`, `apps/techcat-studio/src/lib/saveProjectDocument.ts`]
+
+---

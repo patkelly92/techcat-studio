@@ -52,6 +52,7 @@ const DocumentsSection = ({
             {documents.map((doc) => (
               <DocumentCard
                 key={doc.title}
+                slug={slug!}
                 title={doc.title}
                 content={doc.content}
                 lastModified={doc.lastModified}
