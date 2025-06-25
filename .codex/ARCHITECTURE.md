@@ -65,7 +65,7 @@ TechCat Studio is a modular, agent-augmented developer tool that generates and e
 
 - `AGENTS.md`: Agent roster and prompt responsibilities
 - `PRD.md`: Product vision, scope, and goals
-- `TASK-LOG.md`: Completed task append-only history
+- `TASK-LOG.md`: Completed tasks (append-only history)
 - `PROPOSED-TASKS.md`: Future or suggested system-generated work
 - `ARCHITECTURE.md`: Technical implementation guide and prompt interface contract
 
@@ -78,23 +78,26 @@ All agents work with markdown-based I/O and follow deterministic, modular prompt
 ### Key Conventions
 - Markdown format required
 - Output should target a single `.codex/` file
-- Metadata must include agent, date, and output summary
+- Task Metadata must include agent, task id, date, summary, and output files
 
-### Example: `TASK-LOG.md`
+### Example: `TASK-LOG.md` Entry
 
 ```markdown
 ### Task Completed
 
-**Agent:** frontend_specialist  
-**Date:** 2025-06-22  
-**Summary:** Added reusable button component with Tailwind styling  
-**Output Files:** [`/components/ui/Button.tsx`, `/components/ui/Form.tsx`]
+**Agent:** <agent_name>  
+**Task Id:** <task id>
+**Date:** YYYY-MM-DD  
+**Summary:** <1–2 sentence description of what was accomplished>  
+**Output Files:** [<relative/path/to/file1>, <relative/path/to/file2>]
+
+---
+
 ```
 
 ---
 
 ## 🧠 Agent Orchestration Principles
-
 - Agents are stateless; they rely on `TASK-LOG.md` for inferred memory
 - Prompts are scoped to a single goal
 - Agent chaining via `Once complete, invoke task_logger`
@@ -107,7 +110,6 @@ All agents work with markdown-based I/O and follow deterministic, modular prompt
 ### Markdown-First Architecture
 - Local-first by design for `.codex/`
 - `.md` files act as both human- and LLM-readable data
-- MVP: Airtable integration for feedback persistence
 
 ### Storage Evolution
 

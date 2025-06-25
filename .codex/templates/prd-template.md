@@ -1,13 +1,12 @@
 # Product Requirements Document Template
 
-This template is used by the `doc_writer` agent to generate a detailed PRD from user input. You must **expand upon vague or incomplete input**, **infer missing details**, and **write as if you’re a product strategist**.
+This template is used to generate a detailed PRD from user input. You must **expand upon vague or incomplete input**, **infer missing details**, and **write as if you’re a product strategist**.
 
-Respond in markdown format using the following structure:
-
----
+Respond in markdown format using the following structure below:
+<BEGIN prd-template.md>
 
 ## Project Name
-Name of the project as provided by the user.
+Name of the project as provided by the user. Enclose the project name in backticks.
 
 ---
 
@@ -50,5 +49,5 @@ Define how success will be measured (e.g., user adoption, time-to-output, engage
 Mention any risks, limitations, or assumptions. If none were specified, note plausible concerns based on scope or tooling.
 
 ---
-
+<END prd-template.md>
 Be decisive, thoughtful, and insightful. Make this feel like a polished brief that could be shared with stakeholders.

@@ -1,95 +1,113 @@
 # Architecture Document Template
 
-This template guides the `doc_writer` agent in producing a comprehensive architecture document from upstream information such as the PRD. Expand on sparse details, infer reasonable structures, and write clearly for developers and technical stakeholders.
+This template is used to generate a detailed and comprehensive architecture document from upstream information such as the PRD. Expand on sparse details, infer reasonable structures, and write clearly for developers and technical stakeholders.
 
-Respond in markdown format using the following structure:
-
----
+Respond in markdown format using the following structure below:
+<BEGIN architecture-template.md>
 
 ## 🧱 System Overview
-
 Describe the overarching architecture, highlighting the main components, frameworks, and how they integrate. Fill gaps in the source material with plausible implementation notes.
 
 ---
 
 ## 📦 Directory Structure (Simplified)
-
-Provide a concise directory tree that outlines key folders and files. Use code block formatting and include brief comments to explain each item.
+Based on the user's tech stack, provide a concise directory tree that outlines key folders and files. Try to adhere to best practices in organizing project assets. Print an ASCII tree complete with code block formatting and include brief yet descriptive comments to explain each key directory or asset as it pertains to the project.
 
 ---
 
 ## 🧱 Codex Infrastructure Files Explained
-
-List and explain the purpose of each file within the `.codex/` directory so developers understand how the agent system is organized.
+_Do not modify data in this section
+- `AGENTS.md`: Agent roster and prompt responsibilities
+- `PRD.md`: Product vision, scope, and goals
+- `TASK-LOG.md`: Completed tasks (append-only history)
+- `PROPOSED-TASKS.md`: Future or suggested system-generated work
+- `ARCHITECTURE.md`: Technical implementation guide and prompt interface contract
 
 ---
 
 ## 🤖 Agent I/O Conventions
-
+_Do not modify data in this section
 Clarify how agents exchange information using markdown. Mention formatting rules, metadata expectations, and give an example entry for `TASK-LOG.md`.
 
 ### Key Conventions
+_Do not modify data in this section
+- Markdown format required
+- Output should target a single `.codex/` file
+- Task Metadata must include agent, task id, date, summary, and output files
 
-Summarize required output format, single-file targeting, and the need for agent/date/summary metadata.
+### Example: `TASK-LOG.md` Entry
+_Do not modify data in this section
+```markdown
+### Task Completed
 
-### Example: `TASK-LOG.md`
+**Agent:** <agent_name>  
+**Task Id:** <task id>
+**Date:** YYYY-MM-DD  
+**Summary:** <1–2 sentence description of what was accomplished>  
+**Output Files:** [<relative/path/to/file1>, <relative/path/to/file2>]
 
-Show a short sample of how a task entry should look in the log.
+---
+
+```
 
 ---
 
 ## 🧠 Agent Orchestration Principles
-
-Explain the philosophy behind chaining agents, referencing the use of `task_logger` for recording outcomes. Emphasize stateless operation and reliance on the task log for context.
+_Do not modify data in this section
+- Agents are stateless; they rely on `TASK-LOG.md` for inferred memory
+- Prompts are scoped to a single goal
+- Agent chaining via `Once complete, invoke task_logger`
+- Output is written to `.codex/` and reflected in UI where needed
 
 ---
 
 ## 💃 Storage & Data Flows
 
 ### Markdown-First Architecture
-
-Describe the preference for local markdown files and how they serve as the primary source of truth.
+_Do not modify data in this section
+- Local-first by design for `.codex/`
+- `.md` files act as both human- and LLM-readable data
 
 ### Storage Evolution
+Based on tech stack provided in the PRD, determine or infer what storage solution will be used during MVP and post MVP stage of the project. Below is an example of what to return:
 
-Outline potential stages of storage, from simple setups like Airtable or flat files to more advanced databases or sync mechanisms.
+```markdown
+| Stage    | Mechanism                                                    |
+|----------|--------------------------------------------------------------|
+| MVP      | Markdown + Airtable                                          |
+| Post-MVP | PostgreSQL (structured feedback) + GitHub file sync          |
+```
 
 ---
 
 ## 📡 APIs & External Services
 
 ### Used APIs
-
-Identify any APIs or third-party services integrated with the system, such as LLM providers or feedback collectors.
+Identify any APIs or third-party services integrated with the system, such as LLM providers or feedback collectors. Return a markdown list
 
 ### Optional Backend
-
 Note optional backend components that can enhance orchestration or data persistence.
 
 ---
 
 ## 🖥 Frontend Technology Stack
-
-Present a table summarizing the frontend tools and what they contribute to the project.
+Infer front end technologies from PRD, and present a markdown table with two columns (`Tool`, `Purpose`) summarizing the various frontend tools and what purpose they serve to the project. 
 
 ---
 
 ## 🔄 File Generation Lifecycle
-
 Illustrate the typical flow from initiating a document request to saving the output. Use a mermaid diagram to convey the sequence of steps.
 
 ---
 
 ## ✅ Best Practices
-
 Bullet out key principles for maintaining clarity and reliability across agent tasks and documentation.
 
 ---
 
 ## 🚧 Future Engineering Notes
-
 Conclude with forward-looking considerations or improvements that could refine the architecture over time.
 
 ---
-
+<END architecture-template.md>
 Keep your tone confident and polished so the resulting document is ready to share with collaborators.
