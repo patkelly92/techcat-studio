@@ -272,3 +272,11 @@
 **Output Files:** [`apps/api/routes/generate.py`, `apps/api/services/llm_orchestrator.py`, `apps/techcat-studio/src/app/kickoff/page.tsx`, `apps/techcat-studio/src/app/documents/page.tsx`, `apps/techcat-studio/src/components/common/Sidebar.tsx`, `apps/techcat-studio/src/components/documents/DocumentsSection.tsx`, `apps/techcat-studio/src/components/documents/GenerateArchitectureCard.tsx`, `apps/techcat-studio/src/components/kickoff/KickoffForm.tsx`, `apps/techcat-studio/src/components/kickoff/KickoffSection.tsx`]
 
 ---
+
+### Task Completed
+
+**Agent:** backend_engineer
+**Task Id:** task-031
+**Date:** 2025-06-25
+**Summary:** Added POST route to generate and save ARCHITECTURE.md using OpenAI with project PRD as input, registered new router and updated orchestrator for reusable logic.
+**Output Files:** [`apps/api/routes/generate_architecture.py`, `apps/api/main.py`, `apps/api/services/llm_orchestrator.py`]
