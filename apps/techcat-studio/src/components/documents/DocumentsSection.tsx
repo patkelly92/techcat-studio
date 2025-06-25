@@ -1,9 +1,10 @@
 "use client";
 
-import { memo, useCallback } from "react";
+import { memo, useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import ProjectSelector from "@/components/projects/ProjectSelector";
 import DocumentCard from "./DocumentCard";
+import GenerateArchitectureCard from "./GenerateArchitectureCard";
 
 interface ProjectItem {
   slug: string;
@@ -20,14 +21,17 @@ interface DocumentsSectionProps {
   projects: ProjectItem[];
   slug?: string;
   documents: DocumentItem[];
+  apiUrl: string;
 }
 
 const DocumentsSectionComponent = ({
   projects,
   slug,
   documents,
+  apiUrl,
 }: DocumentsSectionProps) => {
   const router = useRouter();
+  const [docs, setDocs] = useState<DocumentItem[]>(documents);
 
   const handleChange = useCallback(
     (value: string) => {
@@ -37,7 +41,9 @@ const DocumentsSectionComponent = ({
     [router],
   );
 
-  const isEmpty = slug ? documents.length === 0 : true;
+  const isEmpty = slug ? docs.length === 0 : true;
+  const hasPrd = docs.some((d) => d.title === "PRD.md");
+  const addDoc = (doc: DocumentItem) => setDocs((prev) => [...prev, doc]);
 
   return (
     <div className="space-y-4">
@@ -53,7 +59,7 @@ const DocumentsSectionComponent = ({
           </p>
         ) : (
           <div className="grid gap-4">
-            {documents.map((doc) => (
+            {docs.map((doc) => (
               <DocumentCard
                 key={`${slug}-${doc.title}`}
                 slug={slug!}
@@ -62,6 +68,13 @@ const DocumentsSectionComponent = ({
                 lastModified={doc.lastModified}
               />
             ))}
+            {hasPrd && (
+              <GenerateArchitectureCard
+                slug={slug!}
+                apiUrl={apiUrl}
+                onGenerated={addDoc}
+              />
+            )}
           </div>
         )
       ) : (

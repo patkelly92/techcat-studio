@@ -263,3 +263,12 @@
 **Output Files:** [`apps/api/models/payload.py`, `apps/techcat-studio/src/components/generate/GenerateForm.tsx`, `apps/techcat-studio/src/components/generate/GenerateSection.tsx`]
 
 ---
+### Task Completed
+
+**Agent:** frontend_specialist
+**Task Id:** task-030
+**Date:** 2025-06-25
+**Summary:** Renamed Generate page and components to Kickoff and added architecture generation workflow using new GenerateArchitectureCard and backend endpoint.
+**Output Files:** [`apps/api/routes/generate.py`, `apps/api/services/llm_orchestrator.py`, `apps/techcat-studio/src/app/kickoff/page.tsx`, `apps/techcat-studio/src/app/documents/page.tsx`, `apps/techcat-studio/src/components/common/Sidebar.tsx`, `apps/techcat-studio/src/components/documents/DocumentsSection.tsx`, `apps/techcat-studio/src/components/documents/GenerateArchitectureCard.tsx`, `apps/techcat-studio/src/components/kickoff/KickoffForm.tsx`, `apps/techcat-studio/src/components/kickoff/KickoffSection.tsx`]
+
+---

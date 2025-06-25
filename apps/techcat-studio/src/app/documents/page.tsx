@@ -64,11 +64,17 @@ export default async function Page({ searchParams }: any) {
   const slug =
     typeof searchParams?.slug === "string" ? searchParams.slug : undefined;
   const documents = slug ? await getDocuments(slug) : [];
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">📄 Documents</h1>
-      <DocumentsSection projects={projects} slug={slug} documents={documents} />
+      <DocumentsSection
+        projects={projects}
+        slug={slug}
+        documents={documents}
+        apiUrl={apiUrl}
+      />
     </div>
   );
 }

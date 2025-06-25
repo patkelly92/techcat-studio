@@ -1,6 +1,6 @@
 import path from "path";
 import { promises as fs } from "fs";
-import GenerateSection from "@/components/generate/GenerateSection";
+import KickoffSection from "@/components/kickoff/KickoffSection";
 
 interface ProjectItem {
   slug: string;
@@ -32,11 +32,11 @@ export default async function Page() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">⚙️ Generate Infrastructure</h1>
+      <h1 className="text-2xl font-bold">🚀 Kickoff</h1>
       <p className="text-gray-600 dark:text-gray-400">
         Generate project documentation and other assets using Codex agents.
       </p>
-      <GenerateSection projects={projects} apiUrl={apiUrl} />
+      <KickoffSection projects={projects} apiUrl={apiUrl} />
     </div>
   );
 }

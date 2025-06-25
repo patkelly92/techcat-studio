@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ProjectSelector from "@/components/projects/ProjectSelector";
-import GenerateForm, { GenerateFormData } from "./GenerateForm";
+import KickoffForm, { GenerateFormData } from "./KickoffForm";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 interface ProjectItem {
@@ -10,12 +10,12 @@ interface ProjectItem {
   name: string;
 }
 
-interface GenerateSectionProps {
+interface KickoffSectionProps {
   projects: ProjectItem[];
   apiUrl: string;
 }
 
-const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
+const KickoffSection = ({ projects, apiUrl }: KickoffSectionProps) => {
   const [projectSlug, setProjectSlug] = useState<string>("");
   const [formData, setFormData] = useState<GenerateFormData>({
     productOverview: "",
@@ -89,7 +89,7 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
         value={projectSlug}
         onChange={setProjectSlug}
       />
-      <GenerateForm value={formData} onChange={setFormData} />
+      <KickoffForm value={formData} onChange={setFormData} />
       <button
         type="button"
         className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
@@ -115,4 +115,4 @@ const GenerateSection = ({ projects, apiUrl }: GenerateSectionProps) => {
   );
 };
 
-export default GenerateSection;
+export default KickoffSection;
