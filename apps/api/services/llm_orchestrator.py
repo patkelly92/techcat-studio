@@ -71,3 +71,52 @@ async def generate_docs(payload: GenerationPayload):
         return {"PRD.md": content}
     except Exception as exc:
         return {"error": str(exc)}
+
+
+async def generate_architecture(project_slug: str):
+    """Generate an ARCHITECTURE.md string using the project's PRD."""
+    try:
+        project_root = Path(__file__).resolve()
+        while not (project_root / ".codex").exists():
+            if project_root == project_root.parent:
+                raise FileNotFoundError(
+                    "Could not find the '.codex' directory in any parent path."
+                )
+            project_root = project_root.parent
+
+        template_path = project_root / ".codex" / "templates" / "architecture-template.md"
+        template_text = template_path.read_text()
+
+        prd_path = (
+            project_root
+            / "apps"
+            / "techcat-studio"
+            / "data"
+            / "documents"
+            / project_slug
+            / "PRD.md"
+        )
+        prd_text = prd_path.read_text()
+    except Exception as exc:  # pragma: no cover
+        return {"error": f"Failed to load files: {exc}"}
+
+    system_instructions = (
+        "You are a software architect. Use the provided PRD to craft a detailed architecture document."
+    )
+    messages = [
+        {"role": "system", "content": system_instructions},
+        {"role": "user", "content": template_text},
+        {"role": "user", "content": prd_text},
+    ]
+
+    client = AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    try:
+        response = await client.chat.completions.create(
+            model="gpt-4o",
+            messages=messages,
+            temperature=0.2,
+        )
+        content = response.choices[0].message.content
+        return {"ARCHITECTURE.md": content}
+    except Exception as exc:  # pragma: no cover
+        return {"error": str(exc)}

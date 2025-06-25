@@ -11,12 +11,12 @@ export interface GenerateFormData {
   tone: string;
 }
 
-interface GenerateFormProps {
+interface KickoffFormProps {
   value: GenerateFormData;
   onChange: (value: GenerateFormData) => void;
 }
 
-const GenerateForm = ({ value, onChange }: GenerateFormProps) => {
+const KickoffForm = ({ value, onChange }: KickoffFormProps) => {
   const {
     productOverview,
     targetUsers,
@@ -147,4 +147,4 @@ const GenerateForm = ({ value, onChange }: GenerateFormProps) => {
   );
 };
 
-export default GenerateForm;
+export default KickoffForm;
