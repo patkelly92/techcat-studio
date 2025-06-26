@@ -125,6 +125,58 @@ All agents work with markdown-based I/O and follow deterministic, modular prompt
 
 ---
 
+### Database Schema
+
+#### `users`
+- `id` (UUID, primary key)
+- `email` (str, indexed, unique)
+- `hashed_password` (str)
+- `created_at` (datetime)
+- **Relationships:**
+  - `projects`: list of owned `Project` records
+  - `document_versions`: list of `DocumentVersion` entries created by this user
+
+---
+
+#### `projects`
+- `id` (UUID, primary key)
+- `user_id` (UUID, foreign key → `users.id`)
+- `name` (str)
+- `slug` (str, indexed, unique)
+- `extra_metadata` (JSONB, optional)
+- `created_at` (datetime)
+- **Relationships:**
+  - `user`: backref to `User`
+  - `documents`: list of all `Document` entries in the project
+
+---
+
+#### `documents`
+- `id` (UUID, primary key)
+- `project_id` (UUID, foreign key → `projects.id`)
+- `type` (str) — e.g. `'prd'`, `'architecture'`, `'agents'`
+- `latest_version_id` (UUID, foreign key → `document_versions.id`, optional)
+- `created_at` (datetime)
+- **Relationships:**
+  - `project`: backref to `Project`
+  - `versions`: all `DocumentVersion` records for this document
+  - `latest_version`: one-to-one with latest version (nullable)
+
+---
+
+#### `document_versions`
+- `id` (UUID, primary key)
+- `document_id` (UUID, foreign key → `documents.id`)
+- `content` (TEXT)
+- `created_at` (datetime)
+- `created_by` (UUID, foreign key → `users.id`)
+- **Relationships:**
+  - `document`: backref to `Document`
+  - `created_by_user`: backref to `User`
+  - `latest_for_document`: optional backref from `Document.latest_version`
+
+---
+
 ## 🖥 Frontend Technology Stack
 
 | Tool               | Purpose                         |
