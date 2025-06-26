@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 interface DocumentItem {
@@ -23,6 +23,13 @@ const GenerateArchitectureCard = ({
   const [status, setStatus] = useState<
     "idle" | "loading" | "error" | "success"
   >("idle");
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (status === "success") {
+      cardRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [status]);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleGenerate = async () => {
@@ -67,7 +74,7 @@ const GenerateArchitectureCard = ({
   };
 
   return (
-    <div className="space-y-2 rounded-md border p-4">
+    <div ref={cardRef} className="space-y-2 rounded-md border p-4">
       <h2 className="text-lg font-medium">Generate ARCHITECTURE.md</h2>
       <p className="text-sm text-gray-600 dark:text-gray-400">
         This file will be generated using your PRD as input.

@@ -1,7 +1,7 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import DocumentsSection from '@/components/documents/DocumentsSection'
 
 interface ProjectItem {
@@ -25,36 +25,36 @@ const DocumentsWrapper = ({ projects, apiUrl }: DocumentsWrapperProps) => {
   const slug = searchParams.get('slug') ?? undefined
   const [documents, setDocuments] = useState<DocumentItem[]>([])
 
-  useEffect(() => {
-    const controller = new AbortController()
-    const fetchDocs = async () => {
-      if (!slug) {
-        setDocuments([])
-        return
-      }
+  const fetchDocuments = useCallback(async () => {
+    if (!slug) {
       setDocuments([])
-      try {
-        const resp = await fetch(`/api/documents?slug=${encodeURIComponent(slug)}`, { signal: controller.signal })
-        if (!resp.ok) {
-          throw new Error('Failed to load documents')
-        }
-        const data = await resp.json()
-        if (!controller.signal.aborted) {
-          setDocuments(data.documents || [])
-        }
-      } catch (err) {
-        if (!controller.signal.aborted) {
-          console.error(err)
-          setDocuments([])
-        }
-      }
+      return
     }
-    fetchDocs()
-    return () => controller.abort()
+    try {
+      const resp = await fetch(`/api/documents?slug=${encodeURIComponent(slug)}`)
+      if (!resp.ok) {
+        throw new Error('Failed to load documents')
+      }
+      const data = await resp.json()
+      setDocuments(data.documents || [])
+    } catch (err) {
+      console.error(err)
+      setDocuments([])
+    }
   }, [slug])
 
+  useEffect(() => {
+    fetchDocuments()
+  }, [slug, fetchDocuments])
+
   return (
-    <DocumentsSection projects={projects} slug={slug} documents={documents} apiUrl={apiUrl} />
+    <DocumentsSection
+      projects={projects}
+      slug={slug}
+      documents={documents}
+      apiUrl={apiUrl}
+      refreshDocuments={fetchDocuments}
+    />
   )
 }
 

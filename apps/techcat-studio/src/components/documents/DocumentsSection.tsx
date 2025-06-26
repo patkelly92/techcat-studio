@@ -22,6 +22,7 @@ interface DocumentsSectionProps {
   slug?: string;
   documents: DocumentItem[];
   apiUrl: string;
+  refreshDocuments: () => void;
 }
 
 const DocumentsSectionComponent = ({
@@ -29,6 +30,7 @@ const DocumentsSectionComponent = ({
   slug,
   documents,
   apiUrl,
+  refreshDocuments,
 }: DocumentsSectionProps) => {
   const router = useRouter();
   const docs = documents;
@@ -71,7 +73,7 @@ const DocumentsSectionComponent = ({
               <GenerateArchitectureButton
                 slug={slug!}
                 apiUrl={apiUrl}
-                onSuccess={() => router.refresh()}
+                onSuccess={refreshDocuments}
               />
             )}
           </div>
