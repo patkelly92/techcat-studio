@@ -4,6 +4,7 @@ from uuid import UUID, uuid4
 
 from sqlalchemy import Column, Text
 from sqlmodel import SQLModel, Field, Relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Optional
 
 class DocumentVersion(SQLModel, table=True):
@@ -15,9 +16,15 @@ class DocumentVersion(SQLModel, table=True):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     created_by: UUID = Field(foreign_key="users.id")
 
-    document: Optional["Document"] = Relationship(back_populates="versions")
-    created_by_user: Optional["User"] = Relationship(back_populates="document_versions")
-    latest_for_document: Optional["Document"] = Relationship(back_populates="latest_version")
+    document: Mapped[Optional["Document"]] = Relationship(
+        sa_relationship=relationship("Document", back_populates="versions")
+    )
+    created_by_user: Mapped[Optional["User"]] = Relationship(
+        sa_relationship=relationship("User", back_populates="document_versions")
+    )
+    latest_for_document: Mapped[Optional["Document"]] = Relationship(
+        sa_relationship=relationship("Document", back_populates="latest_version")
+    )
 
     def __repr__(self) -> str:  # pragma: no cover
         return f"DocumentVersion(id={self.id}, document_id={self.document_id})"

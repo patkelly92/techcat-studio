@@ -418,8 +418,7 @@
       "apps/api/models/db/__init__.py",
       "apps/api/db/database.py"
     ]
-  }
-,
+  },
   {
     "agent": "backend_specialist",
     "task_id": "task-040",
@@ -429,6 +428,18 @@
       "apps/api/services/document_saver.py",
       "apps/api/constants.py",
       "apps/api/routes/generate.py"
+    ]
+  },
+  {
+    "agent": "backend_specialist",
+    "task_id": "task-041",
+    "date": "2025-06-26",
+    "summary": "Updated SQLModel relationships to use Mapped typing with SQLAlchemy relationship objects for SQLAlchemy 2.x compatibility.",
+    "output_files": [
+      "apps/api/models/db/users.py",
+      "apps/api/models/db/projects.py",
+      "apps/api/models/db/documents.py",
+      "apps/api/models/db/document_versions.py"
     ]
   }
 ]

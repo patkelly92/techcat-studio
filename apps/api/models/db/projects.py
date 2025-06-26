@@ -6,6 +6,7 @@ from uuid import UUID, uuid4
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy import Column
 from sqlmodel import SQLModel, Field, Relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 class Project(SQLModel, table=True):
     __tablename__ = "projects"
@@ -20,8 +21,12 @@ class Project(SQLModel, table=True):
     )
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
-    user: Optional["User"] = Relationship(back_populates="projects")
-    documents: list["Document"] = Relationship(back_populates="project")
+    user: Mapped[Optional["User"]] = Relationship(
+        sa_relationship=relationship("User", back_populates="projects")
+    )
+    documents: Mapped[list["Document"]] = Relationship(
+        sa_relationship=relationship("Document", back_populates="project")
+    )
 
     def __repr__(self) -> str:  # pragma: no cover
         return f"Project(id={self.id}, slug={self.slug})"
