@@ -319,3 +319,11 @@
 **Output Files:** [`apps/techcat-studio/src/app/documents/DocumentsWrapper.tsx`, `apps/techcat-studio/src/app/documents/page.tsx`]
 
 ---
+### Task Completed
+
+**Agent:** frontend_specialist  
+**Task Id:** task-036
+**Date:** 2025-06-25  
+**Summary:** Implemented automatic documents list refresh after generating ARCHITECTURE.md, refactoring state management and adding smooth scroll on success.  
+**Output Files:** [apps/techcat-studio/src/app/documents/DocumentsWrapper.tsx, apps/techcat-studio/src/components/documents/DocumentsSection.tsx, apps/techcat-studio/src/components/documents/GenerateArchitectureCard.tsx]
+
