@@ -419,4 +419,16 @@
       "apps/api/db/database.py"
     ]
   }
+,
+  {
+    "agent": "backend_specialist",
+    "task_id": "task-040",
+    "date": "2025-06-26",
+    "summary": "Replaced markdown file storage with Postgres document versioning and updated generate routes to store versions.",
+    "output_files": [
+      "apps/api/services/document_saver.py",
+      "apps/api/constants.py",
+      "apps/api/routes/generate.py"
+    ]
+  }
 ]
