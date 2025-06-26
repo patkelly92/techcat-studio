@@ -391,5 +391,18 @@
       "apps/techcat-studio/src/components/documents/DocumentsSection.tsx",
       "apps/techcat-studio/src/components/documents/GenerateArchitectureCard.tsx"
     ]
+  },
+  {
+    "agent": "frontend_specialist",
+    "task_id": "task-038",
+    "date": "2025-06-26",
+    "summary": "Implemented AGENTS.md generation via new backend endpoint and frontend trigger, enabling live document refresh after creation.",
+    "output_files": [
+      "apps/api/models/payload.py",
+      "apps/api/routes/generate.py",
+      "apps/api/services/llm_orchestrator.py",
+      "apps/techcat-studio/src/components/documents/GenerateAgentsCard.tsx",
+      "apps/techcat-studio/src/components/documents/DocumentsSection.tsx"
+    ]
   }
 ]

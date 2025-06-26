@@ -19,3 +19,9 @@ class ArchitecturePayload(BaseModel):
     projectSlug: str = Field(validation_alias=AliasChoices("projectSlug", "project"))
 
     model_config = ConfigDict(populate_by_name=True)
+
+
+class AgentsPayload(BaseModel):
+    slug: str = Field(validation_alias=AliasChoices("slug", "project", "projectSlug"))
+
+    model_config = ConfigDict(populate_by_name=True)
