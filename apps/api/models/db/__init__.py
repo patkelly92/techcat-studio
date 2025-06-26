@@ -1,9 +1,9 @@
+from sqlmodel import SQLModel
 from .users import User
 from .projects import Project
 from .documents import Document
 from .document_versions import DocumentVersion
 
-from sqlmodel import SQLModel
 
 __all__ = [
     "User",

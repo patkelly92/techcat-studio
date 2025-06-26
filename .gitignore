@@ -4,6 +4,9 @@
 .pnp
 .pnp.js
 
+# Alembic
+alembic.ini
+
 # Next.js build artifacts
 # These folders are generated when you build your project.
 /.next/

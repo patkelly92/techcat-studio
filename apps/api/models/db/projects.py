@@ -14,7 +14,7 @@ class Project(SQLModel, table=True):
     user_id: UUID = Field(foreign_key="users.id")
     name: str
     slug: str = Field(index=True, unique=True)
-    metadata: Optional[Dict[str, Any]] = Field(
+    extra_metadata: Optional[Dict[str, Any]] = Field(
         default=None,
         sa_column=Column(JSONB)
     )
