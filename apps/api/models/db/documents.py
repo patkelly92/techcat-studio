@@ -4,6 +4,7 @@ from typing import Optional
 from uuid import UUID, uuid4
 
 from sqlmodel import SQLModel, Field, Relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 class Document(SQLModel, table=True):
     __tablename__ = "documents"
@@ -14,9 +15,19 @@ class Document(SQLModel, table=True):
     latest_version_id: Optional[UUID] = Field(default=None, foreign_key="document_versions.id")
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
-    project: Optional["Project"] = Relationship(back_populates="documents")
-    versions: list["DocumentVersion"] = Relationship(back_populates="document")
-    latest_version: Optional["DocumentVersion"] = Relationship(sa_relationship_kwargs={"uselist": False}, back_populates="latest_for_document")
+    project: Mapped[Optional["Project"]] = Relationship(
+        sa_relationship=relationship("Project", back_populates="documents")
+    )
+    versions: Mapped[list["DocumentVersion"]] = Relationship(
+        sa_relationship=relationship("DocumentVersion", back_populates="document")
+    )
+    latest_version: Mapped[Optional["DocumentVersion"]] = Relationship(
+        sa_relationship=relationship(
+            "DocumentVersion",
+            back_populates="latest_for_document",
+            uselist=False,
+        )
+    )
 
     def __repr__(self) -> str:  # pragma: no cover
         return f"Document(id={self.id}, type={self.type})"
