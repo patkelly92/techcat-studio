@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import ProjectSelector from "@/components/projects/ProjectSelector";
 import DocumentCard from "./DocumentCard";
 import GenerateArchitectureButton from "./GenerateArchitectureButton";
+import GenerateAgentsCard from "./GenerateAgentsCard";
 
 interface ProjectItem {
   slug: string;
@@ -45,6 +46,8 @@ const DocumentsSectionComponent = ({
 
   const isEmpty = slug ? docs.length === 0 : true;
   const hasPrd = docs.some((d) => d.title === "PRD.md");
+  const hasArch = docs.some((d) => d.title === "ARCHITECTURE.md");
+  const hasAgents = docs.some((d) => d.title === "AGENTS.md");
 
   return (
     <div className="space-y-4">
@@ -69,8 +72,15 @@ const DocumentsSectionComponent = ({
                 lastModified={doc.lastModified}
               />
             ))}
-            {hasPrd && (
+            {hasPrd && !hasArch && (
               <GenerateArchitectureButton
+                slug={slug!}
+                apiUrl={apiUrl}
+                onSuccess={refreshDocuments}
+              />
+            )}
+            {hasPrd && hasArch && !hasAgents && (
+              <GenerateAgentsCard
                 slug={slug!}
                 apiUrl={apiUrl}
                 onSuccess={refreshDocuments}

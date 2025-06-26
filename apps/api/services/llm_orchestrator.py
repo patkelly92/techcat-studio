@@ -141,3 +141,61 @@ async def generate_architecture(project_slug: str):
         return {"error": "Failed to generate architecture"}
     logger.info("Architecture generation complete for %s", project_slug)
     return {"ARCHITECTURE.md": content}
+
+
+async def generate_agents_content(project_slug: str) -> str | None:
+    """Return AGENTS.md content generated from PRD and ARCHITECTURE."""
+    try:
+        template_text = _load_template("agents-template.md")
+        project_root = _find_project_root()
+        prd_path = (
+            project_root
+            / "apps"
+            / "techcat-studio"
+            / "data"
+            / "documents"
+            / project_slug
+            / "PRD.md"
+        )
+        arch_path = prd_path.parent / "ARCHITECTURE.md"
+        prd_text = prd_path.read_text()
+        arch_text = arch_path.read_text()
+    except Exception as exc:  # pragma: no cover
+        logger.error("Failed loading inputs for %s: %s", project_slug, exc)
+        return None
+
+    system_instructions = (
+        "You are a senior AI engineer generating a roster of Codex agents. "
+        "Use the PRD and Architecture to infer useful agent roles."
+    )
+
+    messages = [
+        {"role": "system", "content": system_instructions},
+        {"role": "user", "content": template_text},
+        {"role": "user", "content": prd_text},
+        {"role": "user", "content": arch_text},
+    ]
+
+    client = _openai_client()
+    try:
+        response = await client.chat.completions.create(
+            model=_DEFAULT_MODEL,
+            messages=messages,
+            temperature=_DEFAULT_TEMPERATURE,
+        )
+        logger.info("OpenAI agents generation success for %s", project_slug)
+        return response.choices[0].message.content
+    except Exception as exc:  # pragma: no cover
+        logger.error("OpenAI agents generation failed for %s: %s", project_slug, exc)
+        return None
+
+
+async def generate_agents(project_slug: str):
+    """Backward-compatible wrapper returning a mapping for AGENTS.md."""
+    logger.info("Requesting agents generation for %s", project_slug)
+    content = await generate_agents_content(project_slug)
+    if content is None:
+        logger.error("Agents generation failed for %s", project_slug)
+        return {"error": "Failed to generate agents"}
+    logger.info("Agents generation complete for %s", project_slug)
+    return {"AGENTS.md": content}
