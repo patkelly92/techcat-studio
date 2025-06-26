@@ -1,7 +1,7 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import DocumentsSection from '@/components/documents/DocumentsSection'
 
 interface ProjectItem {
@@ -24,27 +24,39 @@ const DocumentsWrapper = ({ projects, apiUrl }: DocumentsWrapperProps) => {
   const searchParams = useSearchParams()
   const slug = searchParams.get('slug') ?? undefined
   const [documents, setDocuments] = useState<DocumentItem[]>([])
+  const controllerRef = useRef<AbortController | null>(null)
 
   const fetchDocuments = useCallback(async () => {
     if (!slug) {
       setDocuments([])
       return
     }
+
+    controllerRef.current?.abort()
+    const controller = new AbortController()
+    controllerRef.current = controller
+
     try {
-      const resp = await fetch(`/api/documents?slug=${encodeURIComponent(slug)}`)
+      const resp = await fetch(`/api/documents?slug=${encodeURIComponent(slug)}`,
+        { signal: controller.signal })
       if (!resp.ok) {
         throw new Error('Failed to load documents')
       }
       const data = await resp.json()
-      setDocuments(data.documents || [])
+      if (!controller.signal.aborted) {
+        setDocuments(data.documents || [])
+      }
     } catch (err) {
-      console.error(err)
-      setDocuments([])
+      if (!controller.signal.aborted) {
+        console.error(err)
+        setDocuments([])
+      }
     }
   }, [slug])
 
   useEffect(() => {
     fetchDocuments()
+    return () => controllerRef.current?.abort()
   }, [slug, fetchDocuments])
 
   return (
