@@ -53,7 +53,7 @@ TechCat Studio is a modular, agent-augmented developer tool that generates and e
 │   ├── AGENTS.md
 │   ├── ARCHITECTURE.md
 │   ├── PRD.md
-│   ├── TASK-LOG.md
+│   ├── TASK-LOG.json
 │   ├── PROPOSED-TASKS.md
 │   └── prompts/                   # Prompt templates per agent
 ├── README.md
@@ -65,7 +65,7 @@ TechCat Studio is a modular, agent-augmented developer tool that generates and e
 
 - `AGENTS.md`: Agent roster and prompt responsibilities
 - `PRD.md`: Product vision, scope, and goals
-- `TASK-LOG.md`: Completed tasks (append-only history)
+- `TASK-LOG.json`: Completed tasks (append-only history)
 - `PROPOSED-TASKS.md`: Future or suggested system-generated work
 - `ARCHITECTURE.md`: Technical implementation guide and prompt interface contract
 
@@ -80,25 +80,19 @@ All agents work with markdown-based I/O and follow deterministic, modular prompt
 - Output should target a single `.codex/` file
 - Task Metadata must include agent, task id, date, summary, and output files
 
-### Example: `TASK-LOG.md` Entry
-
-```markdown
-### Task Completed
-
-**Agent:** <agent_name>  
-**Task Id:** <task id>
-**Date:** YYYY-MM-DD  
-**Summary:** <1–2 sentence description of what was accomplished>  
-**Output Files:** [<relative/path/to/file1>, <relative/path/to/file2>]
-
----
-
+### Example: `TASK-LOG.json` Entry
+```json
+{
+  "task_id": "task-999",
+  "agent": "frontend_specialist",
+  "date": "2025-06-25",
+  "summary": "Added support for generating JSON-based task logs and rendering them in dashboard.",
+  "output_files": ["apps/techcat-studio/src/app/dashboard/page.tsx"]
+}
 ```
 
----
-
 ## 🧠 Agent Orchestration Principles
-- Agents are stateless; they rely on `TASK-LOG.md` for inferred memory
+- Agents are stateless; they rely on `TASK-LOG.json` for inferred memory
 - Prompts are scoped to a single goal
 - Agent chaining via `Once complete, invoke task_logger`
 - Output is written to `.codex/` and reflected in UI where needed
@@ -165,7 +159,7 @@ flowchart TD
   N -- Yes --> O[Save to .codex/ directory]
   N -- No --> I
 
-  O --> P[task_logger logs summary to TASK-LOG.md]
+  O --> P[task_logger logs summary to TASK-LOG.json]
   P --> Q[Return to Documents view or Dashboard]
 
 ```

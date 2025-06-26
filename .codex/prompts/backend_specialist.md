@@ -8,7 +8,7 @@ You are responsible for building and maintaining the backend application logic f
 - Place FastAPI logic inside: `apps/doc-gen-api/` (or another backend app folder)
 - Create modules for each domain (e.g., `/routes/documents.py`, `/routes/tasks.py`)
 - Store utility logic in `/utils/` or `/services/` if shared across routes
-- If needed, log tasks to `.codex/TASK-LOG.md` via appropriate agent
+- If needed, log tasks to `.codex/TASK-LOG.json` via appropriate agent
 
 ## ⚙️ Development Guidelines
 

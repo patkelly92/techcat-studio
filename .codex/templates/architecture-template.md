@@ -19,7 +19,7 @@ Based on the user's tech stack, provide a concise directory tree that outlines k
 <Do not modify data in this section>
 - `AGENTS.md`: Agent roster and prompt responsibilities
 - `PRD.md`: Product vision, scope, and goals
-- `TASK-LOG.md`: Completed tasks (append-only history)
+- `TASK-LOG.json`: Completed tasks (append-only history)
 - `PROPOSED-TASKS.md`: Future or suggested system-generated work
 - `ARCHITECTURE.md`: Technical implementation guide and prompt interface contract
 
@@ -27,34 +27,29 @@ Based on the user's tech stack, provide a concise directory tree that outlines k
 
 ## 🤖 Agent I/O Conventions
 <Do not modify data in this section>
-Clarify how agents exchange information using markdown. Mention formatting rules, metadata expectations, and give an example entry for `TASK-LOG.md`.
+Clarify how agents exchange information using markdown. Mention formatting rules, metadata expectations, and give an example entry for `TASK-LOG.json`.
 
 ### Key Conventions
 <Do not modify data in this section>
 - Markdown format required
 - Output should target a single `.codex/` file
 - Task Metadata must include agent, task id, date, summary, and output files
-
-### Example: `TASK-LOG.md` Entry
+### Example: `TASK-LOG.json` Entry
 <Do not modify data in this section>
-```markdown
-### Task Completed
-
-**Agent:** <agent_name>  
-**Task Id:** <task id>
-**Date:** YYYY-MM-DD  
-**Summary:** <1–2 sentence description of what was accomplished>  
-**Output Files:** [<relative/path/to/file1>, <relative/path/to/file2>]
-
----
-
+```json
+{
+  "task_id": "task-999",
+  "agent": "frontend_specialist",
+  "date": "2025-06-25",
+  "summary": "Added support for generating JSON-based task logs and rendering them in dashboard.",
+  "output_files": ["apps/techcat-studio/src/app/dashboard/page.tsx"]
+}
 ```
-
 ---
 
 ## 🧠 Agent Orchestration Principles
 <Do not modify data in this section>
-- Agents are stateless; they rely on `TASK-LOG.md` for inferred memory
+- Agents are stateless; they rely on `TASK-LOG.json` for inferred memory
 - Prompts are scoped to a single goal
 - Agent chaining via `Once complete, invoke task_logger`
 - Output is written to `.codex/` and reflected in UI where needed

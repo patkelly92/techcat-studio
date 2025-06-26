@@ -22,7 +22,7 @@
 {{MARKDOWN LISTS AND SUBLISTS OF TASKS REQUIRED TO PERFORM GOAL}}
 
 - Once the primary task is complete and tested (if necessary):
-  - “Pass control to the `task_logger` agent. Its job is to append a summary of the task to `.codex/TASK-LOG.md`.”
+  - “Pass control to the `task_logger` agent. Its job is to append a summary of the task to `.codex/TASK-LOG.json`.”
   - Refer to `.codex/prompts/task_logger.md` for post task-completion logging.
 
 ---

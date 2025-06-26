@@ -45,7 +45,7 @@ The tool helps solo builders, indie hackers, and AI-native developers bring stru
   - High-level goals
   - Tech stack
 - On creation, auto-generates:
-  - `.codex/PRD.md`, `.codex/TASK-LOG.md`, `.codex/AGENTS.md`, `.codex/ARCHITECTURE.md`
+  - `.codex/PRD.md`, `.codex/TASK-LOG.json`, `.codex/AGENTS.md`, `.codex/ARCHITECTURE.md`
 
 ### 3. Document Generation
 
@@ -75,7 +75,7 @@ The tool helps solo builders, indie hackers, and AI-native developers bring stru
 
 ### 7. Task Logging & Tracking
 
-- Completed actions are logged to `.codex/TASK-LOG.md` by `task_logger` agent
+- Completed actions are logged to `.codex/TASK-LOG.json` by `task_logger` agent
 - `planner` or other agents can write to `.codex/PROPOSED-TASKS.md`
 - Visual dashboard of Active, In-Progress, and Completed tasks (Phase 2+)
 
