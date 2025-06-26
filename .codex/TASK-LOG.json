@@ -441,5 +441,15 @@
       "apps/api/models/db/documents.py",
       "apps/api/models/db/document_versions.py"
     ]
+  },
+  {
+    "agent": "backend_specialist",
+    "task_id": "task-042",
+    "date": "2025-06-26",
+    "summary": "Specified foreign_keys in Document and DocumentVersion relationships to resolve AmbiguousForeignKeysError.",
+    "output_files": [
+      "apps/api/models/db/documents.py",
+      "apps/api/models/db/document_versions.py"
+    ]
   }
 ]
