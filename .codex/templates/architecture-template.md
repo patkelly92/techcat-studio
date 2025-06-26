@@ -1,12 +1,12 @@
-# Architecture Document Template
-
 This template is used to generate a detailed and comprehensive architecture document from upstream information such as the PRD. Expand on sparse details, infer reasonable structures, and write clearly for developers and technical stakeholders.
 
 Respond in markdown format using the following structure below:
-<BEGIN architecture-template.md>
+
+# Architecture Document Template
 
 ## 🧱 System Overview
 Describe the overarching architecture, highlighting the main components, frameworks, and how they integrate. Fill gaps in the source material with plausible implementation notes.
+Text enclosed in angle brackets under certain sections are instructions for you to follow. Do not retain them in the final output.
 
 ---
 
@@ -16,7 +16,7 @@ Based on the user's tech stack, provide a concise directory tree that outlines k
 ---
 
 ## 🧱 Codex Infrastructure Files Explained
-_Do not modify data in this section
+<Do not modify data in this section>
 - `AGENTS.md`: Agent roster and prompt responsibilities
 - `PRD.md`: Product vision, scope, and goals
 - `TASK-LOG.md`: Completed tasks (append-only history)
@@ -26,17 +26,17 @@ _Do not modify data in this section
 ---
 
 ## 🤖 Agent I/O Conventions
-_Do not modify data in this section
+<Do not modify data in this section>
 Clarify how agents exchange information using markdown. Mention formatting rules, metadata expectations, and give an example entry for `TASK-LOG.md`.
 
 ### Key Conventions
-_Do not modify data in this section
+<Do not modify data in this section>
 - Markdown format required
 - Output should target a single `.codex/` file
 - Task Metadata must include agent, task id, date, summary, and output files
 
 ### Example: `TASK-LOG.md` Entry
-_Do not modify data in this section
+<Do not modify data in this section>
 ```markdown
 ### Task Completed
 
@@ -53,7 +53,7 @@ _Do not modify data in this section
 ---
 
 ## 🧠 Agent Orchestration Principles
-_Do not modify data in this section
+<Do not modify data in this section>
 - Agents are stateless; they rely on `TASK-LOG.md` for inferred memory
 - Prompts are scoped to a single goal
 - Agent chaining via `Once complete, invoke task_logger`
@@ -64,7 +64,7 @@ _Do not modify data in this section
 ## 💃 Storage & Data Flows
 
 ### Markdown-First Architecture
-_Do not modify data in this section
+<Do not modify data in this section>
 - Local-first by design for `.codex/`
 - `.md` files act as both human- and LLM-readable data
 
@@ -109,5 +109,6 @@ Bullet out key principles for maintaining clarity and reliability across agent t
 Conclude with forward-looking considerations or improvements that could refine the architecture over time.
 
 ---
-<END architecture-template.md>
-Keep your tone confident and polished so the resulting document is ready to share with collaborators.
+
+Keep your tone confident and polished so the resulting document is ready to share with collaborators. 
+IMPORTANT: Remember to keep the structure of this document completely in tact! 
