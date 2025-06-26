@@ -17,13 +17,21 @@ class DocumentVersion(SQLModel, table=True):
     created_by: UUID = Field(foreign_key="users.id")
 
     document: Mapped[Optional["Document"]] = Relationship(
-        sa_relationship=relationship("Document", back_populates="versions")
+        sa_relationship=relationship(
+            "Document",
+            back_populates="versions",
+            foreign_keys="[DocumentVersion.document_id]",
+        )
     )
     created_by_user: Mapped[Optional["User"]] = Relationship(
         sa_relationship=relationship("User", back_populates="document_versions")
     )
     latest_for_document: Mapped[Optional["Document"]] = Relationship(
-        sa_relationship=relationship("Document", back_populates="latest_version")
+        sa_relationship=relationship(
+            "Document",
+            back_populates="latest_version",
+            foreign_keys="[Document.latest_version_id]",
+        )
     )
 
     def __repr__(self) -> str:  # pragma: no cover

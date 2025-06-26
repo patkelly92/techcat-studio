@@ -19,13 +19,18 @@ class Document(SQLModel, table=True):
         sa_relationship=relationship("Project", back_populates="documents")
     )
     versions: Mapped[list["DocumentVersion"]] = Relationship(
-        sa_relationship=relationship("DocumentVersion", back_populates="document")
+        sa_relationship=relationship(
+            "DocumentVersion",
+            back_populates="document",
+            foreign_keys="[DocumentVersion.document_id]",
+        )
     )
     latest_version: Mapped[Optional["DocumentVersion"]] = Relationship(
         sa_relationship=relationship(
             "DocumentVersion",
             back_populates="latest_for_document",
             uselist=False,
+            foreign_keys="[Document.latest_version_id]",
         )
     )
 
