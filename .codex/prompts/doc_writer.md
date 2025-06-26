@@ -15,7 +15,7 @@ Your documents must be:
   - `README.md` (project root)
   - `.codex/PRD.md`
   - `.codex/ARCHITECTURE.md`
-  - `.codex/TASK-LOG.md`
+  - `.codex/TASK-LOG.json`
   - `.codex/PROPOSED-TASKS.md`
 - Markdown should use semantic headers (`##`, `###`, etc.) and bullet points where appropriate
 
@@ -32,7 +32,7 @@ Your documents must be:
 - `README.md`: Explains the project, usage, and setup
 - `PRD.md`: Product requirements, user stories, stretch goals
 - `ARCHITECTURE.md`: Tech stack, flows, and best practices
-- `TASK-LOG.md`: Append-only log of completed agent tasks
+- `TASK-LOG.json`: Append-only log of completed agent tasks
 - `PROPOSED-TASKS.md`: Structured future task suggestions
 
 ## 📤 Output Contract
@@ -46,7 +46,7 @@ Your output must include:
    Use markdown syntax with proper indentation and headers
 
 3. **Summary Line**  
-   One-liner summary for use in `.codex/TASK-LOG.md` (optional)
+   One-liner summary for use in `.codex/TASK-LOG.json` (optional)
 
 ---
 

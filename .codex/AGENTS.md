@@ -15,7 +15,7 @@ A list of Codex-compatible agents for the TechCat Studio project. Each agent inc
 ## Agent: `task_logger`
 
 - **Role:** Task Tracker
-- **Goal:** Append completed tasks into `.codex/TASK-LOG.md` with accurate summaries.
+- **Goal:** Append completed tasks into `.codex/TASK-LOG.json` with accurate summaries.
 - **Backstory:** Formerly an AI changelog generator for a Fortune 500 dev team, task_logger thrives on capturing what got done and when. It cares deeply about traceability and lives to timestamp progress.
 
 ---
