@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 interface FeedbackItem {
   id: string;
@@ -9,7 +9,13 @@ interface FeedbackItem {
   created_at: string;
 }
 
+interface ProjectItem {
+  id: string;
+  name: string;
+}
+
 const feedbackTypes = ["Bug", "Suggestion", "Feedback", "Other"] as const;
+const MAX_LENGTH = 1000;
 
 type FeedbackType = (typeof feedbackTypes)[number];
 
@@ -17,6 +23,8 @@ export default function Page() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
   const [type, setType] = useState<FeedbackType>("Bug");
   const [message, setMessage] = useState("");
+  const [projectId, setProjectId] = useState("");
+  const [projects, setProjects] = useState<ProjectItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
@@ -25,20 +33,34 @@ export default function Page() {
   const [filterType, setFilterType] = useState<string>("");
   const [sortDesc, setSortDesc] = useState(true);
 
-  const fetchFeedback = async () => {
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch(`${apiUrl}/api/projects`, { cache: "no-store" });
+        if (!res.ok) return;
+        const data = (await res.json()) as { id: string; name: string }[];
+        setProjects(data.map((p) => ({ id: p.id, name: p.name })));
+      } catch {
+        // ignore
+      }
+    };
+    fetchProjects();
+  }, [apiUrl]);
+
+  const fetchFeedback = useCallback(async () => {
     try {
       const res = await fetch(`${apiUrl}/api/feedback`);
       if (!res.ok) throw new Error("Failed to load feedback");
-      const data = await res.json();
+      const data = (await res.json()) as FeedbackItem[];
       setFeedback(data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [apiUrl]);
 
   useEffect(() => {
     fetchFeedback();
-  }, []);
+  }, [fetchFeedback]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,16 +69,25 @@ export default function Page() {
       setError("Message is required");
       return;
     }
+    if (message.trim().length > MAX_LENGTH) {
+      setError(`Message must be ${MAX_LENGTH} characters or less`);
+      return;
+    }
     try {
       setStatus("loading");
       const resp = await fetch(`${apiUrl}/api/feedback`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, message }),
+        body: JSON.stringify({
+          type,
+          message,
+          project_id: projectId || null,
+        }),
       });
       if (!resp.ok) throw new Error("Request failed");
       setStatus("success");
       setMessage("");
+      setProjectId("");
       fetchFeedback();
     } catch (err) {
       console.error(err);
@@ -93,6 +124,26 @@ export default function Page() {
             ))}
           </select>
         </div>
+        {projects.length > 0 && (
+          <div className="flex flex-col gap-1">
+            <label htmlFor="project" className="font-medium">
+              Project
+            </label>
+            <select
+              id="project"
+              className="rounded-md border px-3 py-2"
+              value={projectId}
+              onChange={(e) => setProjectId(e.target.value)}
+            >
+              <option value="">Optional: Tag this feedback to a project</option>
+              {projects.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <div className="flex flex-col gap-1">
           <label htmlFor="message" className="font-medium">
             Message
@@ -101,10 +152,13 @@ export default function Page() {
             id="message"
             className="rounded-md border px-3 py-2"
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => setMessage(e.target.value.slice(0, MAX_LENGTH))}
             rows={4}
+            maxLength={MAX_LENGTH}
+            placeholder="What’s on your mind? Tell us what’s broken, brilliant, or baffling — in 1000 characters or less."
             required
           />
+          <p className={`text-sm ${message.length >= MAX_LENGTH ? "text-red-600" : "text-gray-600"}`}>{message.length}/{MAX_LENGTH}</p>
         </div>
         {error && <p className="text-sm text-red-600">{error}</p>}
         {status === "success" && (
@@ -121,7 +175,7 @@ export default function Page() {
           {status === "loading" ? "Submitting..." : "Submit"}
         </button>
       </form>
-      <div className="space-y-2">
+      <div className="space-y-2 mt-8">
         <div className="flex flex-wrap items-center gap-2">
           <label htmlFor="filter" className="font-medium">
             Filter:

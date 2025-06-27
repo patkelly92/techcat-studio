@@ -17,6 +17,8 @@ def create_feedback(
 ):
     if not payload.message.strip():
         raise HTTPException(status_code=400, detail="Message is required")
+    if len(payload.message.strip()) > 1000:
+        raise HTTPException(status_code=400, detail="Message exceeds 1000 characters")
     fb = Feedback(
         user_id=payload.user_id or STATIC_USER_ID,
         project_id=payload.project_id,
