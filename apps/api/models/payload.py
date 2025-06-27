@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, AliasChoices, ConfigDict
+from pydantic import BaseModel, Field
 from typing import List, Optional
 
 class GenerationPayload(BaseModel):
@@ -12,16 +12,22 @@ class GenerationPayload(BaseModel):
     stretchGoals: Optional[str] = None
     tone: Optional[str] = None
 
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = {
+        "populate_by_name": True
+    }
 
 
 class ArchitecturePayload(BaseModel):
-    projectSlug: str = Field(validation_alias=AliasChoices("projectSlug", "project"))
+    projectSlug: str = Field(alias="project")
 
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = {
+        "populate_by_name": True
+    }
 
 
 class AgentsPayload(BaseModel):
-    slug: str = Field(validation_alias=AliasChoices("slug", "project", "projectSlug"))
+    slug: str = Field(alias="project")
 
-    model_config = ConfigDict(populate_by_name=True)
+    model_config = {
+        "populate_by_name": True
+    }

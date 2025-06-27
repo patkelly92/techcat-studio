@@ -1,22 +1,33 @@
 # tasks.yaml
 generate_prd:
   description: >
-    Draft a production-ready PRD.md based on user inputs and
-    prd-template.md.
+    Draft a production-ready Product Requirements document (PRD.md) based on the following user inputs:
+    ```{user_inputs}```
+
+    Ensure it follows the structure of the provided template (prd-template.md):
+    ```{prd_template}```
+    
+    Key objectives:
+    1. Translate potentially sparse or vague user input into a comprehensive PRD
+    2. Infer any potential missing information the best you can.
+    3. Be confident and strategic in your approach, as this is the first and only pass.
+    4. Focus on clarity, completeness, and alignment with the template structure.
+    5. Ensure your final output is not enclosed in ````markdown``` or any other code block format.
   expected_output: >
     PRD.md file adhering to template sections with clear
     objectives, success metrics, core features, stretch goals,
     tech stack, and constraints.
   agent: product_strategist
-  # output_file: outputs/test-PRD.md
+  output_file: outputs/test-PRD.md
 
-# evaluate_prd:
-#   description: >
-#     Review PRD.md for completeness and clarity; emit JSON rubric
-#     (coverage, consistency, feasibility) plus advice.
-#   expected_output: >
-#     JSON rubric + improvement notes.
-#   agent: prd_judge
+evaluate_prd:
+  description: >
+    Review PRD.md for completeness and clarity; emit JSON rubric
+    (coverage, consistency, feasibility) plus advice.
+  expected_output: >
+    JSON rubric + improvement notes.
+  context: [generate_prd]
+  agent: prd_judge
 
 # generate_architecture:
 #   description: >
