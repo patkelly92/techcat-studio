@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 import { saveDocument } from "@/lib/saveProjectDocument";
+
+const DEBUG_WRITE_FILES = process.env.NEXT_PUBLIC_DEBUG_WRITE_FILES === "true";
 
 export async function POST(req: Request) {
   try {

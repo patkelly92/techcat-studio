@@ -42,18 +42,6 @@ const GenerateAgentsCard = ({
       if (!data?.["AGENTS.md"]) {
         throw new Error(data?.error || "No file returned");
       }
-      const saveResp = await fetch("/api/documents", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          slug,
-          name: "AGENTS.md",
-          content: data["AGENTS.md"],
-        }),
-      });
-      if (!saveResp.ok) {
-        throw new Error("Failed to save file");
-      }
       setStatus("success");
       onSuccess();
     } catch (err) {

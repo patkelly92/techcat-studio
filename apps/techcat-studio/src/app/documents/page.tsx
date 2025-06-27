@@ -1,5 +1,3 @@
-import path from "path";
-import { promises as fs } from "fs";
 import DocumentsWrapper from "./DocumentsWrapper";
 import { Suspense } from "react";
 
@@ -8,28 +6,20 @@ interface ProjectItem {
   name: string;
 }
 
-async function getProjects(): Promise<ProjectItem[]> {
-  const dir = path.join(process.cwd(), "data", "projects");
+async function getProjects(apiUrl: string): Promise<ProjectItem[]> {
   try {
-    const files = await fs.readdir(dir);
-    const projects = await Promise.all(
-      files
-        .filter((f) => f.endsWith(".json"))
-        .map(async (file) => {
-          const content = await fs.readFile(path.join(dir, file), "utf-8");
-          const data = JSON.parse(content) as { name: string };
-          return { slug: file.replace(/\.json$/, ""), name: data.name };
-        }),
-    );
-    return projects;
+    const res = await fetch(`${apiUrl}/api/projects`, { cache: "no-store" });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.map((p: any) => ({ slug: p.slug, name: p.name }));
   } catch {
     return [];
   }
 }
 
 export default async function Page() {
-  const projects = await getProjects();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  const projects = await getProjects(apiUrl);
 
   return (
     <div className="space-y-4">

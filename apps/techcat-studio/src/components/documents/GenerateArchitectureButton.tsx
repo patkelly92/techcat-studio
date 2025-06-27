@@ -43,18 +43,6 @@ const GenerateArchitectureButton = ({
       if (!data["ARCHITECTURE.md"]) {
         throw new Error("No file returned");
       }
-      const saveResp = await fetch("/api/documents", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          slug,
-          name: "ARCHITECTURE.md",
-          content: data["ARCHITECTURE.md"],
-        }),
-      });
-      if (!saveResp.ok) {
-        throw new Error("Failed to save file");
-      }
       setStatus("success");
       onSuccess();
     } catch (err) {

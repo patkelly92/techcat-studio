@@ -1,11 +1,17 @@
 import { promises as fs } from "fs";
 import path from "path";
 
+const DEBUG_WRITE_FILES = process.env.NEXT_PUBLIC_DEBUG_WRITE_FILES === "true";
+
 export async function saveDocument(
   projectSlug: string,
   name: string,
   content: string,
 ): Promise<{ success: boolean; error?: string }> {
+  if (!DEBUG_WRITE_FILES) {
+    return { success: true };
+  }
+
   try {
     const dir = path.join(process.cwd(), "data", "documents", projectSlug);
     await fs.mkdir(dir, { recursive: true });
