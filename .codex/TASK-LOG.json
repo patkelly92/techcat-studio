@@ -465,4 +465,16 @@
       "apps/techcat-studio/src/components/projects/NewProjectForm.tsx"
     ]
   }
+,
+  {
+    "agent": "backend_specialist",
+    "task_id": "task-045",
+    "date": "2025-06-27",
+    "summary": "Fixed DetachedInstanceError during AGENTS.md generation and resolved Next.js slug params warning.",
+    "output_files": [
+      "apps/api/routes/generate.py",
+      "apps/api/services/document_saver.py",
+      "apps/techcat-studio/src/app/projects/[slug]/page.tsx"
+    ]
+  }
 ]

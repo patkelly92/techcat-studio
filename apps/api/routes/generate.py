@@ -48,6 +48,7 @@ async def generate_agents_route(payload: AgentsPayload):
         raise HTTPException(status_code=500, detail="OpenAI generation failed")
 
     version = save_document_to_db(slug, "agents", content)
-    logger.info("AGENTS.md version %s stored for %s", version.id, slug)
-    return {"status": "success", "version_id": str(version.id)}
+    version_id = version.id  # access before object is detached
+    logger.info("AGENTS.md version %s stored for %s", version_id, slug)
+    return {"status": "success", "version_id": str(version_id)}
 

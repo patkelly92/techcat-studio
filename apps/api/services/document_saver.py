@@ -40,4 +40,5 @@ def save_document_to_db(project_slug: str, doc_type: str, markdown_content: str)
         document.latest_version_id = version.id
         session.add(document)
         session.commit()
+        session.refresh(version)
         return version
