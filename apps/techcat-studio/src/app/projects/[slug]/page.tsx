@@ -15,9 +15,13 @@ async function getProject(slug: string): Promise<ProjectMetadata | null> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default async function Page({ params }: any) {
-  const project = await getProject(params.slug);
+interface PageProps {
+  params: { slug: string };
+}
+
+export default async function Page({ params }: PageProps) {
+  const { slug } = params;
+  const project = await getProject(slug);
 
   if (!project) {
     notFound();
