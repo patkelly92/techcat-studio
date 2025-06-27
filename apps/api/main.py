@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from apps.api.routes.generate import router as generate_router
 from apps.api.routes.projects import router as projects_router
+from apps.api.routes.feedback import router as feedback_router
 
 app = FastAPI()
 
@@ -18,3 +19,4 @@ app.add_middleware(
 # Scopes all routes in generate.py under the /api prefix
 app.include_router(generate_router, prefix="/api")
 app.include_router(projects_router, prefix="/api")
+app.include_router(feedback_router, prefix="/api")
