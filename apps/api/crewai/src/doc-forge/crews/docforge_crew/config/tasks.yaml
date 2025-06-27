@@ -1,0 +1,65 @@
+# tasks.yaml
+generate_prd:
+  description: >
+    Draft a production-ready PRD.md based on user inputs and
+    prd-template.md.
+  expected_output: >
+    PRD.md file adhering to template sections with clear
+    objectives, success metrics, core features, stretch goals,
+    tech stack, and constraints.
+  agent: product_strategist
+  # output_file: outputs/test-PRD.md
+
+# evaluate_prd:
+#   description: >
+#     Review PRD.md for completeness and clarity; emit JSON rubric
+#     (coverage, consistency, feasibility) plus advice.
+#   expected_output: >
+#     JSON rubric + improvement notes.
+#   agent: prd_judge
+
+# generate_architecture:
+#   description: >
+#     Produce ARCHITECTURE.md that fulfills the approved PRD using
+#     architecture-template.md as structure.
+#   expected_output: >
+#     ARCHITECTURE.md covering component diagram, data flow, tech
+#     choices, and ops considerations.
+#   agent: architect
+
+# evaluate_architecture:
+#   description: >
+#     Assess ARCHITECTURE.md against PRD; score feasibility, scalability,
+#     risk mitigation; output JSON rubric + tips.
+#   expected_output: >
+#     JSON rubric + improvement notes.
+#   agent: architecture_judge
+
+# generate_agents:
+#   description: >
+#     Create AGENTS.md enumerating each agent with role, goal,
+#     backstory, and dependencies.
+#   expected_output: >
+#     AGENTS.md aligned with PRD and ARCHITECTURE, ready for Codex.
+#   agent: agent_designer
+
+# lint_check:
+#   description: >
+#     Perform lint and schema validation across PRD.md, ARCHITECTURE.md,
+#     and AGENTS.md; list violations.
+#   expected_output: >
+#     Markdown list of issues with file and line references (empty
+#     list if none).
+#   agent: lint_bot
+
+
+#################### default example
+
+# write_poem:
+#   description: >
+#     Write a poem about how CrewAI is awesome.
+#     Ensure the poem is engaging and adheres to the specified sentence count of {sentence_count}.
+#   expected_output: >
+#     A beautifully crafted poem about CrewAI, with exactly {sentence_count} sentences.
+#   agent: poem_writer
+
