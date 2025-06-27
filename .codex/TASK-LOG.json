@@ -451,5 +451,18 @@
       "apps/api/models/db/documents.py",
       "apps/api/models/db/document_versions.py"
     ]
+  },
+  {
+    "agent": "backend_specialist",
+    "task_id": "task-044",
+    "date": "2025-06-27",
+    "summary": "Created project API route and integrated frontend project creation with backend storage.",
+    "output_files": [
+      "apps/api/routes/projects.py",
+      "apps/api/models/schemas/project_create.py",
+      "apps/api/main.py",
+      "apps/techcat-studio/src/app/projects/page.tsx",
+      "apps/techcat-studio/src/components/projects/NewProjectForm.tsx"
+    ]
   }
 ]

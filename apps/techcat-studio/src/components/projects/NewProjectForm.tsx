@@ -1,6 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+}
 
 const NewProjectForm = () => {
   const [name, setName] = useState("");
@@ -8,6 +17,7 @@ const NewProjectForm = () => {
   const [techStack, setTechStack] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,10 +29,16 @@ const NewProjectForm = () => {
     }
 
     try {
-      const res = await fetch("/api/projects", {
+      const apiUrl =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      const res = await fetch(`${apiUrl}/api/projects`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, description, techStack }),
+        body: JSON.stringify({
+          name,
+          slug: slugify(name),
+          description,
+        }),
       });
 
       const data = await res.json();
@@ -36,6 +52,9 @@ const NewProjectForm = () => {
       setName("");
       setDescription("");
       setTechStack("");
+      if (data.slug) {
+        router.push(`/kickoff?project=${data.slug}`);
+      }
     } catch {
       setError("Failed to create project");
     }
