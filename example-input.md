@@ -23,3 +23,11 @@ Ability to integrate to user's github, user authentication, implementing a feedb
 
 # Tone / Branding Personality:
 The tone of my brand doesn't take itself too seriously. Fun and not too corporate. 
+
+Project Creation Input:
+{
+  "name": "TechCat Studio",
+  "description": "TechCat Studio is an AI-native developer workspace designed to streamline and automate the early and ongoing phases of building software powered by AI agents. It enables developers to define project structure, generate and manage `.codex/` infrastructure files (PRD, TASKS, AGENTS, etc.), and convert user feedback into actionable work.",
+  "tech_stack": "Next.js (App Router), React, Tailwind, ShadCN UI, FastAPI, PostgreSQL, Airtable",
+  "created_at": "2025-06-23T20:13:39.252Z"
+}

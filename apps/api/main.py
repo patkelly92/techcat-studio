@@ -8,7 +8,7 @@ app = FastAPI()
 # CORS middleware setup
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Accept requests from any origin (dev only)
+    allow_origins=["http://localhost:3000"],  # Accept requests from any origin (dev only) # maybe use http://localhost:3000 instead of "*" if problems arise
     # allow_origins=["https://techcat.studio", "https://your-vercel-deploy.vercel.app"],  # 👈 Replace with your production domain once in production
     allow_credentials=True,
     allow_methods=["*"],

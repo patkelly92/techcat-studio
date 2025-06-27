@@ -22,7 +22,7 @@ async function getProject(apiUrl: string, slug: string): Promise<ProjectMetadata
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+  const { slug } = await params;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
   const project = await getProject(apiUrl, slug);
 
