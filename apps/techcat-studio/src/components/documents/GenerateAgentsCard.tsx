@@ -39,8 +39,8 @@ const GenerateAgentsCard = ({
       if (!resp.ok) {
         throw new Error(data?.detail || data?.error || "Request failed");
       }
-      if (!data?.filename) {
-        throw new Error("No file returned");
+      if (!data?.["AGENTS.md"]) {
+        throw new Error(data?.error || "No file returned");
       }
       setStatus("success");
       onSuccess();

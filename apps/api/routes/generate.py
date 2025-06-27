@@ -1,10 +1,14 @@
 from fastapi import APIRouter, HTTPException
 import logging
-from apps.api.models.payload import GenerationPayload, ArchitecturePayload, AgentsPayload
+from apps.api.models.payload import (
+    GenerationPayload,
+    ArchitecturePayload,
+    AgentsPayload,
+)
 from apps.api.services.llm_orchestrator import (
     generate_docs,
     generate_architecture,
-    generate_agents_content,
+    generate_agents,
 )
 from apps.api.services.document_saver import save_document_to_db
 
@@ -33,7 +37,9 @@ async def generate_architecture_route(payload: ArchitecturePayload):
     result = await generate_architecture(payload.projectSlug)
     logger.info("/generate/architecture result keys: %s", list(result.keys()))
     if "ARCHITECTURE.md" in result:
-        save_document_to_db(payload.projectSlug, "architecture", result["ARCHITECTURE.md"])
+        save_document_to_db(
+            payload.projectSlug, "architecture", result["ARCHITECTURE.md"]
+        )
     return result
 
 
@@ -42,7 +48,9 @@ async def generate_agents_route(payload: AgentsPayload):
     """Generate AGENTS.md using PRD and ARCHITECTURE for the project."""
     slug = payload.slug
     logger.info("/generate/agents payload received for slug=%s", slug)
-    content = await generate_agents_content(slug)
+    result = await generate_agents(slug)
+    logger.info("/generate/agents result keys: %s", list(result.keys()))
+    content = result.get("AGENTS.md")
     if not content:
         logger.error("OpenAI returned no AGENTS content for %s", slug)
         raise HTTPException(status_code=500, detail="OpenAI generation failed")
@@ -50,5 +58,5 @@ async def generate_agents_route(payload: AgentsPayload):
     version = save_document_to_db(slug, "agents", content)
     version_id = version.id  # access before object is detached
     logger.info("AGENTS.md version %s stored for %s", version_id, slug)
-    return {"status": "success", "version_id": str(version_id)}
-
+    result["version_id"] = str(version_id)
+    return result
