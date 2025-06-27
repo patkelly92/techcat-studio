@@ -2,38 +2,79 @@
 ├── apps
 │   ├── api
 │   │   ├── __pycache__
+│   │   │   ├── constants.cpython-312.pyc
+│   │   │   ├── main.cpython-312.pyc
 │   │   │   └── main.cpython-313.pyc
-│   │   ├── config.py
+│   │   ├── alembic
+│   │   │   ├── __pycache__
+│   │   │   │   └── env.cpython-312.pyc
+│   │   │   ├── env.py
+│   │   │   ├── README
+│   │   │   ├── script.py.mako
+│   │   │   └── versions
+│   │   │       ├── __pycache__
+│   │   │       │   ├── 2aaae72b1743_add_feedback_table.cpython-312.pyc
+│   │   │       │   ├── bcca84894655_initial_schema.cpython-312.pyc
+│   │   │       │   └── f1896f923cc0_limit_message_length.cpython-312.pyc
+│   │   │       ├── 2aaae72b1743_add_feedback_table.py
+│   │   │       ├── bcca84894655_initial_schema.py
+│   │   │       └── f1896f923cc0_limit_message_length.py
+│   │   ├── alembic.ini
+│   │   ├── constants.py
+│   │   ├── db
+│   │   │   ├── __pycache__
+│   │   │   │   └── database.cpython-312.pyc
+│   │   │   └── database.py
 │   │   ├── main.py
 │   │   ├── models
 │   │   │   ├── __pycache__
+│   │   │   │   ├── feedback.cpython-312.pyc
+│   │   │   │   ├── payload.cpython-312.pyc
 │   │   │   │   └── payload.cpython-313.pyc
-│   │   │   └── payload.py
+│   │   │   ├── db
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── __pycache__
+│   │   │   │   │   ├── __init__.cpython-312.pyc
+│   │   │   │   │   ├── document_versions.cpython-312.pyc
+│   │   │   │   │   ├── documents.cpython-312.pyc
+│   │   │   │   │   ├── projects.cpython-312.pyc
+│   │   │   │   │   └── users.cpython-312.pyc
+│   │   │   │   ├── document_versions.py
+│   │   │   │   ├── documents.py
+│   │   │   │   ├── projects.py
+│   │   │   │   └── users.py
+│   │   │   ├── feedback.py
+│   │   │   ├── payload.py
+│   │   │   └── schemas
+│   │   │       ├── __init__.py
+│   │   │       ├── __pycache__
+│   │   │       │   ├── __init__.cpython-312.pyc
+│   │   │       │   ├── feedback.cpython-312.pyc
+│   │   │       │   └── project_create.cpython-312.pyc
+│   │   │       ├── feedback.py
+│   │   │       └── project_create.py
 │   │   ├── routes
 │   │   │   ├── __pycache__
+│   │   │   │   ├── feedback.cpython-312.pyc
 │   │   │   │   ├── generate_architecture.cpython-313.pyc
-│   │   │   │   └── generate.cpython-313.pyc
-│   │   │   ├── generate_architecture.py
-│   │   │   └── generate.py
+│   │   │   │   ├── generate.cpython-312.pyc
+│   │   │   │   ├── generate.cpython-313.pyc
+│   │   │   │   └── projects.cpython-312.pyc
+│   │   │   ├── feedback.py
+│   │   │   ├── generate.py
+│   │   │   └── projects.py
 │   │   └── services
 │   │       ├── __pycache__
+│   │       │   ├── document_saver.cpython-312.pyc
+│   │       │   ├── llm_orchestrator.cpython-312.pyc
 │   │       │   └── llm_orchestrator.cpython-313.pyc
+│   │       ├── document_saver.py
 │   │       └── llm_orchestrator.py
-│   ├── doc-gen-api
-│   ├── feedback-processor
 │   └── techcat-studio
 │       ├── data
 │       │   ├── documents
-│       │   │   ├── agent-hub
-│       │   │   │   └── PRD.md
-│       │   │   ├── demo-app
-│       │   │   │   └── PRD.md
 │       │   │   └── techcat-studio
-│       │   │       └── PRD.md
 │       │   └── projects
-│       │       ├── agent-hub.json
-│       │       ├── demo-app.json
-│       │       └── techcat-studio.json
 │       ├── eslint.config.mjs
 │       ├── next-env.d.ts
 │       ├── next.config.ts
@@ -57,6 +98,7 @@
 │       │   │   ├── dashboard
 │       │   │   │   └── page.tsx
 │       │   │   ├── documents
+│       │   │   │   ├── DocumentsWrapper.tsx
 │       │   │   │   └── page.tsx
 │       │   │   ├── favicon.ico
 │       │   │   ├── feedback
@@ -84,6 +126,8 @@
 │       │   │   ├── documents
 │       │   │   │   ├── DocumentCard.tsx
 │       │   │   │   ├── DocumentsSection.tsx
+│       │   │   │   ├── GenerateAgentsCard.tsx
+│       │   │   │   ├── GenerateArchitectureButton.tsx
 │       │   │   │   └── GenerateArchitectureCard.tsx
 │       │   │   ├── kickoff
 │       │   │   │   ├── KickoffForm.tsx
@@ -107,11 +151,15 @@
 │       │   ├── styles
 │       │   └── types
 │       └── tsconfig.json
+├── environment.yml
 ├── example-input.md
 ├── packages
 │   ├── ui
 │   └── utils
 ├── README.md
+├── requirements.txt
+├── sql-files
+│   └── common-queries.sql
 └── treemap.txt
 
-49 directories, 66 files
+56 directories, 107 files

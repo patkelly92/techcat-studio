@@ -127,7 +127,7 @@ export default function Page() {
         {projects.length > 0 && (
           <div className="flex flex-col gap-1">
             <label htmlFor="project" className="font-medium">
-              Project
+              Project (Optional)
             </label>
             <select
               id="project"
@@ -135,7 +135,7 @@ export default function Page() {
               value={projectId}
               onChange={(e) => setProjectId(e.target.value)}
             >
-              <option value="">Optional: Tag this feedback to a project</option>
+              <option value="">None</option>
               {projects.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.name}
