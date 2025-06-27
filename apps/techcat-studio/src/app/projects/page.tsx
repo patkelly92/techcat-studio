@@ -1,5 +1,3 @@
-import path from "path";
-import { promises as fs } from "fs";
 import ProjectList from "@/components/projects/ProjectList";
 import CTAButton from "@/components/ui/CTAButton";
 import type { ProjectMetadata } from "@/lib/saveProjectMetadata";
@@ -10,19 +8,20 @@ interface ProjectItem {
 }
 
 async function getProjects(): Promise<ProjectItem[]> {
-  const dir = path.join(process.cwd(), "data", "projects");
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
   try {
-    const files = await fs.readdir(dir);
-    const projects = await Promise.all(
-      files
-        .filter((f) => f.endsWith(".json"))
-        .map(async (file) => {
-          const content = await fs.readFile(path.join(dir, file), "utf-8");
-          const data = JSON.parse(content) as ProjectMetadata;
-          return { slug: file.replace(/\.json$/, ""), data };
-        }),
-    );
-    return projects;
+    const res = await fetch(`${apiUrl}/api/projects`, { cache: "no-store" });
+    if (!res.ok) return [];
+    const projects = await res.json();
+    return projects.map((p: any) => ({
+      slug: p.slug,
+      data: {
+        name: p.name,
+        description: p.description || "",
+        tech_stack: "",
+        created_at: p.created_at,
+      } as ProjectMetadata,
+    }));
   } catch {
     return [];
   }
