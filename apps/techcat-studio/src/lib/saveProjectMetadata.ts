@@ -1,6 +1,8 @@
 import { promises as fs } from "fs";
 import path from "path";
 
+const DEBUG_WRITE_FILES = process.env.NEXT_PUBLIC_DEBUG_WRITE_FILES === "true";
+
 export interface ProjectMetadata {
   name: string;
   description: string;
@@ -33,9 +35,10 @@ export async function saveProjectMetadata({
 }> {
   const slug = slugify(name);
   const dir = path.join(process.cwd(), "data", "projects");
-  await fs.mkdir(dir, { recursive: true });
-
   const filePath = path.join(dir, `${slug}.json`);
+  if (DEBUG_WRITE_FILES) {
+    await fs.mkdir(dir, { recursive: true });
+  }
 
   try {
     await fs.access(filePath);
@@ -51,6 +54,8 @@ export async function saveProjectMetadata({
     created_at: new Date().toISOString(),
   };
 
-  await fs.writeFile(filePath, JSON.stringify(metadata, null, 2));
+  if (DEBUG_WRITE_FILES) {
+    await fs.writeFile(filePath, JSON.stringify(metadata, null, 2));
+  }
   return { success: true, slug };
 }

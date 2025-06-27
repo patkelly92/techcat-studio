@@ -64,14 +64,6 @@ const KickoffSection = ({ projects, apiUrl }: KickoffSectionProps) => {
       }
       const data = await response.json();
       if (data["PRD.md"]) {
-        const saveResp = await fetch("/api/documents", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slug: projectSlug, content: data["PRD.md"] }),
-        });
-        if (!saveResp.ok) {
-          throw new Error("Failed to save PRD");
-        }
         setSuccess(true);
       }
       setStatus("success");

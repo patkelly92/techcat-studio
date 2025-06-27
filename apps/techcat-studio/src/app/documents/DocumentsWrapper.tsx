@@ -37,8 +37,10 @@ const DocumentsWrapper = ({ projects, apiUrl }: DocumentsWrapperProps) => {
     controllerRef.current = controller
 
     try {
-      const resp = await fetch(`/api/documents?slug=${encodeURIComponent(slug)}`,
-        { signal: controller.signal })
+      const resp = await fetch(
+        `${apiUrl}/api/documents?slug=${encodeURIComponent(slug)}`,
+        { signal: controller.signal },
+      )
       if (!resp.ok) {
         throw new Error('Failed to load documents')
       }
@@ -52,7 +54,7 @@ const DocumentsWrapper = ({ projects, apiUrl }: DocumentsWrapperProps) => {
         setDocuments([])
       }
     }
-  }, [slug])
+  }, [slug, apiUrl])
 
   useEffect(() => {
     fetchDocuments()
