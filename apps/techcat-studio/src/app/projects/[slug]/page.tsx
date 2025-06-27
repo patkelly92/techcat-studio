@@ -15,11 +15,7 @@ async function getProject(slug: string): Promise<ProjectMetadata | null> {
   }
 }
 
-interface PageProps {
-  params: { slug: string };
-}
-
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const project = await getProject(slug);
 

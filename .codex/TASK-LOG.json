@@ -489,4 +489,16 @@
       "apps/techcat-studio/src/components/documents/GenerateAgentsCard.tsx"
     ]
   }
+,
+  {
+    "agent": "frontend_specialist",
+    "task_id": "task-045",
+    "date": "2025-06-27",
+    "summary": "Fixed AGENTS.md persistence and logging, and resolved Next.js params warning.",
+    "output_files": [
+      "apps/techcat-studio/src/components/documents/GenerateAgentsCard.tsx",
+      "apps/techcat-studio/src/components/documents/DocumentsSection.tsx",
+      "apps/techcat-studio/src/app/projects/[slug]/page.tsx"
+    ]
+  }
 ]

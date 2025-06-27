@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ProjectSelector from "@/components/projects/ProjectSelector";
 import DocumentCard from "./DocumentCard";
@@ -49,6 +49,15 @@ const DocumentsSectionComponent = ({
   const hasArch = docs.some((d) => d.title === "ARCHITECTURE.md");
   const hasAgents = docs.some((d) => d.title === "AGENTS.md");
 
+  useEffect(() => {
+    if (docs.length) {
+      console.log(
+        "Loaded documents",
+        docs.map((d) => d.title),
+      );
+    }
+  }, [docs]);
+
   return (
     <div className="space-y-4">
       <ProjectSelector
@@ -85,6 +94,11 @@ const DocumentsSectionComponent = ({
                 apiUrl={apiUrl}
                 onSuccess={refreshDocuments}
               />
+            )}
+            {hasPrd && hasArch && !hasAgents && (
+              <p className="text-sm text-yellow-600" role="status">
+                AGENTS.md not found after generation.
+              </p>
             )}
           </div>
         )
