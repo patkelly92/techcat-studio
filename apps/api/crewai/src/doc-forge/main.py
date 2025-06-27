@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 from random import randint
-
 from pydantic import BaseModel
-
 from crewai.flow import Flow, listen, start
-
-from task_smith.crews.poem_crew.poem_crew import PoemCrew
-
+from crews.poem_crew.poem_crew import PoemCrew
+from dotenv import load_dotenv
+load_dotenv()
+from pathlib import Path
+# ── crewai root (three levels up from this file) ──
+CREWAI_ROOT = Path(__file__).resolve().parents[2]
 
 class PoemState(BaseModel):
     sentence_count: int = 1
@@ -35,7 +36,7 @@ class PoemFlow(Flow[PoemState]):
     @listen(generate_poem)
     def save_poem(self):
         print("Saving poem")
-        with open("poem.txt", "w") as f:
+        with open(f"{CREWAI_ROOT}/outputs/doc-forge-poem.txt", "w") as f:
             f.write(self.state.poem)
 
 
