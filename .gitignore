@@ -49,3 +49,6 @@ pnpm-debug.log*
 next-env.d.ts
 # Python
 __pycache__/
+
+# CrewAI specific
+apps/api/crewai/outputs

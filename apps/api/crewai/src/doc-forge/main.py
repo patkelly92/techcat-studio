@@ -2,7 +2,7 @@
 from random import randint
 from pydantic import BaseModel
 from crewai.flow import Flow, listen, start
-from crews.docforge_crew.prdgen_crew import PRDGenCrew
+from crews.docforge_crew.prd_gen_crew import PRDGenCrew
 from dotenv import load_dotenv
 load_dotenv()
 from pathlib import Path
