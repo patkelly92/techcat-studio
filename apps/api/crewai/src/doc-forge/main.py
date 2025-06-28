@@ -2,7 +2,7 @@
 from random import randint
 from pydantic import BaseModel
 from crewai.flow import Flow, listen, start
-from crews.docforge_crew.docforge_crew import DocForgeCrew
+from crews.docforge_crew.prdgen_crew import PRDGenCrew
 from dotenv import load_dotenv
 load_dotenv()
 from pathlib import Path
@@ -10,7 +10,7 @@ from pathlib import Path
 CREWAI_ROOT = Path(__file__).resolve().parents[2]
 PROJECT_ROOT = Path(__file__).resolve().parents[5]
 
-# TEST CODE TO LOAD PRD TEMPLATE & USER INPUTS
+# TEST CODE TO LOAD PRD TEMPLATE & USER INPUTS. Alternatively, we could use the `FileReadTool` or postgresql to read these files.
 from functools import lru_cache
 @lru_cache(maxsize=1)
 def load_prd_template() -> str:
@@ -28,55 +28,63 @@ PRD_TEMPLATE = load_prd_template()  # constant for quick access
 USER_INPUTS = load_user_inputs()  # constant for quick access
 # f"{PROJECT_ROOT}/.codex/templates/prd-template.md"
 
-# # import tools
-# from crewai_tools import (
-#     DirectoryReadTool,                                         # Facilitates reading and processing of directory structures and their contents.
-#     FileReadTool,                                              # Enables reading and extracting data from files, supporting various file formats.
-#     FileWriterTool,                                            # Designed to write content to files
-#     CodeInterpreterTool                                        # A tool for interpreting python code.
-#     )
-
-
-# # Instantiate Tools
-# directory_read_tool = DirectoryReadTool(directory='./')
-# schema_read_tool = FileReadTool(file_path='inputs/compliance_document_json_schema.json') 
-# content_read_tool = FileReadTool(file_path='inputs/2023-01077-content.xml') 
-# content_mapped_read_tool = FileReadTool(file_path='inputs/2023-01077-mapped.json') 
-# file_writer_tool = FileWriterTool(filename='2023-01077-content.json', directory='outputs')        # type: ignore[index]
-# code_interpreter = CodeInterpreterTool(unsafe_mode=True)   
-
 
 class DocForgeState(BaseModel):
-    prd_template: str = PRD_TEMPLATE
     user_inputs: str = USER_INPUTS
+    prd_template: str = PRD_TEMPLATE
     prd: str = ""
-    sentence_count: int = 0
+    prd_score: float = 0.0
+    prd_assessment: str = ""
+    prd_rubric: dict = {}
 
 
 class DocForgeFlow(Flow[DocForgeState]):
 
+    # 1. Pre Kickoff Activity
     @start()
-    def generate_sentence_count(self):
-        print("Generating sentence count")
-        self.state.sentence_count = randint(1, 5)
+    def pre_kickoff(self):
+        print("Initiating PreKickoff Activity")
 
-    @listen(generate_sentence_count)
+    # 2. Generate the PRD based on user input and template
+    @listen(pre_kickoff)
     def generate_prd(self):
         print("Generating PRD")
         result = (
-            DocForgeCrew()
+            PRDGenCrew()
             .crew()
             .kickoff(inputs={"prd_template": self.state.prd_template, "user_inputs": self.state.user_inputs})
         )
 
-        print("PRD generated", result.raw)
-        self.state.prd = result.raw
+        # Extract the `pydantic` TaskOutputs from 'generate_prd' and 'evaluate_prd'
+        generate_prd_pydantic = next((task.pydantic for task in result.tasks_output if task.name == 'generate_prd'), None)
+        evaluate_prd_pydantic = next((task.pydantic for task in result.tasks_output if task.name == 'evaluate_prd'), None)
 
+        # Update the state of DocForgeFlow with the results
+        self.state.prd = generate_prd_pydantic.markdown
+        self.state.prd_score = evaluate_prd_pydantic.rubric.overall
+        self.state.prd_assessment = evaluate_prd_pydantic.assessment
+        self.state.prd_rubric = evaluate_prd_pydantic.rubric
+        
+        print(f"PRD Overall Score: {self.state.prd_score:.2f}")
+        print(f"Assessment: {self.state.prd_assessment}")
+        print(f"Token Usage: {result.token_usage}")
+
+    # 3. Assess the PRD quality and redo if necessary
+    @listen(generate_prd)
+    def assess_prd(self):
+        print("Assess PRD")
+
+    # 4. Write the PRD and metrics to files
     @listen(generate_prd)
     def save_prd(self):
         print("Saving PRD")
         with open(f"{CREWAI_ROOT}/outputs/doc-forge-prd.md", "w") as f:
             f.write(self.state.prd)
+        print("Saving Metrics")
+        with open(f"{CREWAI_ROOT}/outputs/doc-forge-prd-metrics.json", "w") as f:
+            f.write(self.state.prd_rubric.json())
+
+    # 5. Run the ARCHITECTURE.md generation
 
 
 def kickoff():

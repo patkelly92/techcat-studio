@@ -14,20 +14,24 @@ generate_prd:
     4. Focus on clarity, completeness, and alignment with the template structure.
     5. Ensure your final output is not enclosed in ````markdown``` or any other code block format.
   expected_output: >
-    PRD.md file adhering to template sections with clear
+    PRDGenerationOutput Pydantic model of PRD.md file adhering to template sections with clear
     objectives, success metrics, core features, stretch goals,
     tech stack, and constraints.
   agent: product_strategist
-  output_file: outputs/test-PRD.md
+  markdown: True
+  # output_file: outputs/test-PRD.md
 
 evaluate_prd:
   description: >
-    Review PRD.md for completeness and clarity; emit JSON rubric
-    (coverage, consistency, feasibility) plus advice.
+    Review PRD.md for completeness and clarity, per the rubric requirements.
+    - Things to grade include: coverage, consistency, feasibility, user alignment, internal consistency, etc).
+    - Include a one-paragraph summary of the top-3 improvement actions.
+    - Output a JSON rubric with scores from 0-1 for each metric.
   expected_output: >
-    JSON rubric + improvement notes.
+    EvaluatePRDReport Pydantic model of JSON rubric
   context: [generate_prd]
   agent: prd_judge
+  # output_file: outputs/prd-rubric.json
 
 # generate_architecture:
 #   description: >
