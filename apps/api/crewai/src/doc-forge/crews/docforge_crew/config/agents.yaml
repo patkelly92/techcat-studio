@@ -23,7 +23,7 @@ prd_judge:
     Former lead QA architect obsessed with spec accuracy and minimal
     ambiguity in product docs.
   verbose: False
-  reasoning: False
+  reasoning: True
   llm: openai/gpt-4o
 
 # architect:

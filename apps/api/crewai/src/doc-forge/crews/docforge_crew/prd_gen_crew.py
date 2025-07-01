@@ -21,6 +21,11 @@ from crewai_tools import (
 file_writer_tool = FileWriterTool(filename=f"{CREWAI_ROOT}/outputs/PRD.md")        # type: ignore[index]
 # code_interpreter = CodeInterpreterTool(unsafe_mode=True)   
 
+# Define a conditional function for the conditional task
+# If false, the task will be skipped, if true, then execute the task.
+# def is_passing_score(output: TaskOutput) -> bool:
+#     return output.pydantic.rubric.overall < 0.7  
+
 @CrewBase
 class PRDGenCrew:
     """DocForge Crew"""
