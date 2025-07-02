@@ -26,7 +26,6 @@ def load_user_inputs() -> str:
 
 PRD_TEMPLATE = load_prd_template()  # constant for quick access
 USER_INPUTS = load_user_inputs()  # constant for quick access
-# f"{PROJECT_ROOT}/.codex/templates/prd-template.md"
 
 
 class DocForgeState(BaseModel):

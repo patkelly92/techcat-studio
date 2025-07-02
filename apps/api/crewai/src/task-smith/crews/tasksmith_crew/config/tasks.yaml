@@ -1,0 +1,37 @@
+# tasks.yaml
+generate_task:
+  description: >
+    Draft a TASK.md using the supplied user-feedback items:
+    ```{feedback_inputs}```
+    
+    This user feedback will be used to create a detailed task for OpenAI's Codex agents.
+    IMPORTANT: 
+    - Any text within double curly braces are instructions on what to replace with actual values in the final output.
+    - Do not leave any double curly braces in the final output.
+    - Do not alter any text outside of double curly braces.
+    
+    Ensure it follows the structure of the provided template (task-template.md):
+    ```{task_template}```
+
+    Key objectives:
+    1. Translate potentially sparse or vague user input into a comprehensive TASK
+    2. Infer any potential missing information the best you can.
+    3. Be confident and strategic in your approach, as this is the first and only pass.
+    4. Focus on clarity, completeness, and alignment with the template structure.
+    5. Ensure your final output is not enclosed in ````markdown``` or any other code block format.
+  expected_output: >
+    TASKGenerationOutput Pydantic model of TASK.md file adhering to PROVIDED template sections.
+  agent: task_smith
+
+evaluate_task:
+  description: >
+    Review TASK.md for template adherence, specificity, etc.
+    - Include a one-paragraph summary of the top-3 improvement actions.
+    - Output a JSON rubric with scores from 0-1 for each metric.
+  expected_output: >
+    EvaluateTaskReport Pydantic model of JSON rubric
+  context: [generate_task]
+  agent: task_judge
+
+# - Example: `{{TASK_NUMBER}}: {{SHORT_TITLE}} - {{AGENT_NAME}}`` becomes `Task_123: Implement login feature - frontend_specialist`
+
