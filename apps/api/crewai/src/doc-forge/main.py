@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-from random import randint
 from pydantic import BaseModel
-from crewai.flow import Flow, listen, start
+from crewai.flow import Flow, listen, start, router, and_, or_
 from crews.docforge_crew.prd_gen_crew import PRDGenCrew
 from dotenv import load_dotenv
 load_dotenv()
@@ -20,12 +18,12 @@ def load_prd_template() -> str:
 
 @lru_cache(maxsize=1)
 def load_user_inputs() -> str:
-    """Read `.codex/templates/prd-template.md` once and cache the result."""
-    template_path = f"{PROJECT_ROOT}/example-input.md"
+    """Read `inputs/example-input.md` once and cache the result."""
+    template_path = f"{CREWAI_ROOT}/inputs/example-user-input.md"
     return Path(template_path).read_text(encoding="utf-8")
 
 PRD_TEMPLATE = load_prd_template()  # constant for quick access
-USER_INPUTS = load_user_inputs()  # constant for quick access
+USER_INPUTS = load_user_inputs()    # constant for quick access
 
 
 class DocForgeState(BaseModel):
@@ -35,6 +33,8 @@ class DocForgeState(BaseModel):
     prd_score: float = 0.0
     prd_assessment: str = ""
     prd_rubric: dict = {}
+    retry_prompt: str = ""
+    retry_counter: int = 0
 
 
 class DocForgeFlow(Flow[DocForgeState]):
@@ -45,13 +45,13 @@ class DocForgeFlow(Flow[DocForgeState]):
         print("Initiating PreKickoff Activity")
 
     # 2. Generate the PRD based on user input and template
-    @listen(pre_kickoff)
+    @listen(or_(pre_kickoff, "Low Quality"))
     def generate_prd(self):
         print("Generating PRD")
         result = (
             PRDGenCrew()
             .crew()
-            .kickoff(inputs={"prd_template": self.state.prd_template, "user_inputs": self.state.user_inputs})
+            .kickoff(inputs={"prd_template": self.state.prd_template, "user_inputs": self.state.user_inputs, "retry_prompt": self.state.retry_prompt})
         )
 
         # Extract the `pydantic` TaskOutputs from 'generate_prd' and 'evaluate_prd'
@@ -69,9 +69,31 @@ class DocForgeFlow(Flow[DocForgeState]):
         print(f"Token Usage: {result.token_usage}")
 
     # 3. Assess the PRD quality and redo if necessary
-    @listen(generate_prd)
+    # @listen(generate_prd)
+    @router(generate_prd)
     def assess_prd(self):
-        print("Assess PRD")
+        print("Assessing PRD")
+        self.state.prd_score = 0.5
+        if self.state.prd_score < 0.6:
+            print("PRD quality is below threshold, re-generating...")
+            # Set the retry prompt with the assessment feedback. This will be used to guide the next PRD generation
+            self.state.retry_prompt = f"""IMPORTANT CONTEXT: This is the second time you are generating a PRD document for me.
+            The PRD draft you've previously provided me is insufficient. Please provide more detailed feedback to improve the document's quality.
+            Below, enclosed in triple backticks is the PRD draft that you have previously provided me:
+            ```{self.state.prd}```
+            Here are some areas of improvement that our PRD quality assurance analyst has noted and identified for you to focus on for this next draft: 
+            `{self.state.prd_assessment}`
+            """
+            if self.state.retry_counter <= 3:
+                # Increment the retry counter (we'll try 3 times)
+                self.state.retry_counter += 1
+                # Here we emit "Low Quality" with our router to re-generate the document back to `generate_prd`
+                return "Low Quality"
+            else:
+                print("Maximum retry attempts reached. Please review the PRD manually.")
+
+        else:
+            print("PRD quality is acceptable.")
 
     # 4. Write the PRD and metrics to files
     @listen(generate_prd)

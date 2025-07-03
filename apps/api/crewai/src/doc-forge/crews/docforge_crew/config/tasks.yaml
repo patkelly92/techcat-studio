@@ -4,6 +4,8 @@ generate_prd:
     Draft a production-ready Product Requirements document (PRD.md) based on the following user inputs:
     ```{user_inputs}```
 
+    {retry_prompt}
+
     Ensure it follows the structure of the provided template (prd-template.md):
     ```{prd_template}```
     

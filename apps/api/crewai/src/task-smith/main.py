@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-from random import randint
 from pydantic import BaseModel
-from crewai.flow import Flow, listen, start
+from crewai.flow import Flow, listen, start, router, and_, or_
 from crews.tasksmith_crew.task_smith_crew import TaskSmithCrew
 from dotenv import load_dotenv
 load_dotenv()
@@ -35,6 +33,8 @@ class TaskSmithState(BaseModel):
     task_score: float = 0.0
     task_assessment: str = ""
     task_rubric: dict = {}
+    retry_prompt: str = ""
+    retry_counter: int = 0
 
 
 class TaskSmithFlow(Flow[TaskSmithState]):
@@ -44,14 +44,14 @@ class TaskSmithFlow(Flow[TaskSmithState]):
     def pre_kickoff(self):
         print("Initiating PreKickoff Activity")
 
-    # 2. Generate the PRD based on user input and template
-    @listen(pre_kickoff)
+    # 2. Generate the Task based on user feedback input and template
+    @listen(or_(pre_kickoff, "Low Quality"))
     def generate_task(self):
         print("Generating Task")
         result = (
             TaskSmithCrew()
             .crew()
-            .kickoff(inputs={"task_template": self.state.task_template, "feedback_inputs": self.state.feedback_inputs})
+            .kickoff(inputs={"task_template": self.state.task_template, "feedback_inputs": self.state.feedback_inputs, "retry_prompt": self.state.retry_prompt})
         )
 
         # Extract the `pydantic` TaskOutputs from 'generate_task' and 'evaluate_task'
@@ -69,11 +69,32 @@ class TaskSmithFlow(Flow[TaskSmithState]):
         print(f"Token Usage: {result.token_usage}")
 
     # 3. Assess the PRD quality and redo if necessary
-    @listen(generate_task)
+    @router(generate_task)
     def assess_task(self):
-        print("Assess Task")
+        print("Assessing Task")
+        self.state.task_score = 0.5
+        if self.state.task_score < 0.6:
+            print("Task quality is below threshold, re-generating...")
+            # Set the retry prompt with the assessment feedback. This will be used to guide the next Task generation
+            self.state.retry_prompt = f"""IMPORTANT CONTEXT: This is the second time you are generating a Task document for me.
+            The Task draft you've previously provided me is insufficient. Please provide more detailed feedback to improve the document's quality.
+            Below, enclosed in triple backticks is the Task draft that you have previously provided me:
+            ```{self.state.task}```
+            Here are some areas of improvement that our PRD quality assurance analyst has noted and identified for you to focus on for this next draft: 
+            `{self.state.task_assessment}`
+            """
+            if self.state.retry_counter <= 3:
+                # Increment the retry counter (we'll try 3 times)
+                self.state.retry_counter += 1
+                # Here we emit "Low Quality" with our router to re-generate the document back to `generate_prd`
+                return "Low Quality"
+            else:
+                print("Maximum retry attempts reached. Please review the Task manually.")
 
-    # 4. Write the PRD and metrics to files
+        else:
+            print("Task quality is acceptable.")
+
+    # 4. Write the Task and metrics to files
     @listen(assess_task)
     def save_task(self):
         print("Saving Task")

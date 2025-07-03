@@ -4,6 +4,8 @@ generate_task:
     Draft a TASK.md using the supplied user-feedback items:
     ```{feedback_inputs}```
     
+    {retry_prompt}
+
     This user feedback will be used to create a detailed task for OpenAI's Codex agents.
     IMPORTANT: 
     - Any text within double curly braces are instructions on what to replace with actual values in the final output.
