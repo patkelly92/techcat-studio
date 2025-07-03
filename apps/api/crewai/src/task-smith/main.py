@@ -8,7 +8,7 @@ from pathlib import Path
 CREWAI_ROOT = Path(__file__).resolve().parents[2]
 PROJECT_ROOT = Path(__file__).resolve().parents[5]
 
-# TEST CODE TO LOAD PRD TEMPLATE & USER INPUTS. Alternatively, we could use the `FileReadTool` or postgresql to read these files.
+# TEST CODE TO LOAD TASK TEMPLATE & USER INPUTS. Alternatively, we could use the `FileReadTool` or postgresql to read these files.
 from functools import lru_cache
 @lru_cache(maxsize=1)
 def load_task_template() -> str:
@@ -68,7 +68,7 @@ class TaskSmithFlow(Flow[TaskSmithState]):
         print(f"Assessment: {self.state.task_assessment}")
         print(f"Token Usage: {result.token_usage}")
 
-    # 3. Assess the PRD quality and redo if necessary
+    # 3. Assess the Task quality and redo if necessary
     @router(generate_task)
     def assess_task(self):
         print("Assessing Task")
@@ -80,13 +80,13 @@ class TaskSmithFlow(Flow[TaskSmithState]):
             The Task draft you've previously provided me is insufficient. Please provide more detailed feedback to improve the document's quality.
             Below, enclosed in triple backticks is the Task draft that you have previously provided me:
             ```{self.state.task}```
-            Here are some areas of improvement that our PRD quality assurance analyst has noted and identified for you to focus on for this next draft: 
+            Here are some areas of improvement that our Task quality assurance analyst has noted and identified for you to focus on for this next draft: 
             `{self.state.task_assessment}`
             """
             if self.state.retry_counter <= 3:
                 # Increment the retry counter (we'll try 3 times)
                 self.state.retry_counter += 1
-                # Here we emit "Low Quality" with our router to re-generate the document back to `generate_prd`
+                # Here we emit "Low Quality" with our router to re-generate the document back to `generate_task`
                 return "Low Quality"
             else:
                 print("Maximum retry attempts reached. Please review the Task manually.")
