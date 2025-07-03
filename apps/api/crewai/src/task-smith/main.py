@@ -72,7 +72,7 @@ class TaskSmithFlow(Flow[TaskSmithState]):
     @router(generate_task)
     def assess_task(self):
         print("Assessing Task")
-        self.state.task_score = 0.5
+        # self.state.task_score = 0.5 # Simulating a low score for testing purposes
         if self.state.task_score < 0.6:
             print("Task quality is below threshold, re-generating...")
             # Set the retry prompt with the assessment feedback. This will be used to guide the next Task generation
