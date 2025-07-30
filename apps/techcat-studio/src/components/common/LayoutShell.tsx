@@ -11,11 +11,14 @@ interface LayoutShellProps {
 const LayoutShell = ({ children }: LayoutShellProps) => {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen w-full flex-1 min-w-0">
         <Sidebar />
-        <div className="flex flex-1 flex-col">
+
+        {/* ← main column: grows, never shrinks, always 100 % width */}
+        <div className="flex flex-col grow shrink-0 basis-0 w-full min-w-0">
           <Header />
-          <main className="flex-1 p-4">{children}</main>
+
+          <main className="flex-1 overflow-auto w-full p-4">{children}</main>
         </div>
       </div>
     </SidebarProvider>

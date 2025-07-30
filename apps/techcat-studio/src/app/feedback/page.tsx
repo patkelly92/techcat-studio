@@ -169,7 +169,15 @@ export default function Page() {
         )}
         <button
           type="submit"
-          className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
+          className="
+    inline-flex items-center justify-center
+    rounded-md
+    bg-gradient-to-b from-violet-500 to-violet-950
+    px-4 py-2 text-sm font-medium text-white
+    transition-colors duration-200
+    hover:from-violet-400 hover:to-violet-800
+    disabled:opacity-50
+  "
           disabled={status === "loading"}
         >
           {status === "loading" ? "Submitting..." : "Submit"}
