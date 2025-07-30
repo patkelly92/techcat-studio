@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+
+interface FeedbackItem {
+  id: string;
+  type: string;
+  message: string;
+  created_at: string;
+}
 
 interface ProjectItem {
   id: string;
@@ -22,6 +29,9 @@ export default function Page() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
   );
+  const [feedback, setFeedback] = useState<FeedbackItem[]>([]);
+  const [filterType, setFilterType] = useState<string>("");
+  const [sortDesc, setSortDesc] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -37,6 +47,20 @@ export default function Page() {
     fetchProjects();
   }, [apiUrl]);
 
+  const fetchFeedback = useCallback(async () => {
+    try {
+      const res = await fetch(`${apiUrl}/api/feedback`);
+      if (!res.ok) throw new Error("Failed to load feedback");
+      const data = (await res.json()) as FeedbackItem[];
+      setFeedback(data);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [apiUrl]);
+
+  useEffect(() => {
+    fetchFeedback();
+  }, [fetchFeedback]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,12 +88,20 @@ export default function Page() {
       setStatus("success");
       setMessage("");
       setProjectId("");
+      fetchFeedback();
     } catch (err) {
       console.error(err);
       setStatus("error");
     }
   };
 
+  const displayed = feedback
+    .filter((f) => (filterType ? f.type === filterType : true))
+    .sort((a, b) => {
+      const t1 = new Date(a.created_at).getTime();
+      const t2 = new Date(b.created_at).getTime();
+      return sortDesc ? t2 - t1 : t1 - t2;
+    });
 
   return (
     <div className="space-y-6">
@@ -143,6 +175,65 @@ export default function Page() {
           {status === "loading" ? "Submitting..." : "Submit"}
         </button>
       </form>
+      <div className="space-y-2 mt-8">
+        <div className="flex flex-wrap items-center gap-2">
+          <label htmlFor="filter" className="font-medium">
+            Filter:
+          </label>
+          <select
+            id="filter"
+            className="rounded-md border px-2 py-1"
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+          >
+            <option value="">All</option>
+            {feedbackTypes.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        </div>
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th className="px-2 py-1 text-left">Type</th>
+              <th className="px-2 py-1 text-left">Message</th>
+              <th
+                className="px-2 py-1 text-left cursor-pointer"
+                onClick={() => setSortDesc(!sortDesc)}
+              >
+                Date {sortDesc ? "▼" : "▲"}
+              </th>
+              <th className="px-2 py-1" />
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {displayed.map((f) => (
+              <tr key={f.id}>
+                <td className="px-2 py-1 align-top text-sm font-medium">
+                  {f.type}
+                </td>
+                <td className="px-2 py-1 align-top text-sm whitespace-pre-wrap">
+                  {f.message}
+                </td>
+                <td className="px-2 py-1 align-top text-sm">
+                  {new Date(f.created_at).toLocaleString()}
+                </td>
+                <td className="px-2 py-1 align-top text-sm">
+                  <button
+                    type="button"
+                    className="text-blue-600 hover:underline"
+                    onClick={() => {}}
+                  >
+                    Process
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
