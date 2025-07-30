@@ -10,6 +10,7 @@ import {
   Settings as SettingsIcon,
   Home,
   User,
+  Shield,
 } from "lucide-react"
 import {
   Sidebar as SidebarUI,
@@ -36,6 +37,7 @@ const navItems = [
   { title: "Kickoff", url: "/kickoff", icon: PlaySquare, navGroup: "Main" },
   { title: "Documents", url: "/documents", icon: FileText, navGroup: "Main" },
   { title: "Feedback", url: "/feedback", icon: MessageCircle, navGroup: "Main" },
+  { title: "Admin", url: "/admin", icon: Shield, navGroup: "Main" },
   { title: "Settings", url: "/settings", icon: SettingsIcon, navGroup: "Main" },
 ]
 
