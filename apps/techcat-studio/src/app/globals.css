@@ -3,8 +3,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --sidebar-background: #f5f5f5;
-  --sidebar-foreground: #171717;
 }
 
 @theme inline {
@@ -18,8 +16,6 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    --sidebar-background: #1a1a1a;
-    --sidebar-foreground: #ededed;
   }
 }
 

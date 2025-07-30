@@ -1,24 +1,24 @@
 "use client";
 
-import Header from "./Header";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { AppSidebar } from "./AppSidebar";
+import { useState } from 'react';
+import Sidebar from './Sidebar';
+import Header from './Header';
 
 interface LayoutShellProps {
   children: React.ReactNode;
 }
 
 const LayoutShell = ({ children }: LayoutShellProps) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen">
-        <AppSidebar />
-        <SidebarInset>
-          <Header />
-          <main className="flex-1 p-4">{children}</main>
-        </SidebarInset>
+    <div className="flex min-h-screen">
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="flex flex-1 flex-col">
+        <Header onMenuClick={() => setSidebarOpen(true)} />
+        <main className="flex-1 p-4">{children}</main>
       </div>
-    </SidebarProvider>
+    </div>
   );
 };
 
