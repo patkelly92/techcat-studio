@@ -37,7 +37,6 @@ const navItems = [
   { title: "Kickoff", url: "/kickoff", icon: PlaySquare, navGroup: "Main" },
   { title: "Documents", url: "/documents", icon: FileText, navGroup: "Main" },
   { title: "Feedback", url: "/feedback", icon: MessageCircle, navGroup: "Main" },
-  { title: "Admin", url: "/admin", icon: Shield, navGroup: "Main" },
   { title: "Settings", url: "/settings", icon: SettingsIcon, navGroup: "Main" },
 ]
 
@@ -84,6 +83,7 @@ export default function Sidebar() {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
+          {/* user dropdown */}
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -91,7 +91,19 @@ export default function Sidebar() {
                   <User /> patrick@techcat.ai
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
+
+              <DropdownMenuContent
+                side="top"
+                className="w-[--radix-popper-anchor-width]"
+              >
+                {/* ← new Admin link inside the dropdown */}
+                <DropdownMenuItem asChild>
+                  <Link href="/admin" className="flex items-center gap-2">
+                    <Shield className="h-4 w-4" />
+                    Admin
+                  </Link>
+                </DropdownMenuItem>
+
                 <DropdownMenuItem>Account</DropdownMenuItem>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Sign out</DropdownMenuItem>
