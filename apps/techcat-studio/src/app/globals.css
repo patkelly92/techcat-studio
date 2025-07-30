@@ -3,6 +3,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --sidebar-background: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-accent: #f0f0f0;
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: var(--foreground);
 }
 
 @theme inline {
@@ -16,6 +22,8 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --sidebar-accent: #1a1a1a;
+    --sidebar-border: #333333;
   }
 }
 
@@ -25,3 +33,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@layer base {
+  .bg-sidebar { background-color: var(--sidebar-background); }
+  .text-sidebar-foreground { color: var(--sidebar-foreground); }
+  .bg-sidebar-accent { background-color: var(--sidebar-accent); }
+  .text-sidebar-accent-foreground { color: var(--sidebar-accent-foreground); }
+  .border-sidebar-border { border-color: var(--sidebar-border); }
+  .ring-sidebar-ring { --tw-ring-color: var(--sidebar-ring); }
+}

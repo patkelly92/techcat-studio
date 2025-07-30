@@ -1,76 +1,103 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { FiX } from "react-icons/fi";
-import classNames from "classnames";
-
-interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import Link from "next/link"
+import {
+  LayoutDashboard,
+  FolderGit2,
+  PlaySquare,
+  FileText,
+  MessageCircle,
+  Settings as SettingsIcon,
+  Home,
+  User,
+} from "lucide-react"
+import {
+  Sidebar as SidebarUI,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const navItems = [
-  { name: "Dashboard", href: "/dashboard" },
-  { name: "Projects", href: "/projects" },
-  { name: "Kickoff", href: "/kickoff" },
-  { name: "Documents", href: "/documents" },
-  { name: "Feedback", href: "/feedback" },
-  { name: "Settings", href: "/settings" },
-];
+  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, navGroup: "Main" },
+  { title: "Projects", url: "/projects", icon: FolderGit2, navGroup: "Main" },
+  { title: "Kickoff", url: "/kickoff", icon: PlaySquare, navGroup: "Main" },
+  { title: "Documents", url: "/documents", icon: FileText, navGroup: "Main" },
+  { title: "Feedback", url: "/feedback", icon: MessageCircle, navGroup: "Main" },
+  { title: "Settings", url: "/settings", icon: SettingsIcon, navGroup: "Main" },
+]
 
-const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
-  const pathname = usePathname();
+export default function Sidebar() {
+  const groups = navItems.reduce<Record<string, typeof navItems>>( (acc, item) => {
+    ;(acc[item.navGroup] ??= []).push(item)
+    return acc
+  }, {})
 
   return (
-    <>
-      <div
-        className={classNames(
-          "fixed inset-0 z-30 bg-black/50 transition-opacity sm:hidden",
-          { "opacity-100": isOpen, "opacity-0 pointer-events-none": !isOpen },
-        )}
-        onClick={onClose}
-      />
-      <aside
-        className={classNames(
-          "fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-zinc-900 shadow-lg transform transition-transform sm:static sm:translate-x-0",
-          {
-            "translate-x-0": isOpen,
-            "-translate-x-full sm:translate-x-0": !isOpen,
-          },
-        )}
-      >
-        <button
-          aria-label="Close sidebar"
-          className="absolute top-4 right-4 sm:hidden"
-          onClick={onClose}
-        >
-          <FiX className="h-6 w-6" />
-        </button>
-        <nav className="mt-8 flex flex-col gap-2 px-4">
-          {navItems.map((item) => {
-            const active =
-              pathname === item.href || pathname.startsWith(`${item.href}/`);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={onClose}
-                className={classNames(
-                  "rounded-md px-3 py-2 text-sm",
-                  active
-                    ? "bg-gray-200 dark:bg-zinc-700 font-medium"
-                    : "hover:bg-gray-100 dark:hover:bg-zinc-800",
-                )}
-              >
-                {item.name}
+    <SidebarUI variant="floating" collapsible="icon">
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link href="/">
+                <Home />
+                <span>TechCat</span>
               </Link>
-            );
-          })}
-        </nav>
-      </aside>
-    </>
-  );
-};
-
-export default Sidebar;
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        {Object.entries(groups).map(([groupName, items]) => (
+          <SidebarGroup key={groupName}>
+            <SidebarGroupLabel>{groupName}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
+      </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton>
+                  <User /> account@example.com
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
+                <DropdownMenuItem>Account</DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem>Sign out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+    </SidebarUI>
+  )
+}
