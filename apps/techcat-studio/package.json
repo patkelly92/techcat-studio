@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "classnames": "^2.5.1",
+    "framer-motion": "^12.23.11",
     "next": "15.3.4",
+    "ogl": "^1.0.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
