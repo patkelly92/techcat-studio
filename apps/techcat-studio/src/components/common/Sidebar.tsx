@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import Link from "next/link"
+import Link from "next/link";
 import {
   LayoutDashboard,
   FolderGit2,
@@ -11,7 +11,7 @@ import {
   Home,
   User,
   Shield,
-} from "lucide-react"
+} from "lucide-react";
 import {
   Sidebar as SidebarUI,
   SidebarContent,
@@ -23,28 +23,42 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 const navItems = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, navGroup: "Main" },
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
+    navGroup: "Main",
+  },
   { title: "Projects", url: "/projects", icon: FolderGit2, navGroup: "Main" },
   { title: "Kickoff", url: "/kickoff", icon: PlaySquare, navGroup: "Main" },
   { title: "Documents", url: "/documents", icon: FileText, navGroup: "Main" },
-  { title: "Feedback", url: "/feedback", icon: MessageCircle, navGroup: "Main" },
+  {
+    title: "Feedback",
+    url: "/feedback",
+    icon: MessageCircle,
+    navGroup: "Main",
+  },
+  { title: "Contact", url: "/contact", icon: MessageCircle, navGroup: "Main" },
   { title: "Settings", url: "/settings", icon: SettingsIcon, navGroup: "Main" },
-]
+];
 
 export default function Sidebar() {
-  const groups = navItems.reduce<Record<string, typeof navItems>>( (acc, item) => {
-    ;(acc[item.navGroup] ??= []).push(item)
-    return acc
-  }, {})
+  const groups = navItems.reduce<Record<string, typeof navItems>>(
+    (acc, item) => {
+      (acc[item.navGroup] ??= []).push(item);
+      return acc;
+    },
+    {},
+  );
 
   return (
     <SidebarUI variant="floating" collapsible="icon">
@@ -113,5 +127,5 @@ export default function Sidebar() {
         </SidebarMenu>
       </SidebarFooter>
     </SidebarUI>
-  )
+  );
 }
