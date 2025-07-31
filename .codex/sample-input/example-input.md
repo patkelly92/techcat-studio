@@ -31,3 +31,40 @@ Project Creation Input:
   "tech_stack": "Next.js (App Router), React, Tailwind, ShadCN UI, FastAPI, PostgreSQL, Airtable",
   "created_at": "2025-06-23T20:13:39.252Z"
 }
+
+# Example Inputs #2
+
+# Product Overview:
+I want to build a web-based AI-powered data exploration tool called **"DataSage"**. It allows users to upload CSV or Excel files into a project workspace, then chat with an OpenAI-powered assistant to ask questions, generate insights, create visualizations, and even write transformation code or SQL. This tool turns raw tabular data into actionable answers without the need to code. The backend will convert user questions into structured prompts and execute them on the data behind the scenes.
+
+# Target Users:
+Data analysts and citizen data users, AI developers working with tabular data, startup founders with operational datasets, internal business teams, consultants analyzing client data
+
+# Top 3 User Pain Points:
+- Non-technical users can’t explore data without writing code
+- LLM chat over tabular data is still clunky and not persistent across sessions
+- File-based data (CSVs, Excel) still require wrangling before you can get insights
+
+# Core Features:
+- Upload CSV or Excel files into a workspace
+- Chat interface to ask natural language questions (e.g., “What were the top 5 products by revenue last quarter?”)
+- LLM-generated data summaries and visualizations (charts, tables, etc.)
+- Auto-detect column types, handle nulls, suggest transformations
+- Download/export analysis results (chat logs, generated charts, SQL)
+
+# Tech Stack:
+Next.js, React, FastAPI, Azure Blob Storage, Azure OpenAI, PostgreSQL for metadata/session tracking
+
+# Constraints:
+- OpenAI token usage must be monitored and optimized to avoid ballooning cost
+- Needs to scale to moderately large files (~10MB+)
+- Must be Azure-hosted to align with client and enterprise deployment scenarios
+
+# Stretch goals:
+- GPT-generated data cleaning pipelines (editable)
+- Multi-user collaboration or file sharing
+- Chat agents with memory that retain context across datasets
+- Plugin system to allow for external data connectors (e.g., Airtable, Google Sheets)
+
+# Tone / Branding Personality:
+Friendly, trustworthy, and a little magical — like a data wizard in your browser. Emphasize productivity + empowerment. Modern UX with subtle “AI co-pilot” vibes. Light, minimal, approachable.
