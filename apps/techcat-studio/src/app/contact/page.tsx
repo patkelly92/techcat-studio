@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Contact - TechCat Studio",
-  description: "Ways to reach the TechCat team and join the community",
+  title: "Contact - Agent InfraStudio",
+  description: "Ways to reach the Agent InfraStudio team and join the community",
 };
 
 export default function Page() {

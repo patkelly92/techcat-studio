@@ -8,7 +8,7 @@ const Header = () => {
       <div className="sm:hidden">
         <SidebarTrigger className="size-6" />
       </div>
-      <h1 className="text-lg font-semibold">TechCat Studio</h1>
+      <h1 className="text-lg font-semibold">Agent InfraStudio</h1>
     </header>
   )
 }

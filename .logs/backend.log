@@ -1,0 +1,1 @@
+nohup: uvicorn apps.api.main:app --port 9000 --reload: No such file or directory

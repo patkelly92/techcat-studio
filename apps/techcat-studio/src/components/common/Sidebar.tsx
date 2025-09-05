@@ -68,7 +68,7 @@ export default function Sidebar() {
             <SidebarMenuButton asChild>
               <Link href="/">
                 <Home />
-                <span>TechCat</span>
+                <span>Agent InfraStudio</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

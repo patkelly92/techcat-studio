@@ -8,6 +8,8 @@ TechCat Studio is an AI-native developer workspace designed to streamline and au
 
 The tool helps solo builders, indie hackers, and AI-native developers bring structure to project chaos — acting as a launchpad and living system of record for AI-assisted development.
 
+This project is a developer workspace designed to streamline and automate the early phases of software development with agents. It enables developers to generate and manage agent infrastructure files, helping bring structure to project chaos when working with agents.
+
 ---
 
 ## Core Objectives

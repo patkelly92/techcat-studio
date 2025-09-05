@@ -10,7 +10,7 @@ export default function Home() {
       </div>
       <div className="relative z-10 flex items-center justify-center h-full">
         <BlurText
-          text="TechCat Studio"
+          text="Agent InfraStudio"
           animateBy="words"
           direction="top"
           className="text-4xl md:text-6xl font-bold text-white text-center"

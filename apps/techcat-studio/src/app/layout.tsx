@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TechCat Studio",
+  title: "Agent InfraStudio",
   description: "AI-native developer workspace",
 };
 
