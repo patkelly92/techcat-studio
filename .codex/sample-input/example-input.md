@@ -71,6 +71,9 @@ Friendly, trustworthy, and a little magical — like a data wizard in your brows
 
 # Example Inputs #3 (LakeForge)
 
+
+# Example Inputs #3
+
 # Product Overview:
 I want to build `LakeForge`, a UI-based metadata-driven ingestion and orchestration framework for the Databricks Lakehouse. Teams describe *what* they want ingested (source systems, paths, schemas, schedules) and LakeForge handles *how*—automatically generating and running pipelines that move data from **Source ➜ Raw ➜ Bronze ➜ Silver ➜ Gold**. A web UI lets users register sources, author configs, monitor runs, and review data-quality rules.  Under the hood LakeForge materializes deterministic Jobs, Delta Live Tables pipelines, and logging tables so every batch is reproducible and auditable.
 
