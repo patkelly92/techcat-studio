@@ -1,73 +1,69 @@
 # Product Requirements Document Template
 
 ## Project Name
-`lakeforge`
+`LakeForge`
 
 ---
 
 ## 🧭 Product Overview
-`Lakeforge` is a cutting-edge solution accelerator designed to revolutionize metadata-driven data ingestion within the Databricks ecosystem. By leveraging Databricks' latest OLTP Postgres database, Lakebase, alongside Next.js for a seamless UI/UX experience, and Python FastAPI for robust backend API functionality, Lakeforge offers a comprehensive, interactive application hosted entirely within Databricks. This innovative product empowers users to efficiently create and manage the ingestion of bronze datasets through a sophisticated metadata framework. Users can effortlessly view and update metadata and validation rules via a modern, sleek frontend UI, significantly reducing the complexity and time associated with traditional methods. Lakeforge is poised to streamline the data ingestion process, enabling faster time-to-market for data products by providing a plug-and-play metadata framework that integrates seamlessly with templatized notebooks.
+`LakeForge` is a cutting-edge, UI-based metadata-driven ingestion and orchestration framework designed specifically for the Databricks Lakehouse environment. It empowers data teams to seamlessly manage complex data ingestion processes by abstracting the intricacies of pipeline creation and execution. Users simply define their data ingestion requirements—such as source systems, paths, schemas, and schedules—and `LakeForge` automates the generation and execution of robust data pipelines. These pipelines efficiently move data through the stages of Source, Raw, Bronze, Silver, and Gold, ensuring a streamlined and auditable data flow. The intuitive web UI facilitates the registration of data sources, configuration authoring, run monitoring, and data-quality rule review. By materializing deterministic jobs, Delta Live Tables pipelines, and comprehensive logging tables, `LakeForge` guarantees reproducibility and auditability for every data batch processed.
 
 ---
 
 ## Core Objectives
-1. **Streamline Metadata Management**: Simplify the process of managing metadata-driven ingestion within Databricks by providing a unified platform.
-2. **Enhance User Experience**: Deliver a modern, intuitive UI that allows users to interact with and update metadata configurations in real-time.
-3. **Accelerate Time-to-Market**: Enable faster deployment of data products by offering a prebuilt metadata framework that reduces manual intervention.
-4. **Centralize Data Operations**: Consolidate disparate systems into a single, cohesive application that operates entirely within the Databricks environment.
+1. **Simplify Data Ingestion**: Enable teams to easily define and manage data ingestion processes without deep technical expertise in pipeline orchestration.
+2. **Enhance Data Pipeline Automation**: Automatically generate and execute data pipelines, reducing manual intervention and potential for human error.
+3. **Ensure Data Quality and Auditability**: Provide robust data-quality rules and logging mechanisms to ensure data integrity and traceability.
+4. **Optimize Resource Utilization**: Standardize compute profiles and scheduling to efficiently manage resources and control costs.
+5. **Facilitate User-Friendly Interaction**: Offer a clean, minimalistic UI that enhances user experience and productivity.
 
 ---
 
 ## 🧑‍🎯 Target Users
-Lakeforge is designed for a diverse range of users within the data ecosystem, including:
-- **Data Engineers**: Technical professionals responsible for building and maintaining data pipelines who require efficient tools to manage metadata and ingestion processes.
-- **Non-Technical Business Users**: Individuals who need to interact with data configurations without deep technical knowledge, benefiting from an intuitive UI.
-- **Databricks Developers**: Developers working within the Databricks platform who seek streamlined solutions for integrating and managing data ingestion workflows.
+`LakeForge` is tailored for data engineers, data scientists, and data analysts who operate within the Databricks ecosystem. These users typically face challenges in managing large-scale data ingestion and orchestration tasks. They require a solution that simplifies the complexity of pipeline management, ensures data quality, and provides comprehensive observability. The product is also suitable for any professional involved in data management and ingestion activities who seeks to leverage the power of the Databricks Lakehouse.
 
 ---
 
 ## 🧩 Core Features (MVP)
-- **Interactive UI**: A sleek, modern interface built with Next.js, allowing users to view and edit table configurations, data quality rules, and schedules.
-- **Real-Time Updates**: Users can make live updates to metadata configurations, which are instantly reflected in the underlying Lakebase tables.
-- **Comprehensive Metadata Management**: A detailed view of table configurations, data quality rules, and associated costs, all accessible from a single dashboard.
-- **Seamless Integration**: A plug-and-play framework that allows users to integrate their own notebooks, enhancing flexibility and customization.
-- **In-App Hosting**: Hosted entirely within Databricks Apps, ensuring a cohesive and integrated user experience.
+- **Declarative Metadata Tables**: Utilize `raw_config`, `bronze_config`, and other tables stored in Lakebase Postgres to define ingestion parameters.
+- **Intuitive UI**: Built with Next.js and Tailwind CSS, the UI supports CRUD operations for sources, groups, schedules, and data-quality rules.
+- **Automated Pipeline Generation**: Automatically create Databricks Jobs and Delta Live Tables pipelines with idempotent synchronization logic.
+- **Pluggable Notebooks**: Source-to-Raw and Raw-to-Bronze notebooks with customizable extractors and writers.
+- **Comprehensive Logging**: Implement a built-in logging schema for full data lineage and observability, covering batch, zone, table, step, and data-quality runs.
+- **Standardized Compute Profiles**: Abstract compute profiles to standardize cluster specifications and libraries.
+- **Efficient Scheduling**: Use Quartz-cron scheduling via a single `SyncJobs` notebook to automate job execution without manual intervention.
 
 ---
 
 ## 🔧 Tech Stack
 
-| Component          | Technology                  |
-|--------------------|-----------------------------|
-| Frontend UI        | React, Next.js              |
-| Backend API        | Python FastAPI              |
-| Database           | Databricks Lakebase (Postgres) |
-| Hosting            | Databricks Apps             |
-| Model Serving      | Databricks Model Serving Endpoints |
+| Component         | Technology                        |
+|-------------------|-----------------------------------|
+| Front-end         | Next.js (+ React), Tailwind CSS v4|
+| Back-end          | FastAPI                           |
+| Orchestration     | Databricks Workflows & DLT        |
+| Metadata Storage  | Lakebase (Databricks Postgres)    |
 
 ---
 
 ## 💡 Stretch Goals (Post-MVP)
-- **Automated DLT Job Creation**: Enable users to programmatically initiate DLT jobs and pipelines directly from the UI.
-- **Advanced Cost Metrics**: Provide detailed cost and usage metrics per table, schema, user, and group.
-- **AI-Driven Insights**: Implement AI suggestions for optimal column selection as watermark keys and other metadata enhancements.
+- **Synthetic Data Generator**: Develop a tool to generate synthetic data for populating development environments and testing incremental loads.
+- **Automated DQ-Rule Recommendations**: Implement machine learning algorithms to suggest data-quality rules based on historical data patterns.
 
 ---
 
 ## ✅ Success Criteria
-- **User Adoption**: Achieve a significant user base within the first year, focusing on enterprise clients.
-- **Efficiency Gains**: Reduce the time required for metadata updates and data ingestion by at least 50%.
-- **User Satisfaction**: Attain high user satisfaction scores through surveys and feedback, emphasizing the UI/UX experience.
-- **Market Penetration**: Establish Lakeforge as a leading solution within the Databricks ecosystem for metadata-driven ingestion.
+- **User Adoption**: Achieve a 70% adoption rate among target users within the first six months post-launch.
+- **Pipeline Efficiency**: Reduce manual pipeline management efforts by 50% through automation.
+- **Data Quality Improvement**: Enhance data quality metrics by 30% through robust rule implementation and monitoring.
+- **Cost Management**: Maintain operational costs within budget by optimizing resource utilization and defaulting to single-node clusters.
 
 ---
 
 ## 🪵 Known Constraints
-- **Databricks Integration**: Current limitations with Databricks Apps and serverless compute egress rules may impact initial deployment.
-- **Feature Rollout**: Pending updates for native Lakebase attachment to Databricks Apps in Azure East US workspaces.
-- **Scalability and Cost**: Potential challenges related to scaling and cost management within the Databricks environment.
-- **Tooling Limitations**: All components must be natively supported within Databricks to maintain a cohesive user experience.
+- **Platform Dependency**: `LakeForge` must operate entirely within the Databricks platform, leveraging both Lakehouse and Lakebase.
+- **Cost Control**: Default to single-node clusters to manage and control operational costs effectively.
 
---- 
+---
 
-This document outlines a strategic vision for `Lakeforge`, positioning it as a transformative tool for data ingestion within Databricks, designed to meet the needs of enterprise clients with a focus on efficiency, integration, and user experience.
+This document outlines a strategic vision for `LakeForge`, ensuring it meets the needs of its users while aligning with the capabilities of the Databricks ecosystem.
